@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Premium Phone Store</title>
 
 <style>
@@ -21,36 +20,30 @@ body {
 header {
     background: #111;
     color: white;
+    padding: 22px 15px;
     text-align: center;
-    padding: 22px 10px;
 }
 
 header h1 {
     margin: 0;
-    font-size: 27px;
 }
 
 header p {
-    margin-bottom: 0;
     color: #ccc;
 }
 
 .container {
-    max-width: 750px;
+    max-width: 900px;
     margin: auto;
-    padding: 16px;
+    padding: 20px;
 }
 
 .card {
     background: white;
-    padding: 16px;
-    border-radius: 14px;
+    border-radius: 12px;
+    padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 3px 12px #00000012;
-}
-
-h2 {
-    margin-top: 5px;
 }
 
 .gallery {
@@ -59,64 +52,65 @@ h2 {
     gap: 10px;
 }
 
-.gallery img {
+.gallery img,
+.gallery video {
     width: 100%;
-    height: 220px;
-    object-fit: contain;
-    background: #f8f8f8;
     border-radius: 10px;
-}
-
-video {
-    width: 100%;
-    border-radius: 12px;
-    background: black;
+    object-fit: cover;
 }
 
 .price {
+    color: #087b35;
     font-size: 28px;
     font-weight: bold;
-    color: #14813b;
+}
+
+.notice {
+    background: #fff3cd;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 13px;
 }
 
 input, textarea, select {
     width: 100%;
     padding: 13px;
-    margin: 8px 0 14px;
+    margin: 8px 0 15px;
     border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
+    border-radius: 7px;
+    font-size: 15px;
 }
 
 button {
-    width: 100%;
-    background: #25D366;
+    background: #111;
     color: white;
     border: none;
-    padding: 15px;
-    border-radius: 9px;
-    font-size: 17px;
-    font-weight: bold;
+    padding: 14px;
+    border-radius: 7px;
     cursor: pointer;
+    width: 100%;
+    font-size: 16px;
 }
 
-.note {
-    font-size: 13px;
-    color: #666;
-    line-height: 1.6;
+button:disabled {
+    opacity: 0.6;
+}
+
+#message {
+    margin-top: 15px;
+    font-weight: bold;
 }
 
 footer {
+    text-align: center;
+    padding: 20px;
     background: #111;
     color: white;
-    text-align: center;
-    padding: 20px 10px;
-    font-size: 13px;
 }
 
-@media (max-width: 400px) {
-    .gallery img {
-        height: 160px;
+@media (max-width: 500px) {
+    .gallery {
+        grid-template-columns: 1fr;
     }
 }
 </style>
@@ -125,61 +119,50 @@ footer {
 <body>
 
 <header>
-    <h1>📱 PREMIUM PHONE STORE</h1>
-    <p>Explore our smartphone collection</p>
+    <h1>Premium Phone Store</h1>
+    <p>Discover Your Next Smartphone</p>
 </header>
 
 <div class="container">
 
     <div class="card">
-        <h2>iPhone 17 Pro Max Style</h2>
-        <p>Third-party clone smartphone</p>
-        <p class="price">₹18,000</p>
-        <p>Check the product photos and video below.</p>
-    </div>
-
-    <div class="card">
-        <h2>📸 Product Photos</h2>
-
         <div class="gallery">
-            <img src="IMG-20261014-WA0003.jpg"
-                 alt="Phone photo 1">
+            <img src="IMG-20261014-WA0003.jpg" alt="Phone view 1">
+            <img src="IMG-20261014-WA0006.jpg" alt="Phone view 2">
+            <img src="IMG-20261014-WA0007.jpg" alt="Phone view 3">
+            <img src="IMG-20261014-WA0008.jpg" alt="Phone view 4">
+            <img src="IMG-20261014-WA0009.jpg" alt="Phone view 5">
 
-            <img src="IMG-20261014-WA0006.jpg"
-                 alt="Phone photo 2">
-
-            <img src="IMG-20261014-WA0007.jpg"
-                 alt="Phone photo 3">
-
-            <img src="IMG-20261014-WA0008.jpg"
-                 alt="Phone photo 4">
-
-            <img src="IMG-20261014-WA0009.jpg"
-                 alt="Phone photo 5">
+            <video controls>
+                <source src="VID-20261014-WA0010.mp4" type="video/mp4">
+                Your browser does not support video.
+            </video>
         </div>
     </div>
 
     <div class="card">
-        <h2>🎬 Product Video</h2>
+        <h2>iPhone 17 Pro Max Style</h2>
 
-        <video controls playsinline preload="metadata">
-            <source
-                src="VID-20261014-WA0010.mp4"
-                type="video/mp4">
+        <p class="price">₹18,000</p>
 
-            Your browser does not support this video.
-        </video>
+        <p>Explore this smartphone-style product.</p>
+
+        <div class="notice">
+            Important: This is a third-party clone-style product,
+            not a genuine Apple iPhone.
+        </div>
     </div>
 
     <div class="card">
-        <h2>🛒 Place Your Order</h2>
+        <h2>Place Your Order</h2>
 
         <form id="orderForm">
 
-            <label>Your Name</label>
+            <label>Full Name</label>
             <input
                 type="text"
                 id="customerName"
+                maxlength="100"
                 required
                 placeholder="Enter your name">
 
@@ -187,94 +170,133 @@ footer {
             <input
                 type="tel"
                 id="customerMobile"
-                required
                 pattern="[0-9]{10}"
                 maxlength="10"
+                required
                 placeholder="10-digit mobile number">
 
             <label>Delivery Address</label>
             <textarea
                 id="customerAddress"
+                maxlength="500"
                 required
-                placeholder="Enter your full address"></textarea>
+                placeholder="Enter complete address"></textarea>
 
             <label>Quantity</label>
             <select id="quantity">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
             </select>
 
-            <button type="submit">
-                ORDER ON WHATSAPP
+            <p>
+                Total Amount:
+                <strong id="total">₹18,000</strong>
+            </p>
+
+            <button type="submit" id="orderButton">
+                Place Order
             </button>
 
+            <p id="message" role="status"></p>
+
         </form>
-
-        <p class="note">
-            Clicking this button opens WhatsApp with your order details.
-            You must press Send in WhatsApp to submit the order.
-        </p>
-    </div>
-
-    <div class="card">
-        <h2>Product Information</h2>
-
-        <p class="note">
-            This is a third-party clone-style smartphone.
-            It is not a genuine Apple iPhone and is not affiliated
-            with or endorsed by Apple. Please confirm the product
-            specifications, condition and final price with the seller
-            before ordering.
-        </p>
     </div>
 
 </div>
 
 <footer>
-    © 2026 Premium Phone Store
+    <p>© 2026 Premium Phone Store</p>
 </footer>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
 <script>
-document.getElementById("orderForm").addEventListener(
-    "submit",
-    function(event) {
-        event.preventDefault();
+const firebaseConfig = {
+    apiKey: "AIzaSyCgGbHnsCa8JAtdjyGgFWq4SF13aiLkLEk",
+    authDomain: "premium-phone-store.firebaseapp.com",
+    databaseURL: "https://premium-phone-store-default-rtdb.firebaseio.com",
+    projectId: "premium-phone-store",
+    storageBucket: "premium-phone-store.firebasestorage.app",
+    messagingSenderId: "878510750230",
+    appId: "1:878510750230:web:3835bf984c280b2a1bd337",
+    measurementId: "G-L617C9N2MB"
+};
 
-        const name =
-            document.getElementById("customerName").value.trim();
+firebase.initializeApp(firebaseConfig);
 
-        const mobile =
-            document.getElementById("customerMobile").value.trim();
+const database = firebase.database();
+const price = 18000;
 
-        const address =
-            document.getElementById("customerAddress").value.trim();
+const quantityInput = document.getElementById("quantity");
+const totalElement = document.getElementById("total");
+const orderForm = document.getElementById("orderForm");
+const orderButton = document.getElementById("orderButton");
+const message = document.getElementById("message");
 
-        const quantity =
-            document.getElementById("quantity").value;
+quantityInput.addEventListener("change", function () {
+    totalElement.textContent =
+        "₹" + (price * Number(quantityInput.value)).toLocaleString("en-IN");
+});
 
-        const price = 18000;
-        const total = price * Number(quantity);
+orderForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-        const message =
-            "New Phone Order\n\n" +
-            "Product: iPhone 17 Pro Max Style Clone Smartphone\n" +
-            "Name: " + name + "\n" +
-            "Customer Mobile: " + mobile + "\n" +
-            "Address: " + address + "\n" +
-            "Quantity: " + quantity + "\n" +
-            "Price per unit: Rs. " + price + "\n" +
-            "Total: Rs. " + total;
+    const name = document.getElementById("customerName").value.trim();
+    const mobile = document.getElementById("customerMobile").value.trim();
+    const address = document.getElementById("customerAddress").value.trim();
+    const quantity = Number(quantityInput.value);
 
-        const whatsappNumber = "917821825608";
-
-        const whatsappURL =
-            "https://wa.me/" + whatsappNumber +
-            "?text=" + encodeURIComponent(message);
-
-        window.open(whatsappURL, "_blank");
+    if (!/^[0-9]{10}$/.test(mobile)) {
+        message.textContent = "Please enter a valid 10-digit mobile number.";
+        return;
     }
-);
+
+    if (!name || !address || quantity < 1 || quantity > 5) {
+        message.textContent = "Please check your details.";
+        return;
+    }
+
+    orderButton.disabled = true;
+    orderButton.textContent = "Submitting...";
+    message.textContent = "";
+
+    try {
+        const orderRef = database.ref("orders").push();
+
+        await orderRef.set({
+            name: name,
+            mobile: mobile,
+            address: address,
+            quantity: quantity,
+            product: "iPhone 17 Pro Max Style - Third-party product",
+            unitPrice: price,
+            total: price * quantity,
+            status: "Pending",
+            createdAt: Date.now()
+        });
+
+        message.style.color = "green";
+        message.textContent =
+            "Order submitted successfully! Order ID: " + orderRef.key;
+
+        orderForm.reset();
+        totalElement.textContent = "₹18,000";
+
+    } catch (error) {
+        console.error(error);
+        message.style.color = "red";
+        message.textContent =
+            "Order could not be submitted. Please try again later.";
+    } finally {
+        orderButton.disabled = false;
+        orderButton.textContent = "Place Order";
+    }
+});
 </script>
 
 </body>
