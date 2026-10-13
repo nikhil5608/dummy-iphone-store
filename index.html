@@ -1,120 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Premium Phone Store</title>
-
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f4f5f7;color:#222}
-header{background:#111;color:white;text-align:center;padding:22px}
-.container{max-width:850px;margin:auto;padding:15px}
-.card{background:white;padding:20px;margin:15px 0;border-radius:12px;box-shadow:0 2px 10px #0001}
-.gallery{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.gallery img,.gallery video{width:100%;border-radius:8px}
-.price{font-size:28px;color:green;font-weight:bold}
-input,textarea,select{width:100%;padding:12px;margin:8px 0 15px;border:1px solid #ccc;border-radius:6px}
-button{width:100%;padding:13px;background:#111;color:white;border:0;border-radius:6px;cursor:pointer;margin-top:5px}
-.notice{background:#fff3cd;padding:12px;font-size:13px;border-radius:6px}
-.hidden{display:none}
-.order{border:1px solid #ddd;padding:12px;margin:10px 0;border-radius:8px;overflow-wrap:anywhere}
-footer{text-align:center;background:#111;color:white;padding:15px}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f5f7;color:#202124}header{background:#111;color:#fff;padding:18px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}header h1{font-size:22px;margin:0}.wrap{max-width:1050px;margin:24px auto;padding:0 15px}.card{background:#fff;border-radius:14px;padding:20px;margin-bottom:18px;box-shadow:0 3px 14px #0000000d}.product{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}.photos{display:grid;grid-template-columns:1fr 1fr;gap:8px}.photos img,.photos video{width:100%;height:220px;object-fit:cover;border-radius:10px;background:#eee}.price{font-size:28px;font-weight:bold;margin:12px 0;color:#111}.muted{color:#666;font-size:13px;line-height:1.5}input,textarea,button,select{font:inherit}input,textarea{width:100%;padding:12px;margin:7px 0 12px;border:1px solid #ccd0d5;border-radius:8px}textarea{min-height:85px;resize:vertical}button{border:0;border-radius:8px;padding:11px 16px;background:#111;color:white;cursor:pointer;margin:4px 4px 4px 0}button.secondary{background:#e9eaee;color:#222}button:disabled{opacity:.5;cursor:not-allowed}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hidden{display:none!important}.status{display:inline-block;background:#fff1c2;color:#6a4b00;padding:5px 9px;border-radius:20px;font-size:12px}.order{border:1px solid #e3e5e8;border-radius:10px;padding:14px;margin:10px 0;overflow-wrap:anywhere}.order p{margin:6px 0}.tabs{display:flex;gap:6px;flex-wrap:wrap}.note{background:#fff8e7;padding:10px;border-radius:8px;font-size:13px;line-height:1.5}.success{color:#137333}.error{color:#b3261e}footer{text-align:center;padding:22px;color:#666;font-size:12px}@media(max-width:700px){.product{grid-template-columns:1fr}.photos img,.photos video{height:160px}.row{grid-template-columns:1fr}header h1{font-size:19px}}
 </style>
 </head>
-
 <body>
-<header>
-<h1>📱 PREMIUM PHONE STORE</h1>
-<p>Your Smartphone Shopping Destination</p>
-</header>
-
-<div class="container">
-
-<section id="store">
-<div class="card">
-<div class="gallery">
-<img src="IMG-20261014-WA0003.jpg" alt="Phone 1">
-<img src="IMG-20261014-WA0006.jpg" alt="Phone 2">
-<img src="IMG-20261014-WA0007.jpg" alt="Phone 3">
-<img src="IMG-20261014-WA0008.jpg" alt="Phone 4">
-<img src="IMG-20261014-WA0009.jpg" alt="Phone 5">
-<video controls>
-<source src="VID-20261014-WA0010.mp4" type="video/mp4">
-</video>
-</div>
-</div>
-
-<div class="card">
-<h2>iPhone 17 Pro Max Style</h2>
-<p class="price">₹18,000</p>
-<p>Premium smartphone-style product.</p>
-<div class="notice">
-This is a third-party clone-style smartphone, not a genuine Apple iPhone. It is not affiliated with or endorsed by Apple.
-</div>
-</div>
-
-<div class="card">
-<h2>Place Your Order</h2>
-<form id="orderForm">
-<label>Full Name</label>
-<input id="customerName" maxlength="100" required>
-
-<label>Mobile Number</label>
-<input id="customerMobile" type="tel" pattern="[0-9]{10}" maxlength="10" required>
-
-<label>Full Address</label>
-<textarea id="customerAddress" maxlength="500" required></textarea>
-
-<label>Quantity</label>
-<select id="quantity">
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-</select>
-
-<p>Total: <strong id="total">₹18,000</strong></p>
-<button id="submitOrder" type="submit">Place Order</button>
-<p id="orderMessage"></p>
-</form>
-</div>
+<header><h1>Premium Phone Store</h1><div id="topUser">Not logged in</div></header>
+<main class="wrap">
+<section class="card product">
+ <div class="photos">
+  <img src="IMG-20261014-WA0003.jpg" alt="Phone photo 1" onerror="this.style.display='none'">
+  <img src="IMG-20261014-WA0006.jpg" alt="Phone photo 2" onerror="this.style.display='none'">
+  <img src="IMG-20261014-WA0007.jpg" alt="Phone photo 3" onerror="this.style.display='none'">
+  <img src="IMG-20261014-WA0008.jpg" alt="Phone photo 4" onerror="this.style.display='none'">
+  <img src="IMG-20261014-WA0009.jpg" alt="Phone photo 5" onerror="this.style.display='none'">
+  <video controls preload="metadata"><source src="VID-20261014-WA0010.mp4" type="video/mp4">Video not supported</video>
+ </div>
+ <div><h2>Premium Smartphone</h2><p>Stylish design • Premium look</p><div class="price">₹18,000</div><p class="muted">Order online and check your order status after signing in.</p><div class="note"><b>Important:</b> This is a third-party clone-style smartphone. It is not a genuine Apple iPhone and is not affiliated with or endorsed by Apple.</div></div>
 </section>
-
-<hr>
-
-<section class="card">
-<h2>Admin Panel</h2>
-<p>Admin login required to manage orders.</p>
-
-<form id="loginForm">
-<input type="email" id="adminEmail" placeholder="Admin Email" required>
-<input type="password" id="adminPassword" placeholder="Admin Password" required>
-<button type="submit">Admin Login</button>
-</form>
-
-<p id="loginMessage"></p>
-
-<div id="adminDashboard" class="hidden">
-<h3>Customer Orders</h3>
-<button id="logoutButton">Logout</button>
-<p id="orderCount"></p>
-<div id="ordersList"></div>
-</div>
+<section class="card" id="authCard">
+ <h2>Customer / Admin Login</h2><p class="muted">Create an account or sign in to place orders and track your own orders.</p>
+ <div class="row"><div><label>Email</label><input id="email" type="email" autocomplete="email" placeholder="Enter email"></div><div><label>Password</label><input id="password" type="password" autocomplete="current-password" placeholder="At least 6 characters"></div></div>
+ <button id="loginBtn">Login</button><button id="signupBtn" class="secondary">Create Account</button><button id="resetBtn" class="secondary">Forgot Password</button><p id="authMsg" aria-live="polite"></p>
 </section>
-
-</div>
-
-<footer>
-<p>© 2026 Premium Phone Store</p>
-</footer>
-
+<section class="card hidden" id="customerCard">
+ <div class="tabs"><h2 style="margin:0 auto 10px 0">My Account</h2><button class="secondary" id="refreshBtn">Refresh Orders</button><button id="logoutBtn">Logout</button></div>
+ <h3>Place an Order</h3><form id="orderForm">
+  <div class="row"><div><label>Full name</label><input id="custName" required maxlength="100" autocomplete="name"></div><div><label>Mobile number</label><input id="custMobile" required type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="10-digit mobile number"></div></div>
+  <label>Full delivery address</label><textarea id="custAddress" required maxlength="500" autocomplete="street-address"></textarea>
+  <div class="row"><div><label>Quantity</label><input id="quantity" type="number" min="1" max="5" value="1" required></div><div><label>Total amount</label><input id="total" value="₹18,000" readonly></div></div>
+  <div class="note">Payment gateway is not connected yet. Do not send any advance payment until official payment instructions are added. This form records an order request only.</div>
+  <button id="placeOrderBtn" type="submit">Place Order Request</button><p id="orderMsg" aria-live="polite"></p>
+ </form>
+ <hr><h3>My Orders & Tracking</h3><p class="muted">Only orders linked to your account will appear here.</p><div id="myOrders"><p class="muted">Login to see your orders.</p></div>
+</section>
+<section class="card hidden" id="adminCard">
+ <div class="tabs"><h2 style="margin:0 auto 10px 0">Admin Panel</h2><button class="secondary" id="adminRefreshBtn">Refresh</button><button id="adminLogoutBtn">Logout</button></div>
+ <p class="muted">Customer details are visible only to the configured admin account.</p><div id="adminOrders">Loading orders…</div>
+</section>
+</main>
+<footer>Premium Phone Store • Secure order tracking</footer>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-
 <script>
+// Firebase project configuration
 const firebaseConfig = {
  apiKey: "AIzaSyCgGbHnsCa8JAtdjyGgFWq4SF13aiLkLEk",
  authDomain: "premium-phone-store.firebaseapp.com",
@@ -125,166 +58,31 @@ const firebaseConfig = {
  appId: "1:878510750230:web:3835bf984c280b2a1bd337",
  measurementId: "G-L617C9N2MB"
 };
-
+// IMPORTANT: Put your existing admin login email here (same email used in Firebase Authentication).
+const ADMIN_EMAIL = "nikhil69z5s@gmail.com".toLowerCase();
+const PRICE = 18000;
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
 const auth = firebase.auth();
-const price = 18000;
-
-const quantity = document.getElementById("quantity");
-quantity.addEventListener("change", () => {
- document.getElementById("total").textContent =
- "₹" + (price * Number(quantity.value)).toLocaleString("en-IN");
-});
-
-document.getElementById("orderForm").addEventListener("submit", async e => {
- e.preventDefault();
-
- const name = document.getElementById("customerName").value.trim();
- const mobile = document.getElementById("customerMobile").value.trim();
- const address = document.getElementById("customerAddress").value.trim();
- const qty = Number(quantity.value);
- const msg = document.getElementById("orderMessage");
- const btn = document.getElementById("submitOrder");
-
- if (!/^[0-9]{10}$/.test(mobile)) {
-   msg.textContent = "Enter a valid 10-digit mobile number.";
-   return;
- }
-
- btn.disabled = true;
- msg.textContent = "Submitting order...";
-
- try {
-   const ref = db.ref("orders").push();
-   await ref.set({
-     name,
-     mobile,
-     address,
-     quantity: qty,
-     product: "iPhone 17 Pro Max Style - Third-party product",
-     unitPrice: price,
-     total: price * qty,
-     status: "Pending",
-     createdAt: Date.now()
-   });
-
-   msg.style.color = "green";
-   msg.textContent = "Order submitted! Order ID: " + ref.key;
-   e.target.reset();
-   document.getElementById("total").textContent = "₹18,000";
- } catch (err) {
-   console.error(err);
-   msg.style.color = "red";
-   msg.textContent = "Order failed. Please try again later.";
- } finally {
-   btn.disabled = false;
- }
-});
-
-document.getElementById("loginForm").addEventListener("submit", async e => {
- e.preventDefault();
- const msg = document.getElementById("loginMessage");
- msg.textContent = "Logging in...";
-
- try {
-   await auth.signInWithEmailAndPassword(
-     document.getElementById("adminEmail").value.trim(),
-     document.getElementById("adminPassword").value
-   );
-   msg.textContent = "";
- } catch (err) {
-   msg.textContent = "Login failed. Check your credentials.";
- }
-});
-
-let orderListener = null;
-
-auth.onAuthStateChanged(user => {
- const dashboard = document.getElementById("adminDashboard");
-
- if (!user) {
-   dashboard.classList.add("hidden");
-   if (orderListener) {
-     db.ref("orders").off("value", orderListener);
-     orderListener = null;
-   }
-   return;
- }
-
- dashboard.classList.remove("hidden");
- document.getElementById("loginForm").classList.add("hidden");
-
- const ordersRef = db.ref("orders");
-
- orderListener = snapshot => {
-   const list = document.getElementById("ordersList");
-   list.replaceChildren();
-
-   const orders = [];
-   snapshot.forEach(child => {
-     orders.push({id: child.key, ...child.val()});
-   });
-
-   orders.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
-   document.getElementById("orderCount").textContent =
-     "Total Orders: " + orders.length;
-
-   if (!orders.length) {
-     list.textContent = "No orders yet.";
-     return;
-   }
-
-   orders.forEach(order => {
-     const box = document.createElement("div");
-     box.className = "order";
-
-     const details = document.createElement("p");
-     details.textContent =
-       "Order ID: " + order.id +
-       " | Name: " + order.name +
-       " | Mobile: " + order.mobile +
-       " | Address: " + order.address +
-       " | Quantity: " + order.quantity +
-       " | Total: ₹" + order.total;
-     box.appendChild(details);
-
-     const select = document.createElement("select");
-     ["Pending","Confirmed","Shipped","Delivered","Cancelled"].forEach(s => {
-       const option = document.createElement("option");
-       option.value = s;
-       option.textContent = s;
-       option.selected = s === (order.status || "Pending");
-       select.appendChild(option);
-     });
-     box.appendChild(select);
-
-     const update = document.createElement("button");
-     update.textContent = "Update Status";
-     update.onclick = async () => {
-       try {
-         await db.ref("orders/" + order.id).update({status: select.value});
-         alert("Status updated!");
-       } catch (err) {
-         alert("Update failed. Check Firebase Rules.");
-       }
-     };
-     box.appendChild(update);
-     list.appendChild(box);
-   });
- };
-
- ordersRef.on("value", orderListener, error => {
-   document.getElementById("ordersList").textContent =
-     "Cannot load orders. Check Firebase Rules.";
- });
-});
-
-document.getElementById("logoutButton").addEventListener("click", async () => {
- await auth.signOut();
- document.getElementById("loginForm").classList.remove("hidden");
-});
+const db = firebase.database();
+const $ = id => document.getElementById(id);
+let isAdmin = false;
+function msg(id,text,kind=''){const el=$(id);el.textContent=text;el.className=kind;}
+function esc(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function money(n){return '₹'+Number(n||0).toLocaleString('en-IN');}
+function formatDate(value){if(!value)return '—';const d=new Date(value);return isNaN(d)?'—':d.toLocaleString('en-IN');}
+function setLoggedOut(){ $('topUser').textContent='Not logged in';$('authCard').classList.remove('hidden');$('customerCard').classList.add('hidden');$('adminCard').classList.add('hidden'); }
+$('quantity').addEventListener('input',()=>{let q=Math.min(5,Math.max(1,Number($('quantity').value)||1));$('total').value=money(q*PRICE);});
+$('signupBtn').addEventListener('click',async()=>{const email=$('email').value.trim(),password=$('password').value;if(!email||password.length<6){msg('authMsg','Enter a valid email and password of at least 6 characters.','error');return;}try{await auth.createUserWithEmailAndPassword(email,password);msg('authMsg','Account created successfully.','success');}catch(e){msg('authMsg',e.message,'error');}});
+$('loginBtn').addEventListener('click',async()=>{const email=$('email').value.trim(),password=$('password').value;if(!email||!password){msg('authMsg','Enter email and password.','error');return;}try{await auth.signInWithEmailAndPassword(email,password);msg('authMsg','Login successful.','success');}catch(e){msg('authMsg',e.message,'error');}});
+$('resetBtn').addEventListener('click',async()=>{const email=$('email').value.trim();if(!email){msg('authMsg','First enter your email above.','error');return;}try{await auth.sendPasswordResetEmail(email);msg('authMsg','Password reset email sent. Check your inbox.','success');}catch(e){msg('authMsg',e.message,'error');}});
+async function logout(){try{await auth.signOut();}catch(e){console.error(e);}setLoggedOut();}
+$('logoutBtn').addEventListener('click',logout);$('adminLogoutBtn').addEventListener('click',logout);
+$('orderForm').addEventListener('submit',async e=>{e.preventDefault();const user=auth.currentUser;if(!user){msg('orderMsg','Please login first.','error');return;}const quantity=Math.min(5,Math.max(1,Number($('quantity').value)||1));const order={uid:user.uid,name:$('custName').value.trim(),mobile:$('custMobile').value.trim(),address:$('custAddress').value.trim(),quantity,product:'Premium Smartphone (third-party clone-style)',unitPrice:PRICE,total:quantity*PRICE,status:'Pending',createdAt:Date.now()};if(!/^[0-9]{10}$/.test(order.mobile)){msg('orderMsg','Enter a valid 10-digit mobile number.','error');return;}const btn=$('placeOrderBtn');btn.disabled=true;try{const ref=db.ref('orders').push();await ref.set(order);msg('orderMsg','Order request placed! Your Order ID: '+ref.key,'success');$('orderForm').reset();$('quantity').value=1;$('total').value=money(PRICE);await loadMyOrders(user);}catch(err){msg('orderMsg','Could not save order: '+err.message,'error');}finally{btn.disabled=false;}});
+$('refreshBtn').addEventListener('click',()=>loadMyOrders(auth.currentUser));
+async function loadMyOrders(user){if(!user)return;const box=$('myOrders');box.innerHTML='<p>Loading…</p>';try{const snap=await db.ref('orders').orderByChild('uid').equalTo(user.uid).once('value');const list=[];snap.forEach(child=>list.push({id:child.key,...child.val()}));list.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));if(!list.length){box.innerHTML='<p class="muted">No orders yet.</p>';return;}box.innerHTML=list.map(o=>`<div class="order"><p><b>Order ID:</b> ${esc(o.id)}</p><p><b>Product:</b> ${esc(o.product||'Premium Smartphone')}</p><p><b>Quantity:</b> ${esc(o.quantity)}</p><p><b>Total:</b> ${money(o.total)}</p><p><b>Placed:</b> ${esc(formatDate(o.createdAt))}</p><p><b>Status:</b> <span class="status">${esc(o.status||'Pending')}</span></p></div>`).join('');}catch(e){box.innerHTML='<p class="error">Could not load orders. Check Firebase Database Rules. '+esc(e.message)+'</p>';}}
+async function loadAdminOrders(){const box=$('adminOrders');box.innerHTML='<p>Loading orders…</p>';try{const snap=await db.ref('orders').once('value');const list=[];snap.forEach(child=>list.push({id:child.key,...child.val()}));list.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));if(!list.length){box.innerHTML='<p>No orders yet.</p>';return;}box.innerHTML=list.map(o=>`<div class="order"><p><b>Order ID:</b> ${esc(o.id)}</p><p><b>Name:</b> ${esc(o.name)}</p><p><b>Mobile:</b> ${esc(o.mobile)}</p><p><b>Address:</b> ${esc(o.address)}</p><p><b>Quantity:</b> ${esc(o.quantity)} | <b>Total:</b> ${money(o.total)}</p><p><b>Placed:</b> ${esc(formatDate(o.createdAt))}</p><p><b>Status:</b> <span class="status">${esc(o.status||'Pending')}</span></p><label for="status-${esc(o.id)}">Update status</label><select id="status-${esc(o.id)}"><option ${o.status==='Pending'?'selected':''}>Pending</option><option ${o.status==='Confirmed'?'selected':''}>Confirmed</option><option ${o.status==='Packed'?'selected':''}>Packed</option><option ${o.status==='Shipped'?'selected':''}>Shipped</option><option ${o.status==='Out for Delivery'?'selected':''}>Out for Delivery</option><option ${o.status==='Delivered'?'selected':''}>Delivered</option><option ${o.status==='Cancelled'?'selected':''}>Cancelled</option></select><button onclick="updateStatus('${esc(o.id)}')">Save Status</button><p id="statusmsg-${esc(o.id)}" aria-live="polite"></p></div>`).join('');}catch(e){box.innerHTML='<p class="error">Could not load admin orders. Verify admin email and Firebase Rules. '+esc(e.message)+'</p>';}}
+window.updateStatus=async id=>{const status=$('status-'+id).value;try{await db.ref('orders/'+id+'/status').set(status);msg('statusmsg-'+id,'Status updated.','success');await loadAdminOrders();}catch(e){msg('statusmsg-'+id,'Update failed: '+e.message,'error');}};
+$('adminRefreshBtn').addEventListener('click',loadAdminOrders);
+auth.onAuthStateChanged(async user=>{if(!user){setLoggedOut();return;}isAdmin=ADMIN_EMAIL!=='put_your_admin_email_here'&&user.email&&user.email.toLowerCase()===ADMIN_EMAIL;$('authCard').classList.add('hidden');$('topUser').textContent=user.email||'Signed in';if(isAdmin){$('adminCard').classList.remove('hidden');$('customerCard').classList.add('hidden');await loadAdminOrders();}else{$('customerCard').classList.remove('hidden');$('adminCard').classList.add('hidden');await loadMyOrders(user);}});
 </script>
-
-</body>
-</html>
+</body></html>
