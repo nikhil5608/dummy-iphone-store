@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "orders": {
+      ".indexOn": ["uid"],
+      ".read": "auth != null && ((auth.token.email != null && auth.token.email === 'nikhil69z5s@gmail.com') || (query.orderByChild === 'uid' && query.equalTo === auth.uid))",
+      "$orderId": {
+        ".write": "auth != null && ((auth.token.email != null && auth.token.email === 'nikhil69z5s@gmail.com') || (!data.exists() && newData.child('uid').val() === auth.uid))",
+        ".validate": "newData.hasChildren(['uid','name','mobile','address','quantity','product','unitPrice','total','status','createdAt'])"
+      }
+    }
+  }
+}
