@@ -301,3 +301,294 @@ orderForm.addEventListener("submit", async function (event) {
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Premium Phone Store - Admin</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #f2f3f5;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px #0001;
+}
+
+input, button, select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    margin: 7px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background: #111;
+    color: white;
+    cursor: pointer;
+}
+
+.order {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 12px 0;
+    border-radius: 8px;
+    overflow-wrap: anywhere;
+}
+
+.hidden {
+    display: none;
+}
+
+.status {
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Premium Phone Store</h1>
+    <h2>Admin Panel</h2>
+
+    <div class="card" id="loginCard">
+        <h3>Admin Login</h3>
+
+        <form id="loginForm">
+            <input
+                type="email"
+                id="email"
+                placeholder="Admin Email"
+                required>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Admin Password"
+                required>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p id="loginMessage"></p>
+    </div>
+
+    <div id="dashboard" class="hidden">
+
+        <div class="card">
+            <h3>Orders Dashboard</h3>
+            <p id="orderCount">Loading orders...</p>
+            <button id="logoutButton">Logout</button>
+        </div>
+
+        <div class="card">
+            <h3>Customer Orders</h3>
+            <div id="ordersList">Loading...</div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+    apiKey: "AIzaSyCgGbHnsCa8JAtdjyGgFWq4SF13aiLkLEk",
+    authDomain: "premium-phone-store.firebaseapp.com",
+    databaseURL: "https://premium-phone-store-default-rtdb.firebaseio.com",
+    projectId: "premium-phone-store",
+    storageBucket: "premium-phone-store.firebasestorage.app",
+    messagingSenderId: "878510750230",
+    appId: "1:878510750230:web:3835bf984c280b2a1bd337",
+    measurementId: "G-L617C9N2MB"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const database = firebase.database();
+
+const loginCard = document.getElementById("loginCard");
+const dashboard = document.getElementById("dashboard");
+const loginMessage = document.getElementById("loginMessage");
+const ordersList = document.getElementById("ordersList");
+const orderCount = document.getElementById("orderCount");
+
+let ordersListener = null;
+
+document.getElementById("loginForm").addEventListener("submit",
+async function (event) {
+    event.preventDefault();
+
+    loginMessage.textContent = "Logging in...";
+
+    try {
+        await auth.signInWithEmailAndPassword(
+            document.getElementById("email").value.trim(),
+            document.getElementById("password").value
+        );
+
+        loginMessage.textContent = "";
+
+    } catch (error) {
+        loginMessage.textContent =
+            "Login failed. Check your email and password.";
+    }
+});
+
+auth.onAuthStateChanged(function (user) {
+    if (user) {
+        loginCard.classList.add("hidden");
+        dashboard.classList.remove("hidden");
+        loadOrders();
+    } else {
+        if (ordersListener) {
+            database.ref("orders").off("value", ordersListener);
+            ordersListener = null;
+        }
+
+        loginCard.classList.remove("hidden");
+        dashboard.classList.add("hidden");
+        ordersList.textContent = "";
+    }
+});
+
+function loadOrders() {
+    const ordersRef = database.ref("orders");
+
+    ordersListener = function (snapshot) {
+        ordersList.replaceChildren();
+
+        const orders = [];
+
+        snapshot.forEach(function (child) {
+            orders.push({
+                id: child.key,
+                ...child.val()
+            });
+        });
+
+        orders.sort((a, b) =>
+            (b.createdAt || 0) - (a.createdAt || 0)
+        );
+
+        orderCount.textContent = "Total Orders: " + orders.length;
+
+        if (orders.length === 0) {
+            ordersList.textContent = "No orders received yet.";
+            return;
+        }
+
+        orders.forEach(function (order) {
+            const card = document.createElement("div");
+            card.className = "order";
+
+            const heading = document.createElement("h3");
+            heading.textContent = "Order ID: " + order.id;
+            card.appendChild(heading);
+
+            addText(card, "Customer: ", order.name);
+            addText(card, "Mobile: ", order.mobile);
+            addText(card, "Address: ", order.address);
+            addText(card, "Product: ", order.product);
+            addText(card, "Quantity: ", order.quantity);
+            addText(
+                card,
+                "Total: ₹",
+                Number(order.total || 0).toLocaleString("en-IN")
+            );
+
+            const date = order.createdAt
+                ? new Date(order.createdAt).toLocaleString()
+                : "Not available";
+
+            addText(card, "Order Date: ", date);
+
+            const statusLabel = document.createElement("p");
+            statusLabel.className = "status";
+            statusLabel.textContent = "Status: " + (order.status || "Pending");
+            card.appendChild(statusLabel);
+
+            const select = document.createElement("select");
+
+            ["Pending", "Confirmed", "Shipped", "Delivered", "Cancelled"]
+                .forEach(function (status) {
+                    const option = document.createElement("option");
+                    option.value = status;
+                    option.textContent = status;
+                    option.selected = status === (order.status || "Pending");
+                    select.appendChild(option);
+                });
+
+            card.appendChild(select);
+
+            const updateButton = document.createElement("button");
+            updateButton.textContent = "Update Order Status";
+
+            updateButton.addEventListener("click", async function () {
+                updateButton.disabled = true;
+
+                try {
+                    await database.ref("orders/" + order.id)
+                        .update({ status: select.value });
+
+                    alert("Order status updated!");
+                } catch (error) {
+                    alert("Could not update order. Check database rules.");
+                } finally {
+                    updateButton.disabled = false;
+                }
+            });
+
+            card.appendChild(updateButton);
+            ordersList.appendChild(card);
+        });
+    };
+
+    ordersRef.on("value", ordersListener, function (error) {
+        ordersList.textContent =
+            "Unable to load orders. Check Firebase Database Rules.";
+    });
+}
+
+function addText(parent, label, value) {
+    const p = document.createElement("p");
+    const strong = document.createElement("strong");
+
+    strong.textContent = label;
+    p.appendChild(strong);
+    p.appendChild(document.createTextNode(String(value ?? "")));
+
+    parent.appendChild(p);
+}
+
+document.getElementById("logoutButton").addEventListener("click",
+function () {
+    auth.signOut();
+});
+</script>
+
+</body>
+</html>
