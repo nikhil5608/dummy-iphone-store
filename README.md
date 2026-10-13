@@ -1,86 +1,111 @@
-# dummy-iphone-store
-online store for iphone dummy models
-<!DOCTYPE html>
-<html lang="mr">
+<!DOCTYPE html><html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone Dummy Store</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-        header {
-            background-color: #000;
-            color: #fff;
-            padding: 20px;
-        }
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 20px;
-        }
-        .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            margin: 15px;
-            padding: 15px;
-            width: 250px;
-        }
-        .card img {
-            width: 100%;
-            height: 200px;
-            object-fit: contain;
-            border-radius: 5px;
-        }
-        .price {
-            color: #e63946;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .buy-btn {
-            display: inline-block;
-            background-color: #25D366;
-            color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dummy iPhone Store</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4f4f4;
+  text-align: center;
+}
+header {
+  background: #111;
+  color: white;
+  padding: 20px;
+}
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 240px;
+  box-shadow: 0 2px 8px #ccc;
+}
+.phone {
+  font-size: 90px;
+}
+button {
+  background: #0071e3;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+input, textarea {
+  width: 90%;
+  padding: 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+form {
+  background: white;
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 12px;
+}
+footer {
+  padding: 20px;
+  background: #111;
+  color: white;
+}
+</style>
 </head>
-<body>
+<body><header>
+  <h1>🍎 Dummy iPhone Store</h1>
+  <p>Explore Your Favourite iPhones</p>
+  <p>DEMO STORE — NOT AN OFFICIAL APPLE STORE</p>
+</header><h2>Our Products</h2><div class="products">
+  <div class="card">
+    <div class="phone">📱</div>
+    <h3>iPhone 13</h3>
+    <p>Price: ₹35,000</p>
+    <button onclick="order('iPhone 13')">Order Now</button>
+  </div>  <div class="card">
+    <div class="phone">📱</div>
+    <h3>iPhone 14</h3>
+    <p>Price: ₹45,000</p>
+    <button onclick="order('iPhone 14')">Order Now</button>
+  </div>  <div class="card">
+    <div class="phone">📱</div>
+    <h3>iPhone 15</h3>
+    <p>Price: ₹55,000</p>
+    <button onclick="order('iPhone 15')">Order Now</button>
+  </div>
+</div><h2>Place Your Demo Order</h2><form onsubmit="submitOrder(event)">
+  <label>Selected Product</label>
+  <input id="product" required readonly><label>Your Name</label>
+<input id="name" required>
 
-    <header>
-        <h1>iPhone Dummy Store</h1>
-        <p>Premium Quality iPhone Dummy Models for Display</p>
-    </header>
+<label>Mobile Number</label>
+<input id="mobile" type="tel" pattern="[0-9]{10}" maxlength="10" required>
 
-    <div class="container">
-        <!-- Product 1 -->
-        <div class="card">
-            <img src="iphone15.jpg" alt="iPhone 15 Pro Dummy">
-            <h3>iPhone 15 Pro Dummy</h3>
-            <p class="price">₹499</p>
-            <!-- Khali tumcha WhatsApp Number 91XXXXXXXXXX cha jagavar taka -->
-            <a href="https://wa.me/91XXXXXXXXXX?text=Mala%20iPhone%2015%20Pro%20Dummy%20order%20karaycha%20ahe" class="buy-btn" target="_blank">WhatsApp var Order kara</a>
-        </div>
+<label>Delivery Address</label>
 
-        <!-- Product 2 -->
-        <div class="card">
-            <img src="iphone14.jpg" alt="iPhone 14 Dummy">
-            <h3>iPhone 14 Dummy</h3>
-            <p class="price">₹399</p>
-            <a href="https://wa.me/917821825608?text=Mala%20iPhone%2014%20Dummy%20order%20karaycha%20ahe" class="buy-btn" target="_blank">WhatsApp var Order kara</a>
-        </div>
-    </div>
+  <textarea id="address" required></textarea><button type="submit">Submit Demo Order</button>
 
-</body>
+</form><p id="message"></p><footer>
+  <p>Dummy iPhone Store | Demo Website</p>
+  <p>Not affiliated with Apple Inc.</p>
+</footer><script>
+function order(productName) {
+  document.getElementById('product').value = productName;
+  document.getElementById('product').scrollIntoView({behavior:'smooth'});
+}
+
+function submitOrder(event) {
+  event.preventDefault();
+  document.getElementById('message').innerText =
+    'Demo only: Order form tested successfully. No order was sent or saved.';
+}
+</script></body>
 </html>
