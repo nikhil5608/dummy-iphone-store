@@ -1,101 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Premium Phone Store</title>
 <style>
-:root{--navy:#131921;--navy2:#232f3e;--gold:#febd69;--orange:#ff9900;--ink:#182230;--muted:#667085;--line:#e5e7eb;--paper:#fff;--bg:#eaeded;--green:#067d62}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
-header{background:var(--navy);color:#fff;min-height:76px;padding:13px clamp(14px,4vw,56px);display:flex;justify-content:space-between;align-items:center;gap:18px;position:sticky;top:0;z-index:20;box-shadow:0 3px 14px #0002}.brand{display:flex;align-items:center;gap:11px;min-width:0}.brand-mark{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,#ffd58a,#ff9900);color:#182230;font-weight:900;font-size:23px;box-shadow:inset 0 1px 0 #fff9}.brand h1{font-size:21px;letter-spacing:-.5px;margin:0;white-space:nowrap}.brand small{display:block;color:#d5dbe3;font-size:11px;margin-top:4px;letter-spacing:.7px;text-transform:uppercase}.account-btn{display:flex;align-items:center;gap:9px;background:transparent;border:1px solid #647080;color:white;border-radius:10px;padding:9px 13px;cursor:pointer;margin:0;white-space:nowrap}.account-btn:hover{border-color:var(--gold);background:#ffffff0d}.account-icon{font-size:22px}.account-copy{font-size:12px;text-align:left;max-width:190px;overflow-wrap:anywhere}.account-copy b{display:block;font-size:14px;margin-top:3px}
-.subnav{background:var(--navy2);color:#fff;padding:10px clamp(14px,4vw,56px);display:flex;gap:20px;align-items:center;font-size:13px;overflow:auto;white-space:nowrap}.subnav span{opacity:.95}.subnav .deal{color:#ffd18b;font-weight:700}.wrap{max-width:1220px;margin:22px auto;padding:0 16px}.promo{border-radius:14px;background:linear-gradient(110deg,#182b49,#334d72 65%,#c18c48);color:white;padding:25px clamp(18px,4vw,42px);margin-bottom:18px;position:relative;overflow:hidden;box-shadow:0 8px 24px #1b2e481c}.promo:after{content:'✦';position:absolute;font-size:150px;right:7%;top:-45px;color:#ffffff12;transform:rotate(15deg)}.promo .eyebrow{color:#ffcf85;font-weight:700;font-size:11px;letter-spacing:1.8px;text-transform:uppercase}.promo h2{font-size:clamp(25px,4vw,39px);margin:9px 0 8px;max-width:650px;letter-spacing:-1px}.promo p{margin:0;color:#e3eaf4;max-width:620px;line-height:1.55;font-size:14px}.card{background:var(--paper);border-radius:14px;padding:clamp(17px,3vw,27px);margin-bottom:18px;box-shadow:0 3px 14px #1822300b;border:1px solid #e9edf0}.product-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}.product-heading h2{font-size:clamp(23px,3vw,31px);margin:0 0 7px;letter-spacing:-.7px}.rating{font-size:13px;color:#8b5b00;background:#fff6df;padding:7px 10px;border-radius:8px;white-space:nowrap}.product-intro{color:var(--muted);font-size:14px;margin:0 0 18px;line-height:1.5}.gallery-label{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0 10px;font-size:13px;font-weight:700;color:#344054}.gallery-label small{font-weight:400;color:#7b8492}.photos{display:flex;gap:13px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;padding:3px 2px 14px;scrollbar-width:thin;scrollbar-color:#b7bec7 #f1f3f5}.photos img,.photos video{flex:0 0 245px;width:245px;height:285px;object-fit:contain;scroll-snap-align:start;border:1px solid #e6e8eb;border-radius:12px;background:linear-gradient(145deg,#fafafa,#f0f2f4);padding:8px}.photos img{cursor:zoom-in}.photos video{object-fit:contain}.photos img:hover{border-color:#e4a74c;box-shadow:0 5px 16px #00000012}.purchase-row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,.7fr);gap:22px;margin-top:14px;align-items:start}.details p{line-height:1.6}.price{font-size:34px;font-weight:800;margin:10px 0 5px;color:#111827;letter-spacing:-.7px}.price small{font-size:13px;color:var(--muted);font-weight:400;letter-spacing:0}.green-note{color:var(--green);font-size:13px;font-weight:700}.feature-list{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.feature-list span{font-size:12px;border:1px solid #e4e7ec;border-radius:20px;padding:7px 10px;color:#344054;background:#fafbfc}.buy-box{border:1px solid #e3e7eb;border-radius:13px;padding:18px;background:#fcfcfd}.buy-box h3{margin:0 0 12px;font-size:17px}.note{background:#fff8e7;border:1px solid #f5dfad;padding:11px;border-radius:9px;font-size:12px;line-height:1.55;color:#654d19}.muted{color:var(--muted);font-size:13px;line-height:1.55}input,textarea,button,select{font:inherit}input,textarea,select{width:100%;padding:12px;margin:7px 0 12px;border:1px solid #d0d5dd;border-radius:9px;background:white;color:#182230;outline:none}input:focus,textarea:focus,select:focus{border-color:#d98a22;box-shadow:0 0 0 3px #ff99001c}textarea{min-height:85px;resize:vertical}button{border:0;border-radius:9px;padding:11px 16px;background:var(--navy2);color:white;cursor:pointer;margin:4px 4px 4px 0;font-weight:700;transition:transform .15s,filter .15s}button:hover{filter:brightness(1.12)}button:active{transform:translateY(1px)}button.primary{background:linear-gradient(180deg,#ffd27f,#ffb83e);color:#1c2735;box-shadow:0 2px 0 #d38b22;width:100%;margin:8px 0 0}button.secondary{background:#edf0f3;color:#26313d;border:1px solid #dce1e6}button:disabled{opacity:.5;cursor:not-allowed}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hidden{display:none!important}.status{display:inline-block;background:#fff1c2;color:#6a4b00;padding:5px 9px;border-radius:20px;font-size:12px}.order{border:1px solid #e3e5e8;border-radius:10px;padding:14px;margin:10px 0;overflow-wrap:anywhere;background:#fff}.order p{margin:6px 0}.tabs{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.tabs h2{margin:0 auto 10px 0}.success{color:#137333}.error{color:#b3261e}hr{border:0;border-top:1px solid var(--line);margin:24px 0}.section-title{font-size:23px;letter-spacing:-.5px;margin:0 0 8px}.section-subtitle{color:var(--muted);font-size:13px;line-height:1.5;margin:0 0 16px}.auth-card{scroll-margin-top:110px}.auth-banner{display:flex;align-items:center;gap:12px;margin-bottom:14px}.auth-badge{width:44px;height:44px;border-radius:12px;background:#fff3dc;display:grid;place-items:center;font-size:22px}.auth-banner h2{margin:0 0 4px;font-size:22px}.auth-banner p{margin:0}.footer{background:var(--navy);color:#cbd2dc;text-align:center;padding:24px 16px;font-size:12px;line-height:1.8;margin-top:28px}.footer b{color:white}.disclaimer{font-size:12px;color:#5f6671;line-height:1.55;margin-top:12px}
-@media(max-width:760px){header{padding:11px 13px;gap:8px}.brand h1{font-size:17px}.brand-mark{width:36px;height:36px;font-size:20px}.brand small{font-size:9px}.account-btn{padding:8px}.account-copy{font-size:10px;max-width:125px}.account-copy b{font-size:12px}.subnav{gap:14px;font-size:12px}.wrap{margin:14px auto;padding:0 10px}.promo{padding:21px 18px}.purchase-row{grid-template-columns:1fr}.photos img,.photos video{flex-basis:205px;width:205px;height:245px}.row{grid-template-columns:1fr}.card{padding:17px}.price{font-size:31px}}
-@media(min-width:761px){.buy-box{position:sticky;top:145px}}
+:root{--navy:#131921;--navy2:#232f3e;--gold:#febd69;--orange:#ff9900;--ink:#182230;--muted:#667085;--bg:#eaeded;--white:#fff;--green:#067647;--red:#b42318}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--navy);color:white;padding:14px 4%;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-size:23px;font-weight:800;color:white}.brand span{color:var(--gold)}.top-user{font-size:13px;color:#f2f4f7}
+.subnav{background:var(--navy2);color:white;padding:9px 4%;font-size:13px}
+main{max-width:1150px;margin:18px auto;padding:0 14px}
+.hero{background:linear-gradient(120deg,#fff,#f9e6c7);border-radius:12px;padding:24px;display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:center}
+.hero h1{margin:0 0 10px;font-size:clamp(25px,4vw,38px)}.hero p{line-height:1.5}.pill{display:inline-block;background:#fff0d6;padding:7px 10px;border-radius:20px;font-size:12px;font-weight:bold}
+.price{font-size:30px;font-weight:800;margin:12px 0}.hero-art{font-size:100px;text-align:center}
+.card{background:white;border-radius:12px;padding:18px;margin-top:18px;box-shadow:0 2px 7px #0000000c}.card h2{margin-top:0;font-size:21px}
+.media-row{display:flex;gap:12px;overflow-x:auto;padding:6px 0 14px;scroll-snap-type:x mandatory}.media-row img,.media-row video{width:220px;height:250px;object-fit:cover;flex:0 0 auto;border-radius:10px;background:#f2f4f7;scroll-snap-align:start}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field{margin:10px 0}.field label{display:block;font-weight:700;font-size:13px;margin-bottom:5px}.field input,.field textarea,.field select{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:7px;font-size:15px}.field textarea{min-height:75px;resize:vertical}
+button,.btn{border:0;border-radius:8px;padding:12px 15px;font-weight:700;cursor:pointer;background:var(--orange);color:#111;width:100%;font-size:14px}button.secondary{background:#e5e7eb}button.dark{background:var(--navy2);color:white}button:disabled{opacity:.55;cursor:not-allowed}
+.btnrow{display:flex;gap:8px;margin-top:10px}.btnrow button{flex:1}.muted{color:var(--muted);font-size:13px;line-height:1.5}.error{color:var(--red);font-size:13px}.success{color:var(--green);font-size:13px}.hidden{display:none!important}.order{border:1px solid #e4e7ec;padding:12px;border-radius:9px;margin:10px 0;overflow-wrap:anywhere}.status{display:inline-block;background:#fef0c7;padding:4px 8px;border-radius:12px;font-size:12px}
+footer{text-align:center;padding:25px 12px;color:#667085;font-size:12px}
+@media(max-width:650px){.hero{grid-template-columns:1fr}.hero-art{font-size:70px}.grid{grid-template-columns:1fr}.media-row img,.media-row video{width:180px;height:220px}}
 </style>
 </head>
 <body>
-<header>
- <div class="brand"><div class="brand-mark">P</div><div><h1>Premium Phone Store</h1><small>Smart choices. Premium style.</small></div></div>
- <button class="account-btn" id="accountBtn" type="button" onclick="document.getElementById('authCard').scrollIntoView({behavior:'smooth',block:'start'})"><span class="account-icon">♙</span><span class="account-copy">Hello, sign in<b id="topUser">Account & Orders</b></span></button>
-</header>
-<nav class="subnav"><span>☰ Shop</span><span>Smartphones</span><span>Premium Deals</span><span>Order Tracking</span><span class="deal">Special offer • ₹18,000</span></nav>
-<main class="wrap">
-<section class="promo"><div class="eyebrow">Featured pick • Premium collection</div><h2>A premium look. A smarter shopping experience.</h2><p>Explore the phone photos and product video below, place your order online, and follow delivery updates from your own account.</p></section>
-<section class="card" id="productSection">
- <div class="product-heading"><div><h2>Premium Smartphone</h2><p class="product-intro">A stylish design with a premium-inspired look.</p></div><div class="rating">★ Featured Product</div></div>
- <div class="gallery-label"><span>Product photos & video</span><small>Swipe or scroll sideways to view all ›</small></div>
- <div class="photos" aria-label="Scrollable product photos and video">
-  <img src="IMG-20261014-WA0003.jpg" alt="Phone photo 1" onerror="this.style.display='none'">
-  <img src="IMG-20261014-WA0006.jpg" alt="Phone photo 2" onerror="this.style.display='none'">
-  <img src="IMG-20261014-WA0007.jpg" alt="Phone photo 3" onerror="this.style.display='none'">
-  <img src="IMG-20261014-WA0008.jpg" alt="Phone photo 4" onerror="this.style.display='none'">
-  <img src="IMG-20261014-WA0009.jpg" alt="Phone photo 5" onerror="this.style.display='none'">
-  <video controls preload="metadata" aria-label="Product video"><source src="VID-20261014-WA0010.mp4" type="video/mp4">Video not supported</video>
- </div>
- <div class="purchase-row"><div class="details"><div class="price">₹18,000 <small>inclusive of listed price</small></div><div class="green-note">✓ Order online • Track your order anytime</div><div class="feature-list"><span>Premium-inspired design</span><span>Online order request</span><span>Order status tracking</span></div><p class="muted">Sign in or create an account to place an order and see your own order updates. Your personal details are not shown to other customers.</p><div class="disclaimer"><b>Product disclosure:</b> This is a third-party clone-style smartphone. It is not a genuine Apple iPhone and is not affiliated with or endorsed by Apple.</div></div>
- <div class="buy-box"><h3>Ready to order?</h3><p class="muted">Sign in first, then add your delivery details to submit an order request.</p><button class="primary" type="button" onclick="document.getElementById('authCard').scrollIntoView({behavior:'smooth',block:'start'})">Sign in to order →</button><p class="muted" style="margin:12px 0 0">🔒 Your account keeps your orders private.</p></div></div>
+<header><div class="brand">Premium <span>Phone Store</span></div><div id="topUser" class="top-user">Not logged in</div></header>
+<div class="subnav">Smartphone deals &nbsp; • &nbsp; Secure checkout testing &nbsp; • &nbsp; Order tracking</div>
+<main>
+<section class="hero">
+  <div><span class="pill">PREMIUM SMARTPHONE</span><h1>Style. Performance. Value.</h1><p>Explore our third-party clone-style smartphone. Please read the product details before placing an order.</p><div class="price">₹18,000</div><p class="muted">This is a third-party smartphone, not a genuine Apple iPhone and not affiliated with Apple.</p></div>
+  <div class="hero-art" aria-hidden="true">📱</div>
 </section>
-<section class="card auth-card" id="authCard">
- <div class="auth-banner"><div class="auth-badge">♙</div><div><h2>Welcome back</h2><p class="muted">Login or create an account to place orders and track your deliveries.</p></div></div>
- <div class="row"><div><label>Email</label><input id="email" type="email" autocomplete="email" placeholder="Enter email"></div><div><label>Password</label><input id="password" type="password" autocomplete="current-password" placeholder="At least 6 characters"></div></div>
- <button id="loginBtn">Login</button><button id="signupBtn" class="secondary">Create Account</button><button id="resetBtn" class="secondary">Forgot Password</button><p id="authMsg" aria-live="polite"></p>
+<section class="card"><h2>Product gallery</h2><p class="muted">Replace these sample filenames with the exact photo/video filenames uploaded to your GitHub repository.</p>
+  <div class="media-row">
+    <img src="IMG-20261014-WA0003.jpg" alt="Product photo 1" onerror="this.style.display='none'">
+    <img src="IMG-20261014-WA0006.jpg" alt="Product photo 2" onerror="this.style.display='none'">
+    <img src="IMG-20261014-WA0007.jpg" alt="Product photo 3" onerror="this.style.display='none'">
+    <img src="IMG-20261014-WA0008.jpg" alt="Product photo 4" onerror="this.style.display='none'">
+    <img src="IMG-20261014-WA0009.jpg" alt="Product photo 5" onerror="this.style.display='none'">
+    <video controls playsinline preload="metadata"><source src="VID-20261014-WA0010.mp4" type="video/mp4"></video>
+  </div>
 </section>
-<section class="card hidden" id="customerCard">
- <div class="tabs"><h2 style="margin:0 auto 10px 0">My Account</h2><button class="secondary" id="refreshBtn">Refresh Orders</button><button id="logoutBtn">Logout</button></div>
- <h3>Place an Order</h3><form id="orderForm">
-  <div class="row"><div><label>Full name</label><input id="custName" required maxlength="100" autocomplete="name"></div><div><label>Mobile number</label><input id="custMobile" required type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="10-digit mobile number"></div></div>
-  <label>Full delivery address</label><textarea id="custAddress" required maxlength="500" autocomplete="street-address"></textarea>
-  <div class="row"><div><label>Quantity</label><input id="quantity" type="number" min="1" max="5" value="1" required></div><div><label>Total amount</label><input id="total" value="₹18,000" readonly></div></div>
-  <div class="note">Payment gateway is not connected yet. Do not send any advance payment until official payment instructions are added. This form records an order request only.</div>
-  <button id="placeOrderBtn" type="submit">Place Order Request</button><p id="orderMsg" aria-live="polite"></p>
- </form>
- <hr><h3>My Orders & Tracking</h3><p class="muted">Only orders linked to your account will appear here.</p><div id="myOrders"><p class="muted">Login to see your orders.</p></div>
+<section class="card" id="authCard"><h2>Customer login / create account</h2>
+ <div class="grid"><div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com"></div><div class="field"><label for="password">Password (6+ characters)</label><input id="password" type="password" autocomplete="current-password" placeholder="Password"></div></div>
+ <div class="btnrow"><button id="loginBtn">Login</button><button id="signupBtn" class="secondary">Create account</button><button id="resetBtn" class="secondary">Reset password</button></div><p id="authMsg" aria-live="polite"></p>
 </section>
-<section class="card hidden" id="adminCard">
- <div class="tabs"><h2 style="margin:0 auto 10px 0">Admin Panel</h2><button class="secondary" id="adminRefreshBtn">Refresh</button><button id="adminLogoutBtn">Logout</button></div>
- <p class="muted">Customer details are visible only to the configured admin account.</p><div id="adminOrders">Loading orders…</div>
+<section class="card hidden" id="customerCard"><h2>Your account & orders</h2><p class="muted">Your order history appears here after you sign in.</p><button id="logoutBtn" class="secondary">Logout</button><div id="myOrders"></div><button id="refreshBtn" class="secondary">Refresh orders</button></section>
+<section class="card"><h2>Place an order</h2><p class="muted">Login first. Choose full online payment or ₹2,000 advance. COD/remaining balance arrangements must be clearly agreed with the seller before ordering.</p>
+<form id="orderForm">
+<div class="grid"><div class="field"><label for="custName">Full name</label><input id="custName" required maxlength="100" autocomplete="name"></div><div class="field"><label for="custMobile">10-digit mobile number</label><input id="custMobile" required inputmode="numeric" maxlength="10" pattern="[0-9]{10}" autocomplete="tel"></div></div>
+<div class="field"><label for="custAddress">Full delivery address</label><textarea id="custAddress" required maxlength="500" autocomplete="street-address"></textarea></div>
+<div class="grid"><div class="field"><label for="quantity">Quantity (max 5)</label><input id="quantity" type="number" min="1" max="5" value="1" required></div><div class="field"><label for="total">Product total</label><input id="total" value="₹18,000" readonly></div></div>
+<div class="field"><label for="payChoice">Payment option</label><select id="payChoice"><option value="full">Pay full amount online (₹18,000 per phone)</option><option value="advance">Pay ₹2,000 advance per phone</option></select></div>
+<button id="placeOrderBtn" type="submit">Continue to secure payment</button><p id="orderMsg" aria-live="polite"></p>
+</form>
 </section>
-</main>
-<footer class="footer"><b>Premium Phone Store</b><br>Secure account access • Personal order tracking<br>© 2026 Premium Phone Store</footer>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<section class="card hidden" id="adminCard"><h2>Admin orders</h2><p class="muted">Admin view. Client-side email checks are not a security boundary; enforce access in Firebase Database Rules before using real customer data.</p><button id="adminLogoutBtn" class="secondary">Logout</button><button id="adminRefreshBtn" class="secondary">Refresh orders</button><div id="adminOrders"></div></section>
+<section class="card"><h2>Important before checkout</h2><p class="muted">This starter page uses placeholders for Firebase configuration and Razorpay test Key ID. Replace them with your own values. Never put the Razorpay Key Secret in this HTML file. Confirm Razorpay permits your exact product and business model before accepting live payments. Test mode only until payment verification and Firebase security rules are checked.</p></section>
+</main><footer>Premium Phone Store · Product information and delivery terms should be verified before purchase.</footer>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
-// Firebase project configuration
+/*
+SETUP BEFORE PUBLISHING:
+1) Replace every value in firebaseConfig with the existing Firebase web app config from your old index.html.
+2) Replace RAZORPAY_TEST_KEY_ID with your Razorpay TEST Key ID (never the secret).
+3) Keep the Worker endpoint below exactly as deployed, and ensure its RAZORPAY_KEY_ID/SECRET are TEST credentials.
+4) Do not enable live payments until Razorpay has approved this product/business model.
+*/
 const firebaseConfig = {
- apiKey: "AIzaSyCgGbHnsCa8JAtdjyGgFWq4SF13aiLkLEk",
- authDomain: "premium-phone-store.firebaseapp.com",
- databaseURL: "https://premium-phone-store-default-rtdb.firebaseio.com",
- projectId: "premium-phone-store",
- storageBucket: "premium-phone-store.firebasestorage.app",
- messagingSenderId: "878510750230",
- appId: "1:878510750230:web:3835bf984c280b2a1bd337",
- measurementId: "G-L617C9N2MB"
+  apiKey: "AIzaSyCgGbHnsCa8JAtdjvGgFWq4SF13aiLkLEk",
+  authDomain: "premium-phone-store.firebaseapp.com",
+  databaseURL: "https://premium-phone-store-default-rtdb.firebaseio.com",
+  projectId: "premium-phone-store",
+  storageBucket: "premium-phone-store.firebasestorage.app",
+  messagingSenderId: "878510750230",
+  appId: "1:878510750230:web:3835bf984c280b2a1bd337",
+  measurementId: "G-L617C9N2MB"
 };
-// IMPORTANT: Put your existing admin login email here (same email used in Firebase Authentication).
 const ADMIN_EMAIL = "nikhil69z5s@gmail.com".toLowerCase();
 const PRICE = 18000;
+const WORKER_URL = "https://divine-paper-5c52.nikhilz5s.workers.dev";
+const RAZORPAY_TEST_KEY_ID = "PASTE_RAZORPAY_TEST_KEY_ID";
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.database();
+const auth = firebase.auth(), db = firebase.database();
 const $ = id => document.getElementById(id);
 let isAdmin = false;
 function msg(id,text,kind=''){const el=$(id);el.textContent=text;el.className=kind;}
-function esc(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function money(n){return '₹'+Number(n||0).toLocaleString('en-IN');}
-function formatDate(value){if(!value)return '—';const d=new Date(value);return isNaN(d)?'—':d.toLocaleString('en-IN');}
-function setLoggedOut(){ $('topUser').textContent='Not logged in';$('authCard').classList.remove('hidden');$('customerCard').classList.add('hidden');$('adminCard').classList.add('hidden'); }
-$('quantity').addEventListener('input',()=>{let q=Math.min(5,Math.max(1,Number($('quantity').value)||1));$('total').value=money(q*PRICE);});
-$('signupBtn').addEventListener('click',async()=>{const email=$('email').value.trim(),password=$('password').value;if(!email||password.length<6){msg('authMsg','Enter a valid email and password of at least 6 characters.','error');return;}try{await auth.createUserWithEmailAndPassword(email,password);msg('authMsg','Account created successfully.','success');}catch(e){msg('authMsg',e.message,'error');}});
+function formatDate(v){if(!v)return '—';const d=new Date(v);return isNaN(d)?'—':d.toLocaleString('en-IN');}
+function setLoggedOut(){$('topUser').textContent='Not logged in';$('authCard').classList.remove('hidden');$('customerCard').classList.add('hidden');$('adminCard').classList.add('hidden');}
+$('quantity').addEventListener('input',()=>{const q=Math.min(5,Math.max(1,Number($('quantity').value)||1));$('total').value=money(q*PRICE);});
+$('signupBtn').addEventListener('click',async()=>{const email=$('email').value.trim(),password=$('password').value;if(!email||password.length<6){msg('authMsg','Enter a valid email and password of at least 6 characters.','error');return;}try{await auth.createUserWithEmailAndPassword(email,password);msg('authMsg','Account created.','success');}catch(e){msg('authMsg',e.message,'error');}});
 $('loginBtn').addEventListener('click',async()=>{const email=$('email').value.trim(),password=$('password').value;if(!email||!password){msg('authMsg','Enter email and password.','error');return;}try{await auth.signInWithEmailAndPassword(email,password);msg('authMsg','Login successful.','success');}catch(e){msg('authMsg',e.message,'error');}});
-$('resetBtn').addEventListener('click',async()=>{const email=$('email').value.trim();if(!email){msg('authMsg','First enter your email above.','error');return;}try{await auth.sendPasswordResetEmail(email);msg('authMsg','Password reset email sent. Check your inbox.','success');}catch(e){msg('authMsg',e.message,'error');}});
-async function logout(){try{await auth.signOut();}catch(e){console.error(e);}setLoggedOut();}
+$('resetBtn').addEventListener('click',async()=>{const email=$('email').value.trim();if(!email){msg('authMsg','Enter your email first.','error');return;}try{await auth.sendPasswordResetEmail(email);msg('authMsg','Password reset email sent.','success');}catch(e){msg('authMsg',e.message,'error');}});
+async function logout(){try{await auth.signOut();}catch(e){}setLoggedOut();}
 $('logoutBtn').addEventListener('click',logout);$('adminLogoutBtn').addEventListener('click',logout);
-$('orderForm').addEventListener('submit',async e=>{e.preventDefault();const user=auth.currentUser;if(!user){msg('orderMsg','Please login first.','error');return;}const quantity=Math.min(5,Math.max(1,Number($('quantity').value)||1));const order={uid:user.uid,name:$('custName').value.trim(),mobile:$('custMobile').value.trim(),address:$('custAddress').value.trim(),quantity,product:'Premium Smartphone (third-party clone-style)',unitPrice:PRICE,total:quantity*PRICE,status:'Pending',createdAt:Date.now()};if(!/^[0-9]{10}$/.test(order.mobile)){msg('orderMsg','Enter a valid 10-digit mobile number.','error');return;}const btn=$('placeOrderBtn');btn.disabled=true;try{const ref=db.ref('orders').push();await ref.set(order);msg('orderMsg','Order request placed! Your Order ID: '+ref.key,'success');$('orderForm').reset();$('quantity').value=1;$('total').value=money(PRICE);await loadMyOrders(user);}catch(err){msg('orderMsg','Could not save order: '+err.message,'error');}finally{btn.disabled=false;}});
+async function loadMyOrders(user){if(!user)return;const box=$('myOrders');box.innerHTML='<p>Loading…</p>';try{const snap=await db.ref('orders').orderByChild('uid').equalTo(user.uid).once('value');const list=[];snap.forEach(ch=>list.push({id:ch.key,...ch.val()}));list.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));if(!list.length){box.innerHTML='<p class="muted">No orders yet.</p>';return;}box.innerHTML=list.map(o=>`<div class="order"><p><b>Order ID:</b> ${esc(o.id)}</p><p><b>Product:</b> ${esc(o.product)}</p><p><b>Quantity:</b> ${esc(o.quantity)}</p><p><b>Total:</b> ${money(o.total)}</p><p><b>Payment:</b> ${esc(o.paymentStatus||'Pending')}</p><p><b>Placed:</b> ${esc(formatDate(o.createdAt))}</p><p><b>Status:</b> <span class="status">${esc(o.status||'Pending')}</span></p></div>`).join('');}catch(e){box.innerHTML='<p class="error">Could not load orders: '+esc(e.message)+'</p>';}}
 $('refreshBtn').addEventListener('click',()=>loadMyOrders(auth.currentUser));
-async function loadMyOrders(user){if(!user)return;const box=$('myOrders');box.innerHTML='<p>Loading…</p>';try{const snap=await db.ref('orders').orderByChild('uid').equalTo(user.uid).once('value');const list=[];snap.forEach(child=>list.push({id:child.key,...child.val()}));list.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));if(!list.length){box.innerHTML='<p class="muted">No orders yet.</p>';return;}box.innerHTML=list.map(o=>`<div class="order"><p><b>Order ID:</b> ${esc(o.id)}</p><p><b>Product:</b> ${esc(o.product||'Premium Smartphone')}</p><p><b>Quantity:</b> ${esc(o.quantity)}</p><p><b>Total:</b> ${money(o.total)}</p><p><b>Placed:</b> ${esc(formatDate(o.createdAt))}</p><p><b>Status:</b> <span class="status">${esc(o.status||'Pending')}</span></p></div>`).join('');}catch(e){box.innerHTML='<p class="error">Could not load orders. Check Firebase Database Rules. '+esc(e.message)+'</p>';}}
-async function loadAdminOrders(){const box=$('adminOrders');box.innerHTML='<p>Loading orders…</p>';try{const snap=await db.ref('orders').once('value');const list=[];snap.forEach(child=>list.push({id:child.key,...child.val()}));list.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));if(!list.length){box.innerHTML='<p>No orders yet.</p>';return;}box.innerHTML=list.map(o=>`<div class="order"><p><b>Order ID:</b> ${esc(o.id)}</p><p><b>Name:</b> ${esc(o.name)}</p><p><b>Mobile:</b> ${esc(o.mobile)}</p><p><b>Address:</b> ${esc(o.address)}</p><p><b>Quantity:</b> ${esc(o.quantity)} | <b>Total:</b> ${money(o.total)}</p><p><b>Placed:</b> ${esc(formatDate(o.createdAt))}</p><p><b>Status:</b> <span class="status">${esc(o.status||'Pending')}</span></p><label for="status-${esc(o.id)}">Update status</label><select id="status-${esc(o.id)}"><option ${o.status==='Pending'?'selected':''}>Pending</option><option ${o.status==='Confirmed'?'selected':''}>Confirmed</option><option ${o.status==='Packed'?'selected':''}>Packed</option><option ${o.status==='Shipped'?'selected':''}>Shipped</option><option ${o.status==='Out for Delivery'?'selected':''}>Out for Delivery</option><option ${o.status==='Delivered'?'selected':''}>Delivered</option><option ${o.status==='Cancelled'?'selected':''}>Cancelled</option></select><button onclick="updateStatus('${esc(o.id)}')">Save Status</button><p id="statusmsg-${esc(o.id)}" aria-live="polite"></p></div>`).join('');}catch(e){box.innerHTML='<p class="error">Could not load admin orders. Verify admin email and Firebase Rules. '+esc(e.message)+'</p>';}}
-window.updateStatus=async id=>{const status=$('status-'+id).value;try{await db.ref('orders/'+id+'/status').set(status);msg('statusmsg-'+id,'Status updated.','success');await loadAdminOrders();}catch(e){msg('statusmsg-'+id,'Update failed: '+e.message,'error');}};
+async function createPaymentOrder(amountPaise, receipt){const res=await fetch(WORKER_URL+'/create-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount:amountPaise,receipt})});const data=await res.json();if(!res.ok||!data.id)throw new Error(data.error||data.message||'Could not create Razorpay order.');return data;}
+async function verifyPayment(payload){const res=await fetch(WORKER_URL+'/verify-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const data=await res.json();if(!res.ok||data.verified!==true)throw new Error(data.error||data.message||'Payment verification failed.');return data;}
+$('orderForm').addEventListener('submit',async e=>{e.preventDefault();const user=auth.currentUser;if(!user){msg('orderMsg','Please login first.','error');return;}const quantity=Math.min(5,Math.max(1,Number($('quantity').value)||1));const name=$('custName').value.trim(),mobile=$('custMobile').value.trim(),address=$('custAddress').value.trim();if(!/^[0-9]{10}$/.test(mobile)){msg('orderMsg','Enter a valid 10-digit mobile number.','error');return;}if(!name||!address){msg('orderMsg','Fill in your name and address.','error');return;}if(RAZORPAY_TEST_KEY_ID.startsWith('PASTE_')||firebaseConfig.apiKey.startsWith('PASTE_')){msg('orderMsg','Setup is incomplete: Firebase config and Razorpay TEST Key ID must be added first. Do not take payments yet.','error');return;}const btn=$('placeOrderBtn');btn.disabled=true;let orderRef=null;try{const fullTotal=quantity*PRICE;const advance=$('payChoice').value==='advance';const payAmount=advance?quantity*2000:fullTotal;orderRef=db.ref('orders').push();const draft={uid:user.uid,name,mobile,address,quantity,product:'Premium Smartphone (third-party clone-style)',unitPrice:PRICE,total:fullTotal,amountToPay:payAmount,paymentType:advance?'Advance':'Full online payment',paymentStatus:'Pending',status:'Payment Pending',createdAt:Date.now()};await orderRef.set(draft);const rzOrder=await createPaymentOrder(payAmount*100,orderRef.key);const options={key:RAZORPAY_TEST_KEY_ID,amount:rzOrder.amount,currency:rzOrder.currency||'INR',name:'Premium Phone Store',description:advance?'Order advance payment':'Smartphone order payment',order_id:rzOrder.id,prefill:{name,email:user.email||'',contact:mobile},notes:{storeOrderId:orderRef.key},theme:{color:'#232f3e'},handler:async response=>{try{msg('orderMsg','Payment received by checkout. Verifying securely…','');await verifyPayment({razorpay_order_id:response.razorpay_order_id,razorpay_payment_id:response.razorpay_payment_id,razorpay_signature:response.razorpay_signature});await orderRef.update({paymentStatus:'Paid',paymentId:response.razorpay_payment_id,status:'Confirmed',paidAt:Date.now()});msg('orderMsg','Payment verified in test mode. Order ID: '+orderRef.key,'success');await loadMyOrders(user);}catch(err){msg('orderMsg','Payment verification did not complete. Do not ship this order. Contact store support. '+err.message,'error');}}};const checkout=new Razorpay(options);checkout.on('payment.failed',async response=>{msg('orderMsg','Payment failed or was cancelled. You can try again. '+(response.error?.description||''),'error');if(orderRef)await orderRef.update({paymentStatus:'Failed'}).catch(()=>{});});checkout.open();}catch(err){msg('orderMsg','Could not start checkout: '+err.message,'error');if(orderRef)await orderRef.update({paymentStatus:'Not completed'}).catch(()=>{});}finally{btn.disabled=false;}});
+async function loadAdminOrders(){const box=$('adminOrders');box.innerHTML='<p>Loading orders…</p>';try{const snap=await db.ref('orders').once('value');const list=[];snap.forEach(ch=>list.push({id:ch.key,...ch.val()}));list.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));if(!list.length){box.innerHTML='<p>No orders yet.</p>';return;}box.innerHTML=list.map(o=>`<div class="order"><p><b>Order ID:</b> ${esc(o.id)}</p><p><b>Name:</b> ${esc(o.name)}</p><p><b>Mobile:</b> ${esc(o.mobile)}</p><p><b>Address:</b> ${esc(o.address)}</p><p><b>Total:</b> ${money(o.total)} · <b>Paid:</b> ${money(o.amountToPay||0)}</p><p><b>Payment status:</b> ${esc(o.paymentStatus||'Pending')}</p><p><b>Status:</b> ${esc(o.status||'Pending')}</p><label for="status-${esc(o.id)}">Update status</label><select id="status-${esc(o.id)}"><option>Pending</option><option>Confirmed</option><option>Packed</option><option>Shipped</option><option>Out for Delivery</option><option>Delivered</option><option>Cancelled</option></select><button onclick="updateStatus('${esc(o.id)}')">Save status</button><p id="statusmsg-${esc(o.id)}"></p></div>`).join('');}catch(e){box.innerHTML='<p class="error">Could not load admin orders: '+esc(e.message)+'</p>';}}
+window.updateStatus=async id=>{if(!isAdmin)return;const status=$('status-'+id).value;try{await db.ref('orders/'+id+'/status').set(status);msg('statusmsg-'+id,'Status updated.','success');await loadAdminOrders();}catch(e){msg('statusmsg-'+id,'Update failed: '+e.message,'error');}};
 $('adminRefreshBtn').addEventListener('click',loadAdminOrders);
-auth.onAuthStateChanged(async user=>{if(!user){setLoggedOut();return;}isAdmin=ADMIN_EMAIL!=='put_your_admin_email_here'&&user.email&&user.email.toLowerCase()===ADMIN_EMAIL;$('authCard').classList.add('hidden');$('topUser').textContent=user.email||'Signed in';if(isAdmin){$('adminCard').classList.remove('hidden');$('customerCard').classList.add('hidden');await loadAdminOrders();}else{$('customerCard').classList.remove('hidden');$('adminCard').classList.add('hidden');await loadMyOrders(user);}});
+auth.onAuthStateChanged(async user=>{if(!user){setLoggedOut();return;}isAdmin=!!user.email&&user.email.toLowerCase()===ADMIN_EMAIL;$('authCard').classList.add('hidden');$('topUser').textContent=user.email||'Signed in';if(isAdmin){$('adminCard').classList.remove('hidden');$('customerCard').classList.add('hidden');await loadAdminOrders();}else{$('customerCard').classList.remove('hidden');$('adminCard').classList.add('hidden');await loadMyOrders(user);}});
 </script>
-</body></html>
+</body>
+</html>
