@@ -2,514 +2,164 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Premium Phone Store</title>
 
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-
 <style>
-:root {
-  --navy: #131921;
-  --navy2: #232f3e;
-  --gold: #febd69;
-  --orange: #ff9900;
-  --bg: #e9edf2;
-  --green: #08783e;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: var(--bg);
-  color: #182230;
-}
-
-button, input, select, textarea {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-.topbar {
-  background: var(--navy);
-  color: white;
-  padding: 13px 4%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.brand {
-  font-size: 22px;
-  font-weight: bold;
-  color: white;
-}
-
-.brand span {
-  color: var(--gold);
-}
-
-.account {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.btn {
-  border: 0;
-  padding: 11px 15px;
-  border-radius: 7px;
-  font-weight: bold;
-}
-
-.btn-gold {
-  background: var(--gold);
-  color: #111;
-}
-
-.btn-dark {
-  background: var(--navy2);
-  color: white;
-}
-
-.btn-green {
-  background: var(--green);
-  color: white;
-}
-
-.subbar {
-  background: var(--navy2);
-  color: white;
-  padding: 10px 4%;
-  font-size: 13px;
-}
-
-.hero {
-  background: linear-gradient(120deg, #18283d, #405c79);
-  color: white;
-  padding: 28px 5%;
-}
-
-.hero h1 {
-  margin: 0 0 8px;
-  font-size: clamp(25px, 5vw, 42px);
-}
-
-.hero p {
-  line-height: 1.6;
-  max-width: 600px;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 0 14px;
-}
-
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 18px;
-  box-shadow: 0 2px 8px #00000010;
-}
-
-.section-title {
-  font-size: 22px;
-  margin: 0 0 15px;
-}
-
-.gallery {
-  display: flex;
-  gap: 14px;
-  overflow-x: auto;
-  padding: 5px 0 15px;
-  scroll-snap-type: x mandatory;
-}
-
-.gallery img,
-.gallery video {
-  flex: 0 0 220px;
-  width: 220px;
-  height: 245px;
-  object-fit: contain;
-  background: #f7f7f7;
-  border-radius: 8px;
-  scroll-snap-align: start;
-}
-
-.gallery video {
-  object-fit: contain;
-}
-
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 18px;
-}
-
-.product-photo {
-  width: 100%;
-  height: 260px;
-  object-fit: contain;
-  background: #f7f7f7;
-  border-radius: 8px;
-}
-
-.price {
-  font-size: 28px;
-  font-weight: bold;
-  margin: 12px 0;
-}
-
-.muted {
-  color: #667085;
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-.badge {
-  display: inline-block;
-  background: #e3f6e8;
-  color: #176534;
-  border-radius: 20px;
-  padding: 6px 10px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.field {
-  margin-bottom: 12px;
-}
-
-.field label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 6px;
-}
-
-.field input,
-.field select,
-.field textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #cbd2da;
-  border-radius: 7px;
-  background: white;
-}
-
-.field textarea {
-  min-height: 80px;
-  resize: vertical;
-}
-
-.two-col {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 12px;
-}
-
-.notice {
-  padding: 12px;
-  background: #fff6df;
-  border-radius: 7px;
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-.status {
-  padding: 12px;
-  border-radius: 7px;
-  background: #edf4ff;
-  margin: 12px 0;
-  overflow-wrap: anywhere;
-}
-
-.order {
-  border: 1px solid #e2e5e9;
-  border-radius: 8px;
-  padding: 14px;
-  margin: 12px 0;
-  overflow-wrap: anywhere;
-}
-
-footer {
-  background: var(--navy);
-  color: white;
-  padding: 25px 5%;
-  text-align: center;
-  font-size: 13px;
-  line-height: 1.8;
-}
-
-.hidden {
-  display: none !important;
-}
-
-@media(max-width: 500px) {
-  .brand {
-    font-size: 18px;
-  }
-
-  .topbar {
-    padding: 12px;
-  }
-
-  .card {
-    padding: 15px;
-  }
-
-  .gallery img,
-  .gallery video {
-    flex-basis: 185px;
-    width: 185px;
-    height: 220px;
-  }
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#eaeded;color:#17202a}
+header{background:#131921;color:white;padding:15px;display:flex;
+align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.logo{font-size:22px;font-weight:bold}
+.logo span{color:#febd69}
+button{cursor:pointer;border:0;border-radius:6px;padding:11px 15px}
+.topbtn{background:#232f3e;color:white;border:1px solid #777}
+main{max-width:1150px;margin:20px auto;padding:0 12px}
+.hero{background:white;padding:24px;border-radius:10px}
+.hero h1{font-size:32px}
+.gallery{display:flex;gap:12px;overflow-x:auto;padding:15px 0}
+.gallery img,.gallery video{width:210px;height:190px;object-fit:cover;
+flex-shrink:0;border-radius:8px;background:white;border:1px solid #ddd}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{background:white;padding:20px;border-radius:10px;margin-bottom:15px}
+.price{font-size:28px;color:#b12704;font-weight:bold}
+label{display:block;font-weight:bold;margin:12px 0 5px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #bbb;
+border-radius:6px}
+.primary{width:100%;background:#ffbd35;margin-top:12px;font-weight:bold}
+.secondary{background:#eee;margin:5px 3px 5px 0}
+.status{padding:10px;margin-top:10px;border-radius:5px;display:none;
+overflow-wrap:anywhere}
+.ok{display:block;background:#e3f7e9;color:#166534}
+.err{display:block;background:#ffeded;color:#a11}
+.order{padding:12px;border:1px solid #ddd;border-radius:7px;margin:10px 0}
+.muted{color:#667085;font-size:13px;line-height:1.5}
+.hidden{display:none!important}
+.notice{background:#fff3cd;padding:12px;border-radius:7px;margin-top:12px}
+footer{background:#232f3e;color:white;padding:22px;text-align:center}
+@media(max-width:700px){
+ .layout{grid-template-columns:1fr}
+ .hero h1{font-size:25px}
+ .gallery img,.gallery video{width:175px;height:160px}
 }
 </style>
 </head>
 
 <body>
 
-<header class="topbar">
-  <div class="brand">Premium <span>Phone Store</span></div>
-
-  <div class="account">
-    <button class="btn btn-gold" id="accountBtn" onclick="showAccount()">
-      👤 Customer Login
-    </button>
-
-    <button class="btn btn-dark hidden" id="myOrdersBtn"
-      onclick="showOrders()">
-      📦 My Orders
-    </button>
-
-    <button class="btn btn-dark hidden" id="logoutBtn"
-      onclick="logout()">
-      Logout
-    </button>
-  </div>
+<header>
+  <div class="logo">Premium <span>Phone Store</span></div>
+  <button class="topbtn" id="accountButton">👤 Login / Account</button>
+  <button class="topbtn" id="ordersButton">📦 My Orders</button>
 </header>
 
-<div class="subbar">
-  🛍️ Shop Online &nbsp; | &nbsp; 💳 Online Payment
-  &nbsp; | &nbsp; 📦 Order Tracking
-</div>
-
-<section class="hero">
-  <h1>Welcome to Premium Phone Store</h1>
-  <p>
-    Explore our phone collection, view product photos and videos,
-    and place your order online.
-  </p>
-  <span class="badge">Online Ordering Available</span>
-</section>
-
-<main class="container">
-
-  <section class="card">
-    <h2 class="section-title">📸 Product Photos & Video</h2>
-
-    <p class="muted">
-      Swipe horizontally to view all product photos and videos.
-    </p>
-
-    <div class="gallery">
-      <img src="./IMG-20261014-WA0003.jpg"
-           alt="Phone product photo 1">
-
-      <img src="./IMG-20261014-WA0006.jpg"
-           alt="Phone product photo 2">
-
-      <img src="./IMG-20261014-WA0007.jpg"
-           alt="Phone product photo 3">
-
-      <img src="./IMG-20261014-WA0008.jpg"
-           alt="Phone product photo 4">
-
-      <img src="./IMG-20261014-WA0009.jpg"
-           alt="Phone product photo 5">
-
-      <video controls playsinline preload="metadata">
-        <source src="./VID-20261014-WA0010.mp4" type="video/mp4">
-        Your browser does not support video.
-      </video>
-    </div>
+<main>
+  <section class="hero">
+    <h1>Premium Phone Store</h1>
+    <p>Explore our phone collection and place your order online.</p>
+    <p class="muted">Product information and payment details are shown below.</p>
   </section>
 
-  <section class="product-grid">
+  <div class="notice">
+    <b>Important:</b> This listing is for a dummy/replica-style phone,
+    not an original Apple iPhone. Please verify the product details before ordering.
+  </div>
 
-    <div class="card">
-      <img class="product-photo"
-           src="./IMG-20261014-WA0003.jpg"
-           alt="Phone product">
+  <h2>Product Photos & Video</h2>
 
-      <h2>iPhone 17 Pro Max Dummy</h2>
+  <div class="gallery">
+    <img src="IMG-20261014-WA0003.jpg" alt="Product photo 1">
+    <img src="IMG-20261014-WA0006.jpg" alt="Product photo 2">
+    <img src="IMG-20261014-WA0007.jpg" alt="Product photo 3">
+    <img src="IMG-20261014-WA0008.jpg" alt="Product photo 4">
+    <img src="IMG-20261014-WA0009.jpg" alt="Product photo 5">
+    <video controls playsinline preload="metadata">
+      <source src="VID-20261014-WA0010.mp4" type="video/mp4">
+    </video>
+  </div>
 
-      <span class="badge">Product Details</span>
+  <div class="layout">
 
+    <section class="card" id="productCard">
+      <h2>iPhone 17 Pro Max — Dummy Model</h2>
       <div class="price">₹18,000</div>
+      <p class="muted">Price per phone.</p>
+
+      <label for="quantity">Quantity</label>
+      <select id="quantity">
+        <option value="1">1 Phone</option>
+        <option value="2">2 Phones</option>
+        <option value="3">3 Phones</option>
+        <option value="4">4 Phones</option>
+        <option value="5">5 Phones</option>
+      </select>
+
+      <label for="paymentType">Payment Option</label>
+      <select id="paymentType">
+        <option value="full">Pay Full Amount Online</option>
+        <option value="advance">Pay ₹2,000 Advance Per Phone</option>
+      </select>
+
+      <p id="priceSummary"></p>
+
+      <label for="customerName">Full Name</label>
+      <input id="customerName" autocomplete="name" placeholder="Your full name">
+
+      <label for="customerPhone">Mobile Number</label>
+      <input id="customerPhone" type="tel" maxlength="10"
+             autocomplete="tel" placeholder="10-digit mobile number">
+
+      <label for="customerAddress">Delivery Address</label>
+      <textarea id="customerAddress" rows="3"
+                autocomplete="street-address"
+                placeholder="Full delivery address"></textarea>
+
+      <button class="primary" id="payButton">Continue to Payment</button>
+      <div id="paymentStatus" class="status"></div>
 
       <p class="muted">
-        Product: Dummy / replica phone.<br>
-        This is not an original Apple iPhone.
-        Please confirm the product details before ordering.
+        Online payment is processed through Razorpay.
+        Never share your UPI PIN or OTP with the seller.
       </p>
+    </section>
 
-      <button class="btn btn-gold" style="width:100%"
-        onclick="document.getElementById('orderSection').scrollIntoView({behavior:'smooth'})">
-        Order Now
-      </button>
-    </div>
+    <section class="card" id="accountCard">
+      <h2>Customer Account</h2>
 
-    <div class="card" id="orderSection">
-      <h2 class="section-title">🛒 Place Your Order</h2>
+      <label for="email">Email Address</label>
+      <input id="email" type="email" autocomplete="email"
+             placeholder="Enter email">
 
-      <div class="notice">
-        Login or create an account before placing your order.
-        Orders will be associated with your account.
+      <label for="password">Password</label>
+      <input id="password" type="password"
+             autocomplete="current-password"
+             placeholder="Minimum 6 characters">
+
+      <button class="secondary" id="loginButton">Login</button>
+      <button class="secondary" id="registerButton">Create Account</button>
+      <button class="secondary hidden" id="logoutButton">Logout</button>
+
+      <p id="userStatus" class="muted">Not logged in.</p>
+      <div id="authStatus" class="status"></div>
+
+      <div id="ordersPanel" class="hidden">
+        <h3>My Orders</h3>
+        <div id="ordersList">Login to see your orders.</div>
       </div>
+    </section>
 
-      <div class="field" style="margin-top:15px">
-        <label>Product</label>
-        <input value="iPhone 17 Pro Max Dummy" disabled>
-      </div>
-
-      <div class="field">
-        <label>Quantity</label>
-        <select id="quantity" onchange="updatePrice()">
-          <option value="1">1 Phone</option>
-          <option value="2">2 Phones</option>
-          <option value="3">3 Phones</option>
-          <option value="4">4 Phones</option>
-          <option value="5">5 Phones</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label>Payment Option</label>
-        <select id="paymentType" onchange="updatePrice()">
-          <option value="full">Full Online Payment</option>
-          <option value="advance">₹2,000 Advance Per Phone</option>
-        </select>
-      </div>
-
-      <div class="status">
-        <div>Order total: <strong id="totalPrice">₹18,000</strong></div>
-        <div>Pay now: <strong id="payNow">₹18,000</strong></div>
-        <div>Remaining balance: <strong id="balance">₹0</strong></div>
-      </div>
-
-      <div class="two-col">
-        <div class="field">
-          <label>Customer Name</label>
-          <input id="customerName" placeholder="Enter full name"
-                 maxlength="100" autocomplete="name">
-        </div>
-
-        <div class="field">
-          <label>Mobile Number</label>
-          <input id="customerPhone" type="tel"
-                 placeholder="10-digit mobile number"
-                 inputmode="numeric" maxlength="10"
-                 autocomplete="tel">
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Delivery Address</label>
-        <textarea id="customerAddress"
-          placeholder="House number, area, city, state and PIN code"
-          maxlength="500" autocomplete="street-address"></textarea>
-      </div>
-
-      <button class="btn btn-gold" style="width:100%"
-        id="payButton" onclick="placeOrder()">
-        Continue to Payment
-      </button>
-
-      <p class="muted">
-        Advance option: ₹2,000 per phone is collected online.
-        Any remaining balance and delivery terms must be confirmed
-        with the seller before the order is accepted.
-      </p>
-
-      <div id="orderMessage" class="status hidden"></div>
-    </div>
-
-  </section>
-
-  <section class="card hidden" id="accountSection">
-    <h2 class="section-title">👤 Customer Account</h2>
-
-    <p class="muted">
-      Create an account with your email address, or log in to view
-      your orders.
-    </p>
-
-    <div class="field">
-      <label>Email Address</label>
-      <input id="loginEmail" type="email"
-        placeholder="Enter email address" autocomplete="email">
-    </div>
-
-    <div class="field">
-      <label>Password</label>
-      <input id="loginPassword" type="password"
-        placeholder="At least 6 characters"
-        autocomplete="current-password">
-    </div>
-
-    <div class="two-col">
-      <button class="btn btn-gold" onclick="login()">
-        Login
-      </button>
-
-      <button class="btn btn-dark" onclick="register()">
-        Create Account
-      </button>
-    </div>
-
-    <button class="btn" style="margin-top:10px"
-      onclick="resetPassword()">
-      Forgot Password?
-    </button>
-
-    <div id="accountMessage" class="status hidden"></div>
-  </section>
-
-  <section class="card hidden" id="ordersSection">
-    <h2 class="section-title">📦 My Orders</h2>
-    <p class="muted">
-      Your order records will appear here after they are saved.
-    </p>
-    <div id="ordersList"></div>
-  </section>
-
+  </div>
 </main>
 
-<footer>
-  <strong>Premium Phone Store</strong><br>
-  Online Product Ordering & Customer Support<br>
-  Product identity and condition should be confirmed before payment.
-</footer>
+<footer>Premium Phone Store</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
-/* ==========================================
-   FIREBASE CONFIGURATION
-   ========================================== */
+"use strict";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCgGbHnsCa8JAtdjyGgFWq4SF13aiLkLEk",
@@ -522,15 +172,11 @@ const firebaseConfig = {
   measurementId: "G-L617C9N2MB"
 };
 
-/*
-  Use your deployed Cloudflare Worker URL.
-  Never put the Razorpay Secret Key in this file.
-*/
 const WORKER_URL =
   "https://divine-paper-5c52.nikhilz5s.workers.dev";
 
-const PRICE = 18000;
-const ADVANCE_PER_PHONE = 2000;
+const FULL_PRICE = 1800000;
+const ADVANCE_PRICE = 200000;
 
 firebase.initializeApp(firebaseConfig);
 
@@ -538,461 +184,326 @@ const auth = firebase.auth();
 const db = firebase.database();
 
 let currentUser = null;
-let isProcessing = false;
+let ordersRef = null;
+let ordersCallback = null;
 
-/* ==========================================
-   GENERAL HELPERS
-   ========================================== */
+const $ = id => document.getElementById(id);
 
-function rupees(amount) {
-  return "₹" + Number(amount).toLocaleString("en-IN");
-}
-
-function showMessage(id, message) {
-  const el = document.getElementById(id);
+function status(id, message, success = false) {
+  const el = $(id);
   el.textContent = message;
-  el.classList.remove("hidden");
+  el.className = "status " + (success ? "ok" : "err");
 }
 
-function hideMessage(id) {
-  document.getElementById(id).classList.add("hidden");
-}
-
-function showAccount() {
-  document.getElementById("accountSection")
-    .classList.toggle("hidden");
-
-  document.getElementById("accountSection")
-    .scrollIntoView({behavior: "smooth", block: "start"});
-}
-
-function showOrders() {
-  if (!currentUser) {
-    showAccount();
-    return;
-  }
-
-  const section = document.getElementById("ordersSection");
-  section.classList.remove("hidden");
-  section.scrollIntoView({behavior: "smooth"});
-
-  loadOrders();
+function clearStatus(id) {
+  $(id).textContent = "";
+  $(id).className = "status";
 }
 
 function updatePrice() {
-  const quantity = Number(document.getElementById("quantity").value);
-  const paymentType = document.getElementById("paymentType").value;
+  const qty = Number($("quantity").value);
+  const advance = $("paymentType").value === "advance";
+  const payNow = (advance ? ADVANCE_PRICE : FULL_PRICE) * qty / 100;
+  const remaining = (FULL_PRICE - (advance ? ADVANCE_PRICE : FULL_PRICE))
+                    * qty / 100;
 
-  const total = PRICE * quantity;
-  const payNow = paymentType === "advance"
-    ? ADVANCE_PER_PHONE * quantity
-    : total;
-
-  document.getElementById("totalPrice").textContent = rupees(total);
-  document.getElementById("payNow").textContent = rupees(payNow);
-  document.getElementById("balance").textContent =
-    rupees(total - payNow);
+  $("priceSummary").textContent = advance
+    ? `Advance payable now: ₹${payNow.toLocaleString("en-IN")}. Remaining: ₹${remaining.toLocaleString("en-IN")}.`
+    : `Total payable now: ₹${payNow.toLocaleString("en-IN")}.`;
 }
 
-/* ==========================================
-   CUSTOMER AUTHENTICATION
-   ========================================== */
+$("quantity").addEventListener("change", updatePrice);
+$("paymentType").addEventListener("change", updatePrice);
+updatePrice();
 
-auth.onAuthStateChanged(function(user) {
-  currentUser = user || null;
+$("accountButton").addEventListener("click", () => {
+  $("accountCard").scrollIntoView({behavior:"smooth"});
+});
 
-  document.getElementById("accountBtn").textContent =
-    user ? "👤 " + (user.email || "My Account") : "👤 Customer Login";
+$("ordersButton").addEventListener("click", () => {
+  $("ordersPanel").classList.remove("hidden");
+  $("ordersPanel").scrollIntoView({behavior:"smooth"});
+});
 
-  document.getElementById("myOrdersBtn")
-    .classList.toggle("hidden", !user);
+function friendlyError(err) {
+  const messages = {
+    "auth/email-already-in-use": "This email is already registered. Please log in.",
+    "auth/invalid-email": "Enter a valid email address.",
+    "auth/weak-password": "Password must contain at least 6 characters.",
+    "auth/invalid-credential": "Email or password is incorrect.",
+    "auth/operation-not-allowed": "Enable Email/Password sign-in in Firebase.",
+    "auth/network-request-failed": "Network error. Check your internet."
+  };
+  return messages[err.code] || err.message || "Something went wrong.";
+}
 
-  document.getElementById("logoutBtn")
-    .classList.toggle("hidden", !user);
+$("loginButton").addEventListener("click", async () => {
+  clearStatus("authStatus");
 
-  if (user) {
-    hideMessage("accountMessage");
+  try {
+    const email = $("email").value.trim();
+    const password = $("password").value;
+
+    if (!email || !password) throw new Error("Enter email and password.");
+
+    await auth.signInWithEmailAndPassword(email, password);
+    status("authStatus", "Login successful.", true);
+  } catch (err) {
+    status("authStatus", friendlyError(err));
   }
 });
 
-async function register() {
-  hideMessage("accountMessage");
-
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value;
-
-  if (!email || password.length < 6) {
-    showMessage("accountMessage",
-      "Enter a valid email and a password of at least 6 characters.");
-    return;
-  }
+$("registerButton").addEventListener("click", async () => {
+  clearStatus("authStatus");
 
   try {
+    const email = $("email").value.trim();
+    const password = $("password").value;
+
+    if (!email || !password) throw new Error("Enter email and password.");
+    if (password.length < 6) throw new Error("Password must be at least 6 characters.");
+
     await auth.createUserWithEmailAndPassword(email, password);
-    showMessage("accountMessage", "Account created successfully.");
-  } catch (error) {
-    showMessage("accountMessage", error.message);
+    status("authStatus", "Account created successfully.", true);
+  } catch (err) {
+    status("authStatus", friendlyError(err));
   }
-}
+});
 
-async function login() {
-  hideMessage("accountMessage");
-
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value;
-
-  if (!email || !password) {
-    showMessage("accountMessage", "Enter your email and password.");
-    return;
-  }
-
+$("logoutButton").addEventListener("click", async () => {
   try {
-    await auth.signInWithEmailAndPassword(email, password);
-    showMessage("accountMessage", "Login successful.");
-  } catch (error) {
-    showMessage("accountMessage", error.message);
+    await auth.signOut();
+    status("authStatus", "Logged out successfully.", true);
+  } catch (err) {
+    status("authStatus", friendlyError(err));
   }
+});
+
+auth.onAuthStateChanged(user => {
+  currentUser = user;
+
+  $("userStatus").textContent =
+    user ? "Logged in: " + user.email : "Not logged in.";
+
+  $("loginButton").classList.toggle("hidden", !!user);
+  $("registerButton").classList.toggle("hidden", !!user);
+  $("logoutButton").classList.toggle("hidden", !user);
+
+  if (ordersRef && ordersCallback) {
+    ordersRef.off("value", ordersCallback);
+  }
+
+  ordersRef = null;
+  ordersCallback = null;
+
+  if (user) {
+    $("ordersPanel").classList.remove("hidden");
+    loadOrders(user);
+  } else {
+    $("ordersList").textContent = "Login to see your orders.";
+  }
+});
+
+function loadOrders(user) {
+  ordersRef = db.ref("orders/" + user.uid);
+
+  ordersCallback = snapshot => {
+    const list = $("ordersList");
+    list.replaceChildren();
+
+    if (!snapshot.exists()) {
+      list.textContent = "No orders yet.";
+      return;
+    }
+
+    const orders = [];
+    snapshot.forEach(child => {
+      orders.push({id: child.key, ...child.val()});
+    });
+
+    orders.reverse().forEach(order => {
+      const box = document.createElement("div");
+      box.className = "order";
+
+      const title = document.createElement("strong");
+      title.textContent = "Order: " + (order.orderNumber || order.id);
+
+      const amount = document.createElement("p");
+      amount.textContent =
+        "Paid: ₹" + Number(order.paidNow || 0).toLocaleString("en-IN");
+
+      const state = document.createElement("p");
+      state.textContent = "Status: " + (order.status || "Order placed");
+
+      const date = document.createElement("p");
+      date.className = "muted";
+      date.textContent = order.createdAt
+        ? new Date(order.createdAt).toLocaleString()
+        : "";
+
+      box.append(title, amount, state, date);
+      list.appendChild(box);
+    });
+  };
+
+  ordersRef.on("value", ordersCallback, () => {
+    $("ordersList").textContent =
+      "Could not load orders. Check Firebase Database rules.";
+  });
 }
 
-async function logout() {
-  await auth.signOut();
-  document.getElementById("ordersSection").classList.add("hidden");
-  showMessage("accountMessage", "You have logged out.");
-}
-
-async function resetPassword() {
-  const email = document.getElementById("loginEmail").value.trim();
-
-  if (!email) {
-    showMessage("accountMessage",
-      "Enter your email address first.");
-    return;
-  }
-
-  try {
-    await auth.sendPasswordResetEmail(email);
-    showMessage("accountMessage",
-      "Password reset email sent. Check your inbox.");
-  } catch (error) {
-    showMessage("accountMessage", error.message);
-  }
-}
-
-/* ==========================================
-   RAZORPAY ORDER CREATION
-   ========================================== */
-
-async function createPaymentOrder(amountPaise, quantity, paymentType) {
-  const response = await fetch(WORKER_URL + "/create-order", {
+async function workerRequest(path, payload) {
+  const response = await fetch(WORKER_URL + path, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      amount: amountPaise,
-      quantity: quantity,
-      paymentType: paymentType
-    })
+    body: JSON.stringify(payload)
   });
 
-  const data = await response.json();
+  const data = await response.json().catch(() => ({}));
 
-  if (!response.ok || !data.order_id || !data.key_id) {
-    throw new Error(data.error || "Could not create payment order.");
+  if (!response.ok) {
+    throw new Error(data.error || "Payment server error: " + response.status);
   }
 
   return data;
 }
 
-/* ==========================================
-   PAYMENT SIGNATURE VERIFICATION
-   ========================================== */
-
-async function verifyPayment(response) {
-  const result = await fetch(WORKER_URL + "/verify-payment", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      order_id: response.razorpay_order_id,
-      payment_id: response.razorpay_payment_id,
-      signature: response.razorpay_signature
-    })
-  });
-
-  const data = await result.json();
-
-  if (!result.ok || data.verified !== true) {
-    throw new Error(data.error || "Payment verification failed.");
-  }
-
-  return data;
-}
-
-/* ==========================================
-   PLACE ORDER
-   ========================================== */
-
-async function placeOrder() {
-  if (isProcessing) return;
+$("payButton").addEventListener("click", async () => {
+  clearStatus("paymentStatus");
 
   if (!currentUser) {
-    showMessage("orderMessage",
-      "Please login or create a customer account first.");
-    showAccount();
+    status("paymentStatus", "Please login or create an account first.");
+    $("accountCard").scrollIntoView({behavior:"smooth"});
     return;
   }
 
-  const name = document.getElementById("customerName").value.trim();
-  const phone = document.getElementById("customerPhone").value.trim();
-  const address = document.getElementById("customerAddress").value.trim();
-  const quantity = Number(document.getElementById("quantity").value);
-  const paymentType = document.getElementById("paymentType").value;
-
-  if (!name || !/^[6-9]\d{9}$/.test(phone) || !address) {
-    showMessage("orderMessage",
-      "Enter your name, valid 10-digit mobile number and full delivery address.");
+  if (!window.Razorpay) {
+    status("paymentStatus", "Razorpay did not load. Reload the website and try again.");
     return;
   }
 
-  if (![1, 2, 3, 4, 5].includes(quantity)) {
-    showMessage("orderMessage", "Invalid quantity.");
-    return;
+  const name = $("customerName").value.trim();
+  const phone = $("customerPhone").value.trim();
+  const address = $("customerAddress").value.trim();
+
+  if (!name) return status("paymentStatus", "Enter your full name.");
+  if (!/^[6-9][0-9]{9}$/.test(phone)) {
+    return status("paymentStatus", "Enter a valid 10-digit mobile number.");
+  }
+  if (address.length < 10) {
+    return status("paymentStatus", "Enter your complete delivery address.");
   }
 
-  const totalRupees = PRICE * quantity;
+  const quantity = Number($("quantity").value);
+  const paymentType = $("paymentType").value;
+  const amount = (paymentType === "full" ? FULL_PRICE : ADVANCE_PRICE) * quantity;
+  const button = $("payButton");
 
-  const payRupees = paymentType === "advance"
-    ? ADVANCE_PER_PHONE * quantity
-    : totalRupees;
-
-  const amountPaise = payRupees * 100;
-
-  isProcessing = true;
-
-  const button = document.getElementById("payButton");
   button.disabled = true;
-  button.textContent = "Please wait...";
-
-  hideMessage("orderMessage");
+  button.textContent = "Starting payment...";
 
   try {
-    const order = await createPaymentOrder(
-      amountPaise,
+    const order = await workerRequest("/create-order", {
+      amount,
       quantity,
       paymentType
-    );
+    });
+
+    if (!order.order_id || !order.key_id || order.amount !== amount) {
+      throw new Error("Invalid order response from payment server.");
+    }
 
     const checkout = new Razorpay({
       key: order.key_id,
       amount: order.amount,
       currency: order.currency || "INR",
       name: "Premium Phone Store",
-      description: "Dummy / replica phone - quantity " + quantity,
+      description: "Dummy phone order",
       order_id: order.order_id,
-
       prefill: {
-        name: name,
-        email: currentUser.email || "",
+        name,
+        email: currentUser.email,
         contact: phone
       },
+      notes: {quantity: String(quantity), paymentType},
+      theme: {color: "#131921"},
 
-      notes: {
-        product: "iPhone 17 Pro Max Dummy",
-        quantity: String(quantity),
-        payment_type: paymentType
-      },
+      handler: async function (response) {
+        try {
+          status("paymentStatus", "Verifying payment...", true);
 
-      theme: {
-        color: "#131921"
-      },
+          const result = await workerRequest("/verify-payment", {
+            order_id: response.razorpay_order_id,
+            payment_id: response.razorpay_payment_id,
+            signature: response.razorpay_signature
+          });
 
-      modal: {
-        ondismiss: function() {
-          isProcessing = false;
+          if (result.verified !== true) {
+            throw new Error("Payment verification failed.");
+          }
+
+          const record = {
+            orderNumber: response.razorpay_order_id,
+            product: "iPhone 17 Pro Max Dummy Model",
+            quantity,
+            paymentType,
+            paidNow: amount / 100,
+            totalPrice: FULL_PRICE * quantity / 100,
+            remainingDue: (FULL_PRICE - (paymentType === "full" ? FULL_PRICE : ADVANCE_PRICE)) * quantity / 100,
+            customerName: name,
+            customerPhone: phone,
+            address,
+            paymentStatus: "Verified",
+            status: paymentType === "full"
+              ? "Order placed"
+              : "Advance paid - balance due",
+            paymentId: response.razorpay_payment_id,
+            createdAt: new Date().toISOString()
+          };
+
+          await db.ref("orders/" + currentUser.uid).push(record);
+
+          status("paymentStatus",
+            "Payment verified! Your order has been saved under My Orders.",
+            true);
+
+          $("ordersPanel").classList.remove("hidden");
+          $("ordersPanel").scrollIntoView({behavior:"smooth"});
+        } catch (err) {
+          status("paymentStatus",
+            "Payment may have succeeded but order saving failed. Do not pay again yet. Payment ID: " +
+            (response.razorpay_payment_id || "unavailable") +
+            ". " + err.message);
+        } finally {
           button.disabled = false;
           button.textContent = "Continue to Payment";
         }
       },
 
-      handler: async function(paymentResponse) {
-        try {
-          showMessage("orderMessage",
-            "Payment received. Verifying payment...");
-
-          /*
-            Do not mark an order as paid unless server-side
-            signature verification succeeds.
-          */
-          await verifyPayment(paymentResponse);
-
-          const record = {
-            product: "iPhone 17 Pro Max Dummy / Replica",
-            quantity: quantity,
-            totalAmount: totalRupees,
-            amountPaid: payRupees,
-            remainingBalance: totalRupees - payRupees,
-            paymentType: paymentType,
-            paymentStatus: "Signature verified",
-            orderStatus: "Payment verification recorded",
-            paymentId: paymentResponse.razorpay_payment_id,
-            razorpayOrderId: paymentResponse.razorpay_order_id,
-            customerName: name,
-            customerPhone: phone,
-            deliveryAddress: address,
-            customerEmail: currentUser.email || "",
-            createdAt: Date.now()
-          };
-
-          /*
-            This client-side record is not a substitute for
-            a secure server-side payment webhook and order writer.
-            Do not rely on it for live order fulfilment until
-            server-side authorization is configured.
-          */
-          const ALLOWED_ORIGIN = "https://nikhil5608.github.io";
-
-export default {
-  async fetch(request, env) {
-    const origin = request.headers.get("Origin") || "";
-
-    const headers = {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Vary": "Origin"
-    };
-
-    const respond = (data, status = 200) =>
-      new Response(JSON.stringify(data), {status, headers});
-
-    if (request.method === "OPTIONS") {
-      if (origin !== ALLOWED_ORIGIN) {
-        return respond({error: "Origin not allowed"}, 403);
+      modal: {
+        ondismiss: function () {
+          button.disabled = false;
+          button.textContent = "Continue to Payment";
+        }
       }
-      return new Response(null, {status: 204, headers});
-    }
+    });
 
-    if (origin !== ALLOWED_ORIGIN) {
-      return respond({
-        error: "Origin not allowed",
-        receivedOrigin: origin
-      }, 403);
-    }
+    checkout.on("payment.failed", response => {
+      status("paymentStatus",
+        "Payment failed: " +
+        (response.error?.description || "Please try again."));
+      button.disabled = false;
+      button.textContent = "Continue to Payment";
+    });
 
-    if (request.method !== "POST") {
-      return respond({error: "Use POST"}, 405);
-    }
+    checkout.open();
 
-    if (!env.RAZORPAY_KEY_ID || !env.RAZORPAY_KEY_SECRET) {
-      return respond({
-        error: "Razorpay Worker secrets are not configured"
-      }, 500);
-    }
-
-    const url = new URL(request.url);
-
-    try {
-      const body = await request.json();
-
-      if (url.pathname === "/create-order") {
-        const amount = Number(body.amount);
-        const quantity = Number(body.quantity);
-        const paymentType = body.paymentType;
-
-        if (![1, 2, 3, 4, 5].includes(quantity)) {
-          return respond({error: "Invalid quantity"}, 400);
-        }
-
-        const expectedAmount =
-          paymentType === "full"
-            ? 1800000 * quantity
-            : paymentType === "advance"
-              ? 200000 * quantity
-              : 0;
-
-        if (!expectedAmount || amount !== expectedAmount) {
-          return respond({error: "Invalid payment amount"}, 400);
-        }
-
-        const result = await fetch(
-          "https://api.razorpay.com/v1/orders",
-          {
-            method: "POST",
-            headers: {
-              "Authorization": "Basic " + btoa(
-                env.RAZORPAY_KEY_ID + ":" + env.RAZORPAY_KEY_SECRET
-              ),
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              amount: amount,
-              currency: "INR",
-              receipt: "store_" + crypto.randomUUID()
-            })
-          }
-        );
-
-        const data = await result.json();
-
-        if (!result.ok) {
-          return respond({
-            error: "Razorpay could not create the order"
-          }, 502);
-        }
-
-        return respond({
-          order_id: data.id,
-          amount: data.amount,
-          currency: data.currency,
-          key_id: env.RAZORPAY_KEY_ID
-        });
-      }
-
-      if (url.pathname === "/verify-payment") {
-        const {order_id, payment_id, signature} = body;
-
-        if (
-          typeof order_id !== "string" ||
-          typeof payment_id !== "string" ||
-          typeof signature !== "string"
-        ) {
-          return respond({error: "Missing payment details"}, 400);
-        }
-
-        if (!/^[a-f0-9]{64}$/i.test(signature)) {
-          return respond({verified: false}, 400);
-        }
-
-        const encoder = new TextEncoder();
-
-        const key = await crypto.subtle.importKey(
-          "raw",
-          encoder.encode(env.RAZORPAY_KEY_SECRET),
-          {name: "HMAC", hash: "SHA-256"},
-          false,
-          ["sign"]
-        );
-
-        const digest = await crypto.subtle.sign(
-          "HMAC",
-          key,
-          encoder.encode(order_id + "|" + payment_id)
-        );
-
-        const expected = Array.from(new Uint8Array(digest))
-          .map(b => b.toString(16).padStart(2, "0"))
-          .join("");
-
-        if (expected !== signature.toLowerCase()) {
-          return respond({verified: false}, 400);
-        }
-
-        return respond({verified: true});
-      }
-
-      return respond({error: "Endpoint not found"}, 404);
-
-    } catch (error) {
-      return respond({error: "Invalid request"}, 400);
-    }
+  } catch (err) {
+    status("paymentStatus", err.message || "Could not start checkout.");
+    button.disabled = false;
+    button.textContent = "Continue to Payment";
   }
-};
+});
+</script>
+</body>
+</html>
