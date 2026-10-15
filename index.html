@@ -847,4 +847,152 @@ async function placeOrder() {
             Do not rely on it for live order fulfilment until
             server-side authorization is configured.
           */
-          const saved = await db.ref("orders/" + curr
+          const ALLOWED_ORIGIN = "https://nikhil5608.github.io";
+
+export default {
+  async fetch(request, env) {
+    const origin = request.headers.get("Origin") || "";
+
+    const headers = {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Vary": "Origin"
+    };
+
+    const respond = (data, status = 200) =>
+      new Response(JSON.stringify(data), {status, headers});
+
+    if (request.method === "OPTIONS") {
+      if (origin !== ALLOWED_ORIGIN) {
+        return respond({error: "Origin not allowed"}, 403);
+      }
+      return new Response(null, {status: 204, headers});
+    }
+
+    if (origin !== ALLOWED_ORIGIN) {
+      return respond({
+        error: "Origin not allowed",
+        receivedOrigin: origin
+      }, 403);
+    }
+
+    if (request.method !== "POST") {
+      return respond({error: "Use POST"}, 405);
+    }
+
+    if (!env.RAZORPAY_KEY_ID || !env.RAZORPAY_KEY_SECRET) {
+      return respond({
+        error: "Razorpay Worker secrets are not configured"
+      }, 500);
+    }
+
+    const url = new URL(request.url);
+
+    try {
+      const body = await request.json();
+
+      if (url.pathname === "/create-order") {
+        const amount = Number(body.amount);
+        const quantity = Number(body.quantity);
+        const paymentType = body.paymentType;
+
+        if (![1, 2, 3, 4, 5].includes(quantity)) {
+          return respond({error: "Invalid quantity"}, 400);
+        }
+
+        const expectedAmount =
+          paymentType === "full"
+            ? 1800000 * quantity
+            : paymentType === "advance"
+              ? 200000 * quantity
+              : 0;
+
+        if (!expectedAmount || amount !== expectedAmount) {
+          return respond({error: "Invalid payment amount"}, 400);
+        }
+
+        const result = await fetch(
+          "https://api.razorpay.com/v1/orders",
+          {
+            method: "POST",
+            headers: {
+              "Authorization": "Basic " + btoa(
+                env.RAZORPAY_KEY_ID + ":" + env.RAZORPAY_KEY_SECRET
+              ),
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              amount: amount,
+              currency: "INR",
+              receipt: "store_" + crypto.randomUUID()
+            })
+          }
+        );
+
+        const data = await result.json();
+
+        if (!result.ok) {
+          return respond({
+            error: "Razorpay could not create the order"
+          }, 502);
+        }
+
+        return respond({
+          order_id: data.id,
+          amount: data.amount,
+          currency: data.currency,
+          key_id: env.RAZORPAY_KEY_ID
+        });
+      }
+
+      if (url.pathname === "/verify-payment") {
+        const {order_id, payment_id, signature} = body;
+
+        if (
+          typeof order_id !== "string" ||
+          typeof payment_id !== "string" ||
+          typeof signature !== "string"
+        ) {
+          return respond({error: "Missing payment details"}, 400);
+        }
+
+        if (!/^[a-f0-9]{64}$/i.test(signature)) {
+          return respond({verified: false}, 400);
+        }
+
+        const encoder = new TextEncoder();
+
+        const key = await crypto.subtle.importKey(
+          "raw",
+          encoder.encode(env.RAZORPAY_KEY_SECRET),
+          {name: "HMAC", hash: "SHA-256"},
+          false,
+          ["sign"]
+        );
+
+        const digest = await crypto.subtle.sign(
+          "HMAC",
+          key,
+          encoder.encode(order_id + "|" + payment_id)
+        );
+
+        const expected = Array.from(new Uint8Array(digest))
+          .map(b => b.toString(16).padStart(2, "0"))
+          .join("");
+
+        if (expected !== signature.toLowerCase()) {
+          return respond({verified: false}, 400);
+        }
+
+        return respond({verified: true});
+      }
+
+      return respond({error: "Endpoint not found"}, 404);
+
+    } catch (error) {
+      return respond({error: "Invalid request"}, 400);
+    }
+  }
+};
