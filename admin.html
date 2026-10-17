@@ -44,10 +44,19 @@ button{border:0;border-radius:8px;padding:11px 14px;cursor:pointer;font-weight:7
 <p class="hint">Shows records found under Realtime Database <code>/orders</code>, including older top-level records and newer records saved under customer UID. Do not treat an order as paid unless its payment status is verified.</p>
 <div class="toolbar">
 <input id="search" placeholder="Search name, phone, order ID or email">
-<select id="statusFilter"><option value="">All statuses</option><option>Order placed</option><option>Advance paid - balance due</option><option>Pending</option><option>Confirmed</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select>
+<select id="statusFilter"><option value="">All statuses</option><option>Order placed</option><option>Advance paid - balance due</option><option>Pending</option><option>Confirmed</option><option>Shipped</option><option>Out for Delivery</option><option>Delivered</option><option>Cancelled</option></select>
 </div>
 <div id="loadMsg" class="message hidden"></div>
 <div class="tablewrap"><table><thead><tr><th>Order / Date</th><th>Customer</th><th>Product</th><th>Amount</th><th>Payment</th><th>Order status</th><th>Update</th></tr></thead><tbody id="ordersBody"><tr><td colspan="7" class="muted">Loading orders…</td></tr></tbody></table></div>
+</div>
+<div class="card">
+  <h2>Delivery Settings</h2>
+  <p class="hint">This delivery estimate is displayed on the customer website. Default: 5–7 days.</p>
+  <div class="row">
+    <div><label for="deliveryDays">Expected delivery text</label><input id="deliveryDays" value="5–7 days" maxlength="40" placeholder="5–7 days"></div>
+    <div style="flex:0 0 150px;align-self:end"><button id="saveDelivery" class="primary" type="button">Save delivery days</button></div>
+  </div>
+  <div id="deliveryMsg" class="message hidden"></div>
 </div>
 </section>
 </main>
@@ -69,6 +78,20 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth(), db = firebase.database();
 let allOrders = [];
+db.ref("settings/deliveryDays").on("value", snap => {
+  const input = document.getElementById("deliveryDays");
+  if (input && !input.matches(":focus")) input.value = snap.val() || "5–7 days";
+});
+document.getElementById("saveDelivery").addEventListener("click", async () => {
+  const value = document.getElementById("deliveryDays").value.trim();
+  if (!value || value.length > 40) { showMsg("deliveryMsg", "Enter delivery estimate (up to 40 characters).", "error"); return; }
+  try {
+    await db.ref("settings/deliveryDays").set(value);
+    showMsg("deliveryMsg", "Delivery estimate saved.", "success");
+  } catch (err) {
+    showMsg("deliveryMsg", "Could not save. Check Firebase Database Rules: " + (err.message || err), "error");
+  }
+});
 const $ = id => document.getElementById(id);
 function rupees(v){const n=Number(v||0);return "₹"+n.toLocaleString("en-IN",{maximumFractionDigits:2});}
 function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
@@ -123,7 +146,7 @@ function renderOrders(){
   const date=o.createdAt?new Date(o.createdAt).toLocaleString("en-IN"):"—";
   const status=String(o.status||"Pending");
   const amount=Number(o.paidNow??o.amountPaid??0), due=Number(o.remainingDue??0);
-  const options=["Pending","Order placed","Advance paid - balance due","Confirmed","Shipped","Delivered","Cancelled"];
+  const options=["Pending","Order placed","Advance paid - balance due","Confirmed","Shipped","Out for Delivery","Delivered","Cancelled"];
   return `<tr>
    <td><strong>${safe(o.orderNumber||o._key)}</strong><span class="muted">${safe(date)}</span></td>
    <td><strong>${safe(o.customerName||"—")}</strong>${safe(o.customerPhone||"")}<br><span class="muted">${safe(o.customerEmail||"")}</span><br><span class="muted">${safe(o.address||"")}</span></td>
