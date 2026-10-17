@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,6 +35,7 @@ overflow-wrap:anywhere}
 .err{display:block;background:#ffeded;color:#a11}
 .order{padding:12px;border:1px solid #ddd;border-radius:7px;margin:10px 0}
 .muted{color:#667085;font-size:13px;line-height:1.5}
+.delivery-note{margin:8px 0 14px;padding:10px 12px;border-radius:6px;background:#e8f5e9;color:#166534;font-weight:bold;font-size:14px}
 .hidden{display:none!important}
 .notice{background:#fff3cd;padding:12px;border-radius:7px;margin-top:12px}
 footer{background:#232f3e;color:white;padding:22px;text-align:center}
@@ -101,7 +103,9 @@ footer{background:#232f3e;color:white;padding:22px;text-align:center}
       </select>
       <p class="muted">COD orders require ₹2,000 advance payment per phone to confirm the order. The remaining amount is payable on delivery.</p>
 
+      <div id="deliveryNote" class="delivery-note">🚚 Deliver in 5–7 days</div>
       <p id="priceSummary"></p>
+      <p class="delivery-note" aria-label="Estimated delivery time">🚚 Deliver in 5–7 days</p>
 
       <label for="customerName">Full Name</label>
       <input id="customerName" autocomplete="name" placeholder="Your full name">
@@ -183,6 +187,12 @@ firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 const db = firebase.database();
+
+db.ref("settings/deliveryDays").on("value", snapshot => {
+  const days = snapshot.val() || "5–7 days";
+  const note = document.getElementById("deliveryNote");
+  if (note) note.textContent = "🚚 Deliver in " + days;
+});
 
 let currentUser = null;
 let ordersRef = null;
@@ -336,6 +346,25 @@ function loadOrders(user) {
       const state = document.createElement("p");
       state.textContent = "Status: " + (order.status || "Order placed");
 
+      const due = document.createElement("p");
+      due.textContent = "Remaining: ₹" + Number(order.remainingDue || 0).toLocaleString("en-IN");
+
+      const delivery = document.createElement("p");
+      delivery.className = "muted";
+      delivery.textContent = "🚚 Expected delivery: " + (order.deliveryDays || "5–7 days");
+
+      const steps = ["Order placed","Confirmed","Shipped","Out for Delivery","Delivered"];
+      const aliases = {"Pending":0,"Order placed":0,"Advance paid - balance due":0,"Confirmed":1,"Shipped":2,"Out for Delivery":3,"Delivered":4,"Cancelled":-1};
+      const current = aliases[order.status || "Order placed"] ?? 0;
+      const timeline = document.createElement("div");
+      timeline.className = "timeline";
+      steps.forEach((step, index) => {
+        const item = document.createElement("div");
+        item.className = "timeline-step" + (current >= 0 && index < current ? " done" : "") + (index === current ? " current" : "");
+        item.textContent = step;
+        timeline.appendChild(item);
+      });
+
       const payment = document.createElement("p");
       payment.textContent = order.paymentType === "cod"
         ? "Payment: COD | Advance paid: ₹" + Number(order.paidNow || 0).toLocaleString("en-IN") +
@@ -348,7 +377,7 @@ function loadOrders(user) {
         ? new Date(order.createdAt).toLocaleString()
         : "";
 
-      box.append(title, amount, payment, state, date);
+      box.append(title, amount, payment, state, due, delivery, timeline, date);
       list.appendChild(box);
     });
   };
