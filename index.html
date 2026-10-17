@@ -3,67 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Premium Phone Store</title>
+<title>Unique Gadget Store</title>
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f6fb;color:#182230}
-header{background:linear-gradient(110deg,#06264a,#0b3a68);color:white;padding:15px 22px;display:flex;
-align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.logo{font-size:22px;font-weight:bold}
-.logo span{color:#febd69}
-button{cursor:pointer;border:0;border-radius:6px;padding:11px 15px}
-.topbtn{background:#232f3e;color:white;border:1px solid #777}
-main{max-width:1250px;margin:20px auto;padding:0 16px}
-.hero{background:white;padding:24px;border-radius:12px;border:1px solid #e0e7f0;box-shadow:0 3px 12px #0b254014}
-.hero h1{font-size:32px}
-.gallery{display:flex;gap:12px;overflow-x:auto;padding:15px 0}
-.gallery img,.gallery video{width:210px;height:190px;object-fit:cover;
-flex-shrink:0;border-radius:8px;background:white;border:1px solid #ddd}
-.layout{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.card{background:white;padding:22px;border-radius:12px;border:1px solid #e0e7f0;box-shadow:0 3px 12px #0b254014;margin-bottom:15px}
-.price{font-size:28px;color:#b12704;font-weight:bold}
-label{display:block;font-weight:bold;margin:12px 0 5px}
-input,select,textarea{width:100%;padding:12px;border:1px solid #bbb;
-border-radius:6px}
-.primary{width:100%;background:#075fe4;color:white;margin-top:12px;font-weight:bold}
-.secondary{background:#eee;margin:5px 3px 5px 0}
-.status{padding:10px;margin-top:10px;border-radius:5px;display:none;
-overflow-wrap:anywhere}
-.ok{display:block;background:#e3f7e9;color:#166534}
-.err{display:block;background:#ffeded;color:#a11}
-.order{padding:16px;border:1px solid #e0e7f0;border-radius:10px;margin:12px 0;background:#fff}
-.muted{color:#667085;font-size:13px;line-height:1.5}
-.delivery-note{margin:10px 0 14px;padding:12px 14px;border:2px solid #12c875;border-radius:8px;background:#f1fbf7;color:#075fc9;font-weight:bold;font-size:15px}
-.timeline{display:flex;align-items:stretch;gap:0;margin:16px 0 12px;padding:12px 4px 4px;overflow-x:auto;border-radius:8px;background:#f8fafc}
-.timeline-step{position:relative;flex:1;min-width:92px;text-align:center;padding:30px 7px 7px;font-size:12px;color:#667085;font-weight:700}
-.timeline-step:before{content:"";position:absolute;top:7px;left:calc(50% - 10px);width:20px;height:20px;border-radius:50%;background:#e2e8f0;border:2px solid #cbd5e1;z-index:2}
-.timeline-step:after{content:"";position:absolute;top:16px;left:0;width:100%;height:3px;background:#d7dee8;z-index:1}
-.timeline-step:first-child:after{left:50%;width:50%}.timeline-step:last-child:after{width:50%}
-.timeline-step.done,.timeline-step.current{color:#075fc9}.timeline-step.done:before{background:#13b76b;border-color:#13b76b;box-shadow:inset 0 0 0 5px #13b76b}.timeline-step.current:before{background:#0866e8;border-color:#0866e8;box-shadow:0 0 0 4px #dbeafe}.timeline-step.done:after{background:#13b76b}
-.hidden{display:none!important}
-.notice{background:#fff3cd;padding:12px;border-radius:7px;margin-top:12px}
-footer{background:#232f3e;color:white;padding:22px;text-align:center}
-@media(max-width:700px){
- .timeline-step{min-width:105px;font-size:11px}
- .layout{grid-template-columns:1fr}
- .hero h1{font-size:25px}
- .gallery img,.gallery video{width:175px;height:160px}
-}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:#f4f6fa;color:#172033}header{background:linear-gradient(110deg,#101827,#263b59);color:white;padding:15px max(18px,calc((100% - 1240px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;box-shadow:0 5px 22px #10182724}.logo{font-size:21px;font-weight:850;letter-spacing:-.5px}.logo span{color:#f7c65e}button{cursor:pointer;border:0;border-radius:9px;padding:11px 15px;font-weight:750}.topbtn{background:#ffffff12;color:white;border:1px solid #ffffff35}.topbtn:hover{background:#ffffff24}main{max-width:1240px;margin:24px auto;padding:0 18px}.hero{background:linear-gradient(120deg,#111b2d,#2b4568);color:white;padding:30px;border-radius:18px;border:1px solid #ffffff12;box-shadow:0 12px 35px #0b254018}.hero h1{font-size:clamp(28px,4vw,40px);letter-spacing:-1.2px;margin:0 0 10px}.hero p{line-height:1.7;color:#d2dbea}.gallery{display:flex;gap:12px;overflow-x:auto;padding:12px 0;scroll-snap-type:x mandatory}.gallery img,.gallery video{width:100%;max-width:720px;height:330px;object-fit:contain;flex-shrink:0;scroll-snap-align:center;border-radius:13px;background:linear-gradient(145deg,#f8f9fc,#e9edf5);border:1px solid #e1e6ef;padding:12px}.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}.card{background:white;padding:22px;border-radius:16px;border:1px solid #e3e8f0;box-shadow:0 6px 22px #0b254009;margin-bottom:16px}.price{font-size:30px;color:#9d3a12;font-weight:900;letter-spacing:-.8px}label{display:block;font-weight:800;font-size:13px;margin:13px 0 6px}input,select,textarea{width:100%;padding:12px 13px;border:1px solid #d5dce8;border-radius:9px;background:#fff;color:#172033;outline:0}input:focus,select:focus,textarea:focus{border-color:#6286e8;box-shadow:0 0 0 3px #2457d615}.primary{width:100%;background:linear-gradient(100deg,#f8ce6c,#f2b23c);color:#172033;margin-top:12px;font-weight:900}.secondary{background:#edf1f8;color:#26364d;margin:5px 3px 5px 0}.status{padding:11px 13px;margin-top:10px;border-radius:9px;display:none;overflow-wrap:anywhere;font-size:13px;line-height:1.5}.ok{display:block;background:#e5f8ed;color:#166534}.err{display:block;background:#ffeded;color:#a11}.order{padding:17px;border:1px solid #e3e8f0;border-radius:13px;margin:12px 0;background:#fff}.muted{color:#667085;font-size:13px;line-height:1.6}.delivery-note{margin:12px 0 14px;padding:13px 14px;border:1px solid #bce8cc;border-radius:10px;background:#effaf3;color:#12643c;font-weight:800;font-size:14px}.timeline{display:flex;align-items:stretch;gap:0;margin:16px 0 12px;padding:12px 4px 4px;overflow-x:auto;border-radius:10px;background:#f7f9fc}.timeline-step{position:relative;flex:1;min-width:92px;text-align:center;padding:30px 7px 7px;font-size:11px;color:#667085;font-weight:800}.timeline-step:before{content:"";position:absolute;top:7px;left:calc(50% - 10px);width:20px;height:20px;border-radius:50%;background:#e2e8f0;border:2px solid #cbd5e1;z-index:2}.timeline-step:after{content:"";position:absolute;top:16px;left:0;width:100%;height:3px;background:#d7dee8;z-index:1}.timeline-step:first-child:after{left:50%;width:50%}.timeline-step:last-child:after{width:50%}.timeline-step.done,.timeline-step.current{color:#075fc9}.timeline-step.done:before{background:#13b76b;border-color:#13b76b}.timeline-step.current:before{background:#0866e8;border-color:#0866e8;box-shadow:0 0 0 4px #dbeafe}.timeline-step.done:after{background:#13b76b}.hidden{display:none!important}.notice{background:#fff8e8;border:1px solid #f0dca9;color:#775319;padding:13px 15px;border-radius:10px;margin-top:16px;line-height:1.6;font-size:13px}footer{background:#101827;color:#d5ddeb;padding:25px;text-align:center;margin-top:34px}@media(max-width:720px){.layout{grid-template-columns:1fr}.hero{padding:24px}.gallery img,.gallery video{height:250px}.card{padding:18px}header{padding:14px 16px}.logo{font-size:18px}}
 </style>
 </head>
 
 <body>
 
 <header>
-  <div class="logo">Premium <span>Phone Store</span></div>
+  <div class="logo">Unique <span>Gadget Store</span></div>
   <button class="topbtn" id="accountButton">👤 Login / Account</button>
   <button class="topbtn" id="ordersButton">📦 My Orders</button>
 </header>
 
 <main>
   <section class="hero">
-    <h1>Premium Phone Store</h1>
+    <h1>Unique Gadget Store</h1>
     <p>Explore our phone collection and place your order online.</p>
     <p class="muted">Product information and payment details are shown below.</p>
   </section>
@@ -73,7 +30,7 @@ footer{background:#232f3e;color:white;padding:22px;text-align:center}
     not an original Apple iPhone. Please verify the product details before ordering.
   </div>
 
-  <h2>Product Photos & Video</h2>
+  <h2>Product Photos & Video</h2><p class="muted">Swipe or scroll horizontally to view one photo at a time.</p>
 
   <div class="gallery">
     <img src="IMG-20261014-WA0003.jpg" alt="Product photo 1">
@@ -89,8 +46,9 @@ footer{background:#232f3e;color:white;padding:22px;text-align:center}
   <div class="layout">
 
     <section class="card" id="productCard">
-      <h2>iPhone 17 Pro Max — Dummy Model</h2>
-      <div class="price">₹18,000</div>
+      <label for="productSelect">Choose a product</label><select id="productSelect"><option value="default-iphone">iPhone 17 Pro Max — Dummy Model</option></select>
+      <h2 id="selectedProductName">iPhone 17 Pro Max — Dummy Model</h2>
+      <div class="price" id="selectedProductPrice">₹18,000</div>
       <p class="muted">Price per phone.</p>
 
       <label for="quantity">Quantity</label>
@@ -161,7 +119,7 @@ footer{background:#232f3e;color:white;padding:22px;text-align:center}
   </div>
 </main>
 
-<footer>Premium Phone Store</footer>
+<footer>Unique Gadget Store</footer>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -185,8 +143,9 @@ const firebaseConfig = {
 const WORKER_URL =
   "https://divine-paper-5c52.nikhil69z5s.workers.dev";
 
-const FULL_PRICE = 1800000;
-const ADVANCE_PRICE = 200000;
+let FULL_PRICE = 1800000;
+let ADVANCE_PRICE = 200000;
+let activeProduct = {id:"default-iphone",name:"iPhone 17 Pro Max — Dummy Model",price:18000,advance:2000,images:["IMG-20261014-WA0003.jpg","IMG-20261014-WA0006.jpg","IMG-20261014-WA0007.jpg","IMG-20261014-WA0008.jpg","IMG-20261014-WA0009.jpg"]};
 
 firebase.initializeApp(firebaseConfig);
 
@@ -198,6 +157,24 @@ db.ref("settings/deliveryDays").on("value", snapshot => {
   const note = document.getElementById("deliveryNote");
   if (note) note.textContent = "🚚 Deliver in " + days;
 });
+function renderSelectedProduct(p) {
+  activeProduct = p; FULL_PRICE = Math.round(Number(p.price || 18000) * 100); ADVANCE_PRICE = Math.round(Number(p.advance ?? 2000) * 100);
+  $("selectedProductName").textContent = p.name || "Gadget";
+  $("selectedProductPrice").textContent = "₹" + Number(p.price || 0).toLocaleString("en-IN");
+  const imgs = Array.isArray(p.images) ? p.images.filter(Boolean) : [];
+  const gallery = document.querySelector(".gallery");
+  if (gallery && imgs.length) gallery.innerHTML = imgs.map((src,i)=>`<img src="${String(src).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}" alt="${String(p.name||"Product").replace(/</g,"&lt;")}, photo ${i+1}">`).join("");
+  updatePrice();
+}
+db.ref("products").on("value", snap => {
+  const raw = snap.val() || {}; const available = Object.entries(raw).filter(([,p])=>p && p.active !== false).map(([id,p])=>({...p,id}));
+  const select = $("productSelect"); const previous = select.value;
+  select.innerHTML = "";
+  if (!available.length) available.push({id:"default-iphone",name:"iPhone 17 Pro Max — Dummy Model",price:18000,advance:2000,images:["IMG-20261014-WA0003.jpg","IMG-20261014-WA0006.jpg","IMG-20261014-WA0007.jpg","IMG-20261014-WA0008.jpg","IMG-20261014-WA0009.jpg"]});
+  available.forEach(p=>{const opt=document.createElement("option");opt.value=p.id;opt.textContent=p.name;select.appendChild(opt)});
+  const chosen=available.find(p=>p.id===previous)||available[0];select.value=chosen.id;renderSelectedProduct(chosen);
+});
+$("productSelect").addEventListener("change", async()=>{const snap=await db.ref("products/"+$("productSelect").value).once("value");const p=snap.val();if(p)renderSelectedProduct({...p,id:$("productSelect").value});else renderSelectedProduct({id:"default-iphone",name:"iPhone 17 Pro Max — Dummy Model",price:18000,advance:2000});});
 
 let currentUser = null;
 let ordersRef = null;
@@ -450,101 +427,4 @@ $("payButton").addEventListener("click", async () => {
       paymentType: paymentType === "cod" ? "advance" : paymentType
     });
 
-    if (!order.order_id || !order.key_id || order.amount !== amount) {
-      throw new Error("Invalid order response from payment server.");
-    }
-
-    const checkout = new Razorpay({
-      key: order.key_id,
-      amount: order.amount,
-      currency: order.currency || "INR",
-      name: "Premium Phone Store",
-      description: "Dummy phone order",
-      order_id: order.order_id,
-      prefill: {
-        name,
-        email: currentUser.email,
-        contact: phone
-      },
-      notes: {quantity: String(quantity), paymentType},
-      theme: {color: "#131921"},
-
-      handler: async function (response) {
-        try {
-          status("paymentStatus", "Verifying payment...", true);
-
-          const result = await workerRequest("/verify-payment", {
-            order_id: response.razorpay_order_id,
-            payment_id: response.razorpay_payment_id,
-            signature: response.razorpay_signature
-          });
-
-          if (result.verified !== true) {
-            throw new Error("Payment verification failed.");
-          }
-
-          const record = {
-            orderNumber: response.razorpay_order_id,
-            product: "iPhone 17 Pro Max Dummy Model",
-            quantity,
-            paymentType,
-            paidNow: amount / 100,
-            totalPrice: FULL_PRICE * quantity / 100,
-            remainingDue: (FULL_PRICE - (paymentType === "full" ? FULL_PRICE : ADVANCE_PRICE)) * quantity / 100,
-            customerName: name,
-            customerPhone: phone,
-            address,
-            paymentStatus: "Verified",
-            status: paymentType === "full"
-              ? "Order placed"
-              : "COD order confirmed - advance paid; balance due on delivery",
-            paymentId: response.razorpay_payment_id,
-            createdAt: new Date().toISOString()
-          };
-
-          await db.ref("orders/" + currentUser.uid).push(record);
-
-          status("paymentStatus",
-            "Payment verified! Your order has been saved under My Orders.",
-            true);
-
-          $("ordersPanel").classList.remove("hidden");
-          $("ordersPanel").scrollIntoView({behavior:"smooth"});
-        } catch (err) {
-          status("paymentStatus",
-            "Payment may have succeeded but order saving failed. Do not pay again yet. Payment ID: " +
-            (response.razorpay_payment_id || "unavailable") +
-            ". " + err.message);
-        } finally {
-          button.disabled = false;
-          button.textContent = "Continue to Payment";
-        }
-      },
-
-      modal: {
-        ondismiss: function () {
-          button.disabled = false;
-          button.textContent = "Continue to Payment";
-        }
-      }
-    });
-
-    checkout.on("payment.failed", response => {
-      status("paymentStatus",
-        "Payment failed: " +
-        (response.error?.description || "Please try again."));
-      button.disabled = false;
-      button.textContent = "Continue to Payment";
-    });
-
-    checkout.open();
-
-  } catch (err) {
-    status("paymentStatus", err.message || "Could not start checkout.");
-    button.disabled = false;
-    button.textContent = "Continue to Payment";
-  }
-});
-</script>
-</body>
-</html>
+    if (!order.order_id || !order.key_id || order.amount !
