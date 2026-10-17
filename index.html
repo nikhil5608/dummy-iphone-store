@@ -97,8 +97,9 @@ footer{background:#232f3e;color:white;padding:22px;text-align:center}
       <label for="paymentType">Payment Option</label>
       <select id="paymentType">
         <option value="full">Pay Full Amount Online</option>
-        <option value="advance">Pay ₹2,000 Advance Per Phone</option>
+        <option value="cod">Cash on Delivery (Pay ₹2,000 Advance Online)</option>
       </select>
+      <p class="muted">COD orders require ₹2,000 advance payment per phone to confirm the order. The remaining amount is payable on delivery.</p>
 
       <p id="priceSummary"></p>
 
@@ -202,14 +203,14 @@ function clearStatus(id) {
 
 function updatePrice() {
   const qty = Number($("quantity").value);
-  const advance = $("paymentType").value === "advance";
+  const advance = $("paymentType").value === "cod";
   const payNow = (advance ? ADVANCE_PRICE : FULL_PRICE) * qty / 100;
   const remaining = (FULL_PRICE - (advance ? ADVANCE_PRICE : FULL_PRICE))
                     * qty / 100;
 
   $("priceSummary").textContent = advance
-    ? `Advance payable now: ₹${payNow.toLocaleString("en-IN")}. Remaining: ₹${remaining.toLocaleString("en-IN")}.`
-    : `Total payable now: ₹${payNow.toLocaleString("en-IN")}.`;
+    ? `COD order: ₹${payNow.toLocaleString("en-IN")} advance payable online now. Remaining ₹${remaining.toLocaleString("en-IN")} payable on delivery.`
+    : `Total payable online now: ₹${payNow.toLocaleString("en-IN")}.`;
 }
 
 $("quantity").addEventListener("change", updatePrice);
@@ -335,13 +336,19 @@ function loadOrders(user) {
       const state = document.createElement("p");
       state.textContent = "Status: " + (order.status || "Order placed");
 
+      const payment = document.createElement("p");
+      payment.textContent = order.paymentType === "cod"
+        ? "Payment: COD | Advance paid: ₹" + Number(order.paidNow || 0).toLocaleString("en-IN") +
+          " | Balance due on delivery: ₹" + Number(order.remainingDue || 0).toLocaleString("en-IN")
+        : "Payment: Full online payment";
+
       const date = document.createElement("p");
       date.className = "muted";
       date.textContent = order.createdAt
         ? new Date(order.createdAt).toLocaleString()
         : "";
 
-      box.append(title, amount, state, date);
+      box.append(title, amount, payment, state, date);
       list.appendChild(box);
     });
   };
@@ -406,7 +413,7 @@ $("payButton").addEventListener("click", async () => {
     const order = await workerRequest("/create-order", {
       amount,
       quantity,
-      paymentType
+      paymentType: paymentType === "cod" ? "advance" : paymentType
     });
 
     if (!order.order_id || !order.key_id || order.amount !== amount) {
@@ -456,7 +463,7 @@ $("payButton").addEventListener("click", async () => {
             paymentStatus: "Verified",
             status: paymentType === "full"
               ? "Order placed"
-              : "Advance paid - balance due",
+              : "COD order confirmed - advance paid; balance due on delivery",
             paymentId: response.razorpay_payment_id,
             createdAt: new Date().toISOString()
           };
