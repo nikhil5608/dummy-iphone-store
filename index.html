@@ -80,7 +80,7 @@ body{background:#f7f8fc;color:#17243a}header{background:#1265d8;padding:12px max
                 autocomplete="street-address"
                 placeholder="Full delivery address"></textarea>
 
-      <button class="primary" id="payButton">Continue to Payment</button>
+      <button class="primary" id="payButton">Buy Now</button>
       <div id="paymentStatus" class="status"></div>
 
       <p class="muted">
@@ -176,4 +176,387 @@ function renderSelectedProduct(p) {
   $("selectedProductPrice").textContent = "₹" + Number(p.price || 0).toLocaleString("en-IN");
   const imgs = Array.isArray(p.images) ? p.images.filter(Boolean) : [];
   const gallery = document.querySelector(".gallery");
-  if (gallery && imgs.length) gallery.innerHTML = imgs.map((src,i)=>`<img src="${String(src).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",
+  if (gallery && imgs.length) gallery.innerHTML = imgs.map((src,i)=>`<img src="${String(src).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}" alt="${String(p.name||"Product").replace(/</g,"&lt;")}, photo ${i+1}">`).join("");
+  updatePrice();
+}
+function renderPopularProducts(products) {
+  const grid = $("popularProducts");
+  if (!grid) return;
+  const q = ( $("marketSearch")?.value || "" ).trim().toLowerCase();
+  const list = products.filter(p => !q || String(p.name || "").toLowerCase().includes(q) || String(p.description || "").toLowerCase().includes(q));
+  if (!list.length) { grid.innerHTML = '<div class="product-empty">No matching products found. Admin Panel मधून product add करा.</div>'; return; }
+  grid.innerHTML = "";
+  list.forEach(p => {
+    const card = document.createElement("article"); card.className = "popular-product";
+    const img = document.createElement("img"); img.src = (Array.isArray(p.images) && p.images[0]) || p.image || "IMG-20261014-WA0003.jpg"; img.alt = p.name || "Gadget"; img.onerror = () => { img.style.visibility = "hidden"; };
+    const name = document.createElement("h3"); name.textContent = p.name || "Gadget";
+    const price = document.createElement("div"); price.className = "product-card-price"; price.textContent = "₹" + Number(p.price || 0).toLocaleString("en-IN");
+    const advance = document.createElement("div"); advance.className = "mini-advance"; advance.textContent = "Advance: ₹" + Number(p.advance ?? 2000).toLocaleString("en-IN");
+    const btn = document.createElement("button"); btn.type = "button"; btn.textContent = "Buy Now"; btn.addEventListener("click", () => { const sel = $("productSelect"); if (sel) { sel.value = p.id; sel.dispatchEvent(new Event("change", {bubbles:true})); } $("productCard")?.scrollIntoView({behavior:"smooth",block:"start"}); });
+    card.append(img,name,price,advance,btn); grid.appendChild(card);
+  });
+}
+let cachedProducts = [];
+if (marketSearch) marketSearch.addEventListener("input", () => renderPopularProducts(cachedProducts));
+
+db.ref("products").on("value", snap => {
+  const raw = snap.val() || {}; const available = Object.entries(raw).filter(([,p])=>p && p.active !== false).map(([id,p])=>({...p,id}));
+  const select = $("productSelect"); const previous = select.value;
+  select.innerHTML = "";
+  if (!available.length) available.push({id:"default-iphone",name:"iPhone 17 Pro Max — Dummy Model",price:18000,advance:2000,images:["IMG-20261014-WA0003.jpg","IMG-20261014-WA0006.jpg","IMG-20261014-WA0007.jpg","IMG-20261014-WA0008.jpg","IMG-20261014-WA0009.jpg"]});
+  available.forEach(p=>{const opt=document.createElement("option");opt.value=p.id;opt.textContent=p.name;select.appendChild(opt)});
+  cachedProducts = available; renderPopularProducts(available);
+  const chosen=available.find(p=>p.id===previous)||available[0];select.value=chosen.id;renderSelectedProduct(chosen);
+});
+$("productSelect").addEventListener("change", async()=>{const snap=await db.ref("products/"+$("productSelect").value).once("value");const p=snap.val();if(p)renderSelectedProduct({...p,id:$("productSelect").value});else renderSelectedProduct({id:"default-iphone",name:"iPhone 17 Pro Max — Dummy Model",price:18000,advance:2000});});
+
+let currentUser = null;
+let ordersRef = null;
+let ordersCallback = null;
+
+const $ = id => document.getElementById(id);
+
+function status(id, message, success = false) {
+  const el = $(id);
+  el.textContent = message;
+  el.className = "status " + (success ? "ok" : "err");
+}
+
+function clearStatus(id) {
+  $(id).textContent = "";
+  $(id).className = "status";
+}
+
+function updatePrice() {
+  const qty = Number($("quantity").value);
+  const advance = $("paymentType").value === "cod";
+  const payNow = (advance ? ADVANCE_PRICE : FULL_PRICE) * qty / 100;
+  const remaining = (FULL_PRICE - (advance ? ADVANCE_PRICE : FULL_PRICE))
+                    * qty / 100;
+
+  $("priceSummary").textContent = advance
+    ? `COD order: ₹${payNow.toLocaleString("en-IN")} advance payable online now. Remaining ₹${remaining.toLocaleString("en-IN")} payable on delivery.`
+    : `Total payable online now: ₹${payNow.toLocaleString("en-IN")}.`;
+}
+
+$("quantity").addEventListener("change", updatePrice);
+$("paymentType").addEventListener("change", updatePrice);
+updatePrice();
+
+$("accountButton").addEventListener("click", () => {
+  $("accountCard").scrollIntoView({behavior:"smooth"});
+});
+
+$("ordersButton").addEventListener("click", () => {
+  $("ordersPanel").classList.remove("hidden");
+  $("ordersPanel").scrollIntoView({behavior:"smooth"});
+});
+
+function friendlyError(err) {
+  const messages = {
+    "auth/email-already-in-use": "This email is already registered. Please log in.",
+    "auth/invalid-email": "Enter a valid email address.",
+    "auth/weak-password": "Password must contain at least 6 characters.",
+    "auth/invalid-credential": "Email or password is incorrect.",
+    "auth/operation-not-allowed": "Enable Email/Password sign-in in Firebase.",
+    "auth/network-request-failed": "Network error. Check your internet."
+  };
+  return messages[err.code] || err.message || "Something went wrong.";
+}
+
+$("loginButton").addEventListener("click", async () => {
+  clearStatus("authStatus");
+
+  try {
+    const email = $("email").value.trim();
+    const password = $("password").value;
+
+    if (!email || !password) throw new Error("Enter email and password.");
+
+    await auth.signInWithEmailAndPassword(email, password);
+    status("authStatus", "Login successful.", true);
+  } catch (err) {
+    status("authStatus", friendlyError(err));
+  }
+});
+
+$("registerButton").addEventListener("click", async () => {
+  clearStatus("authStatus");
+
+  try {
+    const email = $("email").value.trim();
+    const password = $("password").value;
+
+    if (!email || !password) throw new Error("Enter email and password.");
+    if (password.length < 6) throw new Error("Password must be at least 6 characters.");
+
+    await auth.createUserWithEmailAndPassword(email, password);
+    status("authStatus", "Account created successfully.", true);
+  } catch (err) {
+    status("authStatus", friendlyError(err));
+  }
+});
+
+$("logoutButton").addEventListener("click", async () => {
+  try {
+    await auth.signOut();
+    status("authStatus", "Logged out successfully.", true);
+  } catch (err) {
+    status("authStatus", friendlyError(err));
+  }
+});
+
+auth.onAuthStateChanged(user => {
+  currentUser = user;
+
+  $("userStatus").textContent =
+    user ? "Logged in: " + user.email : "Not logged in.";
+
+  $("loginButton").classList.toggle("hidden", !!user);
+  $("registerButton").classList.toggle("hidden", !!user);
+  $("logoutButton").classList.toggle("hidden", !user);
+
+  if (ordersRef && ordersCallback) {
+    ordersRef.off("value", ordersCallback);
+  }
+
+  ordersRef = null;
+  ordersCallback = null;
+
+  if (user) {
+    $("ordersPanel").classList.remove("hidden");
+    loadOrders(user);
+  } else {
+    $("ordersList").textContent = "Login to see your orders.";
+  }
+});
+
+function loadOrders(user) {
+  ordersRef = db.ref("orders/" + user.uid);
+
+  ordersCallback = snapshot => {
+    const list = $("ordersList");
+    list.replaceChildren();
+
+    if (!snapshot.exists()) {
+      list.textContent = "No orders yet.";
+      return;
+    }
+
+    const orders = [];
+    snapshot.forEach(child => {
+      orders.push({id: child.key, ...child.val()});
+    });
+
+    orders.reverse().forEach(order => {
+      const box = document.createElement("div");
+      box.className = "order";
+
+      const title = document.createElement("strong");
+      title.textContent = "Order: " + (order.orderNumber || order.id);
+
+      const amount = document.createElement("p");
+      amount.textContent =
+        "Paid: ₹" + Number(order.paidNow || 0).toLocaleString("en-IN");
+
+      const state = document.createElement("p");
+      state.textContent = "Status: " + (order.status || "Order placed");
+
+      const due = document.createElement("p");
+      due.textContent = "Remaining: ₹" + Number(order.remainingDue || 0).toLocaleString("en-IN");
+
+      const delivery = document.createElement("p");
+      delivery.className = "muted";
+      delivery.textContent = "🚚 Expected delivery: " + (order.deliveryDays || "5–7 days");
+
+      const steps = ["Order placed","Confirmed","Shipped","Out for Delivery","Delivered"];
+      const aliases = {"Pending":0,"Order placed":0,"Advance paid - balance due":0,"Confirmed":1,"Shipped":2,"Out for Delivery":3,"Delivered":4,"Cancelled":-1};
+      const current = aliases[order.status || "Order placed"] ?? 0;
+      const timeline = document.createElement("div");
+      timeline.className = "timeline";
+      steps.forEach((step, index) => {
+        const item = document.createElement("div");
+        item.className = "timeline-step" + (current >= 0 && index < current ? " done" : "") + (index === current ? " current" : "");
+        item.textContent = step;
+        timeline.appendChild(item);
+      });
+
+      const payment = document.createElement("p");
+      payment.textContent = order.paymentType === "cod"
+        ? "Payment: COD | Advance paid: ₹" + Number(order.paidNow || 0).toLocaleString("en-IN") +
+          " | Balance due on delivery: ₹" + Number(order.remainingDue || 0).toLocaleString("en-IN")
+        : "Payment: Full online payment";
+
+      const date = document.createElement("p");
+      date.className = "muted";
+      date.textContent = order.createdAt
+        ? new Date(order.createdAt).toLocaleString()
+        : "";
+
+      box.append(title, amount, payment, state, due, delivery, timeline, date);
+      list.appendChild(box);
+    });
+  };
+
+  ordersRef.on("value", ordersCallback, () => {
+    $("ordersList").textContent =
+      "Could not load orders. Check Firebase Database rules.";
+  });
+}
+
+async function workerRequest(path, payload) {
+  const response = await fetch(WORKER_URL + path, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(payload)
+  });
+
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(data.error || "Payment server error: " + response.status);
+  }
+
+  return data;
+}
+
+$("payButton").addEventListener("click", async () => {
+  clearStatus("paymentStatus");
+
+  if (!currentUser) {
+    status("paymentStatus", "Please login or create an account first.");
+    $("accountCard").scrollIntoView({behavior:"smooth"});
+    return;
+  }
+
+  if (!window.Razorpay) {
+    status("paymentStatus", "Razorpay did not load. Reload the website and try again.");
+    return;
+  }
+
+  const name = $("customerName").value.trim();
+  const phone = $("customerPhone").value.trim();
+  const address = $("customerAddress").value.trim();
+
+  if (!name) return status("paymentStatus", "Enter your full name.");
+  if (!/^[6-9][0-9]{9}$/.test(phone)) {
+    return status("paymentStatus", "Enter a valid 10-digit mobile number.");
+  }
+  if (address.length < 10) {
+    return status("paymentStatus", "Enter your complete delivery address.");
+  }
+
+  const quantity = Number($("quantity").value);
+  const paymentType = $("paymentType").value;
+  const amount = (paymentType === "full" ? FULL_PRICE : ADVANCE_PRICE) * quantity;
+  const button = $("payButton");
+
+  button.disabled = true;
+  button.textContent = "Starting payment...";
+
+  try {
+    const order = await workerRequest("/create-order", {
+      amount,
+      quantity,
+      paymentType: paymentType === "cod" ? "advance" : paymentType
+    });
+
+    if (!order.order_id || !order.key_id || order.amount !== amount) {
+      throw new Error("Invalid order response from payment server.");
+    }
+
+    const checkout = new Razorpay({
+      key: order.key_id,
+      amount: order.amount,
+      currency: order.currency || "INR",
+      name: "Unique Gadget Store",
+      description: activeProduct.name || "Gadget order",
+      order_id: order.order_id,
+      prefill: {
+        name,
+        email: currentUser.email,
+        contact: phone
+      },
+      notes: {quantity: String(quantity), paymentType},
+      theme: {color: "#131921"},
+
+      handler: async function (response) {
+        try {
+          status("paymentStatus", "Verifying payment...", true);
+
+          const result = await workerRequest("/verify-payment", {
+            order_id: response.razorpay_order_id,
+            payment_id: response.razorpay_payment_id,
+            signature: response.razorpay_signature
+          });
+
+          if (result.verified !== true) {
+            throw new Error("Payment verification failed.");
+          }
+
+          const record = {
+            orderNumber: response.razorpay_order_id,
+            product: activeProduct.name || "Gadget",
+            productId: activeProduct.id,
+            quantity,
+            paymentType,
+            paidNow: amount / 100,
+            totalPrice: FULL_PRICE * quantity / 100,
+            remainingDue: (FULL_PRICE - (paymentType === "full" ? FULL_PRICE : ADVANCE_PRICE)) * quantity / 100,
+            customerName: name,
+            customerPhone: phone,
+            address,
+            paymentStatus: "Verified",
+            status: paymentType === "full"
+              ? "Order placed"
+              : "COD order confirmed - advance paid; balance due on delivery",
+            paymentId: response.razorpay_payment_id,
+            createdAt: new Date().toISOString()
+          };
+
+          await db.ref("orders/" + currentUser.uid).push(record);
+
+          status("paymentStatus",
+            "Payment verified! Your order has been saved under My Orders.",
+            true);
+
+          $("ordersPanel").classList.remove("hidden");
+          $("ordersPanel").scrollIntoView({behavior:"smooth"});
+        } catch (err) {
+          status("paymentStatus",
+            "Payment may have succeeded but order saving failed. Do not pay again yet. Payment ID: " +
+            (response.razorpay_payment_id || "unavailable") +
+            ". " + err.message);
+        } finally {
+          button.disabled = false;
+          button.textContent = "Continue to Payment";
+        }
+      },
+
+      modal: {
+        ondismiss: function () {
+          button.disabled = false;
+          button.textContent = "Continue to Payment";
+        }
+      }
+    });
+
+    checkout.on("payment.failed", response => {
+      status("paymentStatus",
+        "Payment failed: " +
+        (response.error?.description || "Please try again."));
+      button.disabled = false;
+      button.textContent = "Continue to Payment";
+    });
+
+    checkout.open();
+
+  } catch (err) {
+    status("paymentStatus", err.message || "Could not start checkout.");
+    button.disabled = false;
+    button.textContent = "Continue to Payment";
+  }
+});
+</script>
+</body>
+</html>
