@@ -3,25 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Premium Phone Store | Admin</title>
+<title>Unique Gadget Store | Admin</title>
 <style>
-:root{--navy:#06264a;--navy2:#0b3a68;--gold:#0866e8;--bg:#f3f6fb;--ink:#182230;--muted:#667085;--line:#e0e7f0;--green:#067647;--red:#b42318}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
-header{background:linear-gradient(110deg,var(--navy),var(--navy2));color:#fff;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-header h1{font-size:20px;margin:0}header small{color:#e8edf4}
-main{max-width:1200px;margin:22px auto;padding:0 14px}.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:0 3px 12px #0b254014}
-h2{font-size:18px;margin:0 0 14px}.hint{font-size:13px;color:var(--muted);line-height:1.5}
-label{display:block;font-size:13px;font-weight:700;margin:12px 0 6px}input,button,select{font:inherit}input{width:100%;padding:12px;border:1px solid #cfd4dc;border-radius:8px}
-button{border:0;border-radius:8px;padding:11px 14px;cursor:pointer;font-weight:700}.primary{background:var(--gold);color:#fff}.dark{background:var(--navy2);color:#fff}.light{background:#eef2f6;color:#222}.danger{background:#fee4e2;color:var(--red)}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.row>*{flex:1}.hidden{display:none!important}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px}.stat b{font-size:23px;display:block;margin-top:7px}.stat span{font-size:13px;color:var(--muted)}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}.toolbar input{flex:2;min-width:180px}.toolbar select{flex:1;min-width:140px;padding:10px;border:1px solid #cfd4dc;border-radius:8px;background:#fff}
-.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:850px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:top;font-size:13px}th{background:#f8fafc;color:#475467}td strong{display:block;margin-bottom:4px}.muted{color:var(--muted)}.pill{display:inline-block;border-radius:999px;padding:5px 8px;background:#eef2f6;font-size:12px}.status{max-width:160px;padding:8px;border:1px solid #cfd4dc;border-radius:7px;background:#fff}.message{padding:11px;border-radius:8px;background:#fffaeb;color:#93370d;font-size:13px;line-height:1.5;margin-top:10px}.error{background:#fef3f2;color:var(--red)}.success{background:#ecfdf3;color:var(--green)}
-@media(max-width:650px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}header h1{font-size:17px}main{margin:12px auto}.card{padding:13px}}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:#f4f6fa;color:#172033}header{background:linear-gradient(110deg,#101827,#263b59);color:white;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;box-shadow:0 5px 22px #10182720}main{max-width:1320px;margin:24px auto;padding:0 18px}.card{background:white;padding:22px;border-radius:15px;border:1px solid #e3e8f0;box-shadow:0 6px 22px #0b254009;margin-bottom:17px}button{cursor:pointer;border:0;border-radius:9px;padding:10px 14px;font-weight:800}.primary{background:linear-gradient(100deg,#f8ce6c,#f2b23c);color:#172033}.light,.secondary{background:#edf1f8;color:#25334a}input,select,textarea{padding:11px 12px;border:1px solid #d5dce8;border-radius:9px;background:white;color:#172033}label{font-size:12px;font-weight:800;margin:12px 0 6px;display:block}.row{display:flex;gap:10px;flex-wrap:wrap}.row>div{flex:1;min-width:160px}.row input,.row select,textarea{width:100%}.tablewrap{overflow:auto;border-radius:10px;border:1px solid #e3e8f0}table{border-collapse:collapse;width:100%;min-width:850px}th,td{text-align:left;padding:11px;border-bottom:1px solid #edf0f5;font-size:12px;vertical-align:top}th{background:#f7f9fc;color:#596579;text-transform:uppercase;font-size:10px;letter-spacing:.5px}.hint,.muted{font-size:12px;line-height:1.6;color:#667085}.message{padding:11px;border-radius:9px;margin-top:10px}.success{background:#e8f8ee;color:#12643c}.error{background:#fff0f0;color:#a21d2b}.hidden{display:none!important}@media(max-width:700px){main{padding:0 11px}.card{padding:16px}}
 </style>
 </head>
 <body>
-<header><div><h1>Premium Phone Store</h1><small>Admin Order Dashboard</small></div><button id="logoutBtn" class="light hidden">Log out</button></header>
+<header><div><h1>Unique Gadget Store</h1><small>Admin Order Dashboard</small></div><button id="logoutBtn" class="light hidden">Log out</button></header>
 <main>
 <section id="loginCard" class="card">
 <h2>Admin Login</h2>
@@ -39,6 +27,7 @@ button{border:0;border-radius:8px;padding:11px 14px;cursor:pointer;font-weight:7
 <div class="stat"><span>Full payment</span><b id="fullOrders">0</b></div>
 <div class="stat"><span>Visible paid amount</span><b id="paidTotal">₹0</b></div>
 </div>
+<div class="card" id="productsAdminCard"><h2>Product Management</h2><p class="hint">Add/edit products and set each product's price and advance. Image names should be uploaded into the same GitHub repository or use full image URLs.</p><form id="productForm"><input id="productId" type="hidden"><div class="row"><div><label for="pName">Product name</label><input id="pName" required maxlength="100"></div><div><label for="pPrice">Price (₹)</label><input id="pPrice" required type="number" min="1"></div><div><label for="pAdvance">Advance per item (₹)</label><input id="pAdvance" required type="number" min="0"></div></div><label for="pDescription">Description</label><textarea id="pDescription" rows="2"></textarea><label for="pImages">Image file names / URLs (comma-separated)</label><input id="pImages" placeholder="photo1.jpg, photo2.jpg"><label for="pActive">Visibility</label><select id="pActive"><option value="true">Visible in store</option><option value="false">Hidden from store</option></select><div class="row" style="margin-top:12px"><button class="primary" type="submit">Save product</button><button class="light" type="button" id="cancelProductEdit">Cancel edit</button></div></form><div id="productMsg" class="message hidden"></div><div id="productAdminList" class="tablewrap" style="margin-top:15px"></div></div>
 <div class="card" style="margin-top:16px">
 <div class="row"><h2 style="flex:2">All customer orders</h2><button id="refreshBtn" class="dark">Refresh</button><button id="csvBtn" class="light">Export CSV</button></div>
 <p class="hint">Shows records found under Realtime Database <code>/orders</code>, including older top-level records and newer records saved under customer UID. Do not treat an order as paid unless its payment status is verified.</p>
@@ -78,6 +67,13 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth(), db = firebase.database();
 let allOrders = [];
+let managedProducts={};
+function productMessage(t,err=false){const e=$("productMsg");e.textContent=t;e.className="message "+(err?"error":"success");e.classList.remove("hidden")}
+function renderManagedProducts(){const el=$("productAdminList");const rows=Object.entries(managedProducts);if(!rows.length){el.innerHTML='<p class="muted">No saved products yet. The existing default listing remains available.</p>';return}el.innerHTML='<table><thead><tr><th>Product</th><th>Price</th><th>Advance</th><th>Visibility</th><th>Actions</th></tr></thead><tbody>'+rows.map(([id,p])=>'<tr><td>'+safe(p.name||'Product')+'</td><td>'+rupees(p.price)+'</td><td>'+rupees(p.advance)+'</td><td>'+(p.active===false?'Hidden':'Visible')+'</td><td><button class="primary editProduct" data-id="'+safe(id)+'">Edit</button> <button class="light deleteProduct" data-id="'+safe(id)+'">Delete</button></td></tr>').join('')+'</tbody></table>';el.querySelectorAll('.editProduct').forEach(b=>b.onclick=()=>{const p=managedProducts[b.dataset.id];$('productId').value=b.dataset.id;$('pName').value=p.name||'';$('pPrice').value=p.price||'';$('pAdvance').value=p.advance||0;$('pDescription').value=p.description||'';$('pImages').value=(p.images||[]).join(', ');$('pActive').value=String(p.active!==false);$('productForm').scrollIntoView({behavior:'smooth'})});el.querySelectorAll('.deleteProduct').forEach(b=>b.onclick=async()=>{if(!confirm('Delete this product?'))return;try{await db.ref('products/'+b.dataset.id).remove();productMessage('Product deleted.')}catch(e){productMessage('Delete failed: '+e.message,true)}})}
+db.ref('products').on('value',s=>{managedProducts=s.val()||{};renderManagedProducts()});
+$('productForm')?.addEventListener('submit',async e=>{e.preventDefault();const name=$('pName').value.trim(),price=Number($('pPrice').value),advance=Number($('pAdvance').value);if(!name||price<=0||advance<0||advance>price){productMessage('Enter a valid name, price and advance not greater than price.',true);return}const rec={name,price,advance,description:$('pDescription').value.trim(),images:$('pImages').value.split(',').map(x=>x.trim()).filter(Boolean),active:$('pActive').value==='true',updatedAt:new Date().toISOString()};try{const id=$('productId').value;if(id)await db.ref('products/'+id).update(rec);else{rec.createdAt=new Date().toISOString();await db.ref('products').push(rec)}$('productForm').reset();$('productId').value='';productMessage('Product saved. Firebase updated.')}catch(err){productMessage('Could not save product: '+err.message+'. Check Firebase Database Rules.',true)}});
+$('cancelProductEdit')?.addEventListener('click',()=>{$('productForm').reset();$('productId').value=''});
+
 db.ref("settings/deliveryDays").on("value", snap => {
   const input = document.getElementById("deliveryDays");
   if (input && !input.matches(":focus")) input.value = snap.val() || "5–7 days";
@@ -154,7 +150,7 @@ function renderOrders(){
    <td><strong>${rupees(o.totalPrice??(amount+due))}</strong><span class="muted">Paid: ${rupees(amount)}<br>Due: ${rupees(due)}</span></td>
    <td>${safe(o.paymentStatus||"Not verified")}<br><span class="muted">${safe(o.paymentType||"")}</span><br><span class="muted">${safe(o.paymentId||"")}</span></td>
    <td><span class="pill">${safe(status)}</span></td>
-   <td><select class="status" data-key="${safe(o._key)}" data-owner="${safe(o._owner)}" data-legacy="${o._legacy?"1":"0"}">${options.map(x=>`<option ${x===status?"selected":""}>${safe(x)}</option>`).join("")}</select><button class="primary saveStatus" data-key="${safe(o._key)}" data-owner="${safe(o._owner)}" data-legacy="${o._legacy?"1":"0"}" style="margin-top:6px">Save</button></td>
+   <td><select class="status" data-key="${safe(o._key)}" data-owner="${safe(o._owner)}" data-legacy="${o._legacy?"1":"0"}">${options.map(x=>`<option ${x===status?"selected":""}>${safe(x)}</option>`).join("")}</select><input class="deliveryEstimate" data-key="${safe(o._key)}" data-owner="${safe(o._owner)}" data-legacy="${o._legacy?"1":"0"}" maxlength="40" value="${safe(o.deliveryDays||"5–7 days")}" placeholder="Delivery e.g. 3–5 days" style="margin-top:6px;width:100%"><button class="primary saveStatus" data-key="${safe(o._key)}" data-owner="${safe(o._owner)}" data-legacy="${o._legacy?"1":"0"}" style="margin-top:6px">Save order</button></td>
   </tr>`;
  }).join("");
  document.querySelectorAll(".saveStatus").forEach(btn=>btn.onclick=async()=>{
@@ -162,8 +158,10 @@ function renderOrders(){
    if(!sel)return;btn.disabled=true;
    try{
      const path=btn.dataset.legacy==="1"?"orders/"+btn.dataset.key:"orders/"+btn.dataset.owner+"/"+btn.dataset.key;
-     await db.ref(path+"/status").set(sel.value);
-     showMsg("loadMsg","Order status updated.","success");await loadOrders();
+     const de=document.querySelector(`input.deliveryEstimate[data-key="${CSS.escape(btn.dataset.key)}"][data-owner="${CSS.escape(btn.dataset.owner)}"]`);
+     const days=de?de.value.trim():"5–7 days"; if(!days||days.length>40)throw new Error("Enter a valid delivery estimate.");
+     await db.ref(path).update({status:sel.value,deliveryDays:days,updatedAt:new Date().toISOString()});
+     showMsg("loadMsg","Order status and delivery estimate updated.","success");await loadOrders();
    }catch(err){showMsg("loadMsg","Could not update status: "+err.message+". Check admin write permission in Rules.","error");}
    finally{btn.disabled=false;}
  });
@@ -173,7 +171,7 @@ $("csvBtn").onclick=()=>{
  const headers=["Order ID","Date","Customer","Phone","Email","Address","Product","Quantity","Total Price","Paid Now","Remaining Due","Payment Status","Payment Type","Order Status","Payment ID"];
  const rows=allOrders.map(o=>[o.orderNumber||o._key,o.createdAt||"",o.customerName||"",o.customerPhone||"",o.customerEmail||"",o.address||"",o.product||"",o.quantity||1,o.totalPrice??"",o.paidNow??o.amountPaid??"",o.remainingDue??"",o.paymentStatus||"",o.paymentType||"",o.status||"",o.paymentId||""]);
  const csv=[headers,...rows].map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");
- const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="premium-phone-store-orders.csv";a.click();URL.revokeObjectURL(url);
+ const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="unique-gadget-store-orders.csv";a.click();URL.revokeObjectURL(url);
 };
 </script>
 </body>
