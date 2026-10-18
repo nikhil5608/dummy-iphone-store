@@ -4,56 +4,165 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NS Gadgets | Admin Panel</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:#f4f6fa;color:#172033}header{background:linear-gradient(110deg,#101827,#263b59);color:white;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;box-shadow:0 5px 22px #10182720}main{max-width:1320px;margin:24px auto;padding:0 18px}.card{background:white;padding:22px;border-radius:15px;border:1px solid #e3e8f0;box-shadow:0 6px 22px #0b254009;margin-bottom:17px}button{cursor:pointer;border:0;border-radius:9px;padding:10px 14px;font-weight:800}.primary{background:linear-gradient(100deg,#f8ce6c,#f2b23c);color:#172033}.light,.secondary{background:#edf1f8;color:#25334a}input,select,textarea{padding:11px 12px;border:1px solid #d5dce8;border-radius:9px;background:white;color:#172033}label{font-size:12px;font-weight:800;margin:12px 0 6px;display:block}.row{display:flex;gap:10px;flex-wrap:wrap}.row>div{flex:1;min-width:160px}.row input,.row select,textarea{width:100%}.tablewrap{overflow:auto;border-radius:10px;border:1px solid #e3e8f0}table{border-collapse:collapse;width:100%;min-width:850px}th,td{text-align:left;padding:11px;border-bottom:1px solid #edf0f5;font-size:12px;vertical-align:top}th{background:#f7f9fc;color:#596579;text-transform:uppercase;font-size:10px;letter-spacing:.5px}.hint,.muted{font-size:12px;line-height:1.6;color:#667085}.message{padding:11px;border-radius:9px;margin-top:10px}.success{background:#e8f8ee;color:#12643c}.error{background:#fff0f0;color:#a21d2b}.hidden{display:none!important}@media(max-width:700px){main{padding:0 11px}.card{padding:16px}}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f6fa;color:#172033}
+header{background:linear-gradient(110deg,#101827,#263b59);color:white;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+main{max-width:1320px;margin:24px auto;padding:0 18px}
+.card{background:white;padding:22px;border-radius:15px;border:1px solid #e3e8f0;box-shadow:0 6px 22px #0b254009;margin-bottom:17px}
+button{cursor:pointer;border:0;border-radius:9px;padding:10px 14px;font-weight:bold}
+.primary{background:linear-gradient(100deg,#f8ce6c,#f2b23c);color:#172033}
+.light,.secondary{background:#edf1f8;color:#25334a}
+input,select,textarea{padding:11px 12px;border:1px solid #d5dce8;border-radius:9px;background:white;color:#172033;max-width:100%}
+label{font-size:12px;font-weight:bold;margin:12px 0 6px;display:block}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>div{flex:1;min-width:160px}
+.row input,.row select,textarea{width:100%}
+.tablewrap{overflow:auto;border-radius:10px;border:1px solid #e3e8f0;margin-top:12px}
+table{border-collapse:collapse;width:100%;min-width:850px}
+th,td{text-align:left;padding:11px;border-bottom:1px solid #edf0f5;font-size:12px;vertical-align:top}
+th{background:#f7f9fc;color:#596579;text-transform:uppercase;font-size:10px}
+.hint,.muted{font-size:12px;line-height:1.6;color:#667085}
+.message{padding:11px;border-radius:9px;margin-top:10px}
+.success{background:#e8f8ee;color:#12643c}
+.error{background:#fff0f0;color:#a21d2b}
+.hidden{display:none!important}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:17px}
+.stat{background:white;border:1px solid #e3e8f0;border-radius:12px;padding:17px}
+.stat span{display:block;font-size:12px;color:#667085}
+.stat b{display:block;font-size:24px;margin-top:8px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.toolbar input{flex:1;min-width:180px}
+.pill{display:inline-block;background:#edf1f8;padding:5px 8px;border-radius:6px}
+@media(max-width:700px){main{padding:0 11px}.card{padding:16px}}
 </style>
 </head>
+
 <body>
-<header><div style="display:flex;align-items:center;gap:12px"><svg width="48" height="48" viewBox="0 0 64 64" role="img" aria-label="NS Gadgets logo"><rect x="2" y="2" width="60" height="60" rx="15" fill="#ffd329"/><path d="M12 43V20h8l13 15V20h8v24h-8L20 29v14z" fill="#075fe4"/><path d="M48 21c-3-3-7-4-11-2l-2 6c3-2 6-2 9-1 2 1 2 3-1 4l-5 2c-5 2-6 7-3 11 3 4 10 4 16 0l-3-6c-3 2-6 3-8 1-1-1 0-2 2-3l5-2c6-3 6-7 1-10z" fill="#075fe4"/></svg><div><h1>NS GADGETS</h1><small>Admin Order Dashboard • Fast Delivery</small></div></div><button id="logoutBtn" class="light hidden">Log out</button></header>
+<header>
+  <div style="display:flex;align-items:center;gap:12px">
+    <svg width="48" height="48" viewBox="0 0 64 64" aria-label="NS Gadgets logo">
+      <rect x="2" y="2" width="60" height="60" rx="15" fill="#ffd329"/>
+      <path d="M12 43V20h8l13 15V20h8v24h-8L20 29v14z" fill="#075fe4"/>
+      <path d="M48 21c-3-3-7-4-11-2l-2 6c3-2 6-2 9-1 2 1 2 3-1 4l-5 2c-5 2-6 7-3 11 3 4 10 4 16 0l-3-6c-3 2-6 3-8 1-1-1 0-2 2-3l5-2c6-3 6-7 1-10z" fill="#075fe4"/>
+    </svg>
+    <div>
+      <h1>NS GADGETS</h1>
+      <small>Admin Order Dashboard • Fast Delivery</small>
+    </div>
+  </div>
+  <button id="logoutBtn" class="light hidden">Log out</button>
+</header>
+
 <main>
 <section id="loginCard" class="card">
-<h2>Admin Login</h2>
-<p class="hint">Sign in with the approved administrator email. The account must already exist in Firebase Authentication.</p>
-<form id="loginForm">
-<label for="email">Admin email</label><input id="email" type="email" autocomplete="username" required>
-<label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required>
-<div style="margin-top:14px"><button class="primary" type="submit">Login</button></div>
-</form><div id="loginMsg" class="message hidden"></div>
+  <h2>Admin Login</h2>
+  <p class="hint">Sign in with your approved administrator email.</p>
+  <form id="loginForm">
+    <label for="email">Admin email</label>
+    <input id="email" type="email" autocomplete="username" required style="width:100%;max-width:400px">
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="current-password" required style="width:100%;max-width:400px">
+    <div style="margin-top:14px">
+      <button class="primary" type="submit">Login</button>
+    </div>
+  </form>
+  <div id="loginMsg" class="message hidden"></div>
 </section>
+
 <section id="dashboard" class="hidden">
-<div class="stats">
-<div class="stat"><span>Total orders</span><b id="totalOrders">0</b></div>
-<div class="stat"><span>Advance paid</span><b id="advanceOrders">0</b></div>
-<div class="stat"><span>Full payment</span><b id="fullOrders">0</b></div>
-<div class="stat"><span>Visible paid amount</span><b id="paidTotal">₹0</b></div>
-</div>
-<div class="card" id="productsAdminCard"><h2>Product Management</h2><p class="hint">Add/edit products and set each product's price and advance. Image names should be uploaded into the same GitHub repository or use full image URLs.</p><form id="productForm"><input id="productId" type="hidden"><div class="row"><div><label for="pName">Product name</label><input id="pName" required maxlength="100"></div><div><label for="pPrice">Price (₹)</label><input id="pPrice" required type="number" min="1"></div><div><label for="pAdvance">Advance per item (₹)</label><input id="pAdvance" required type="number" min="0"></div></div><label for="pDescription">Description</label><textarea id="pDescription" rows="2"></textarea><label for="pImages">Image file names / URLs (comma-separated)</label><input id="pImages" placeholder="photo1.jpg, photo2.jpg"><label for="pActive">Visibility</label><select id="pActive"><option value="true">Visible in store</option><option value="false">Hidden from store</option></select><div class="row" style="margin-top:12px"><button class="primary" type="submit">Save product</button><button class="light" type="button" id="cancelProductEdit">Cancel edit</button></div></form><div id="productMsg" class="message hidden"></div><div id="productAdminList" class="tablewrap" style="margin-top:15px"></div></div>
-<div class="card" style="margin-top:16px">
-<div class="row"><h2 style="flex:2">All customer orders</h2><button id="refreshBtn" class="dark">Refresh</button><button id="csvBtn" class="light">Export CSV</button></div>
-<p class="hint">Shows records found under Realtime Database <code>/orders</code>, including older top-level records and newer records saved under customer UID. Do not treat an order as paid unless its payment status is verified.</p>
-<div class="toolbar">
-<input id="search" placeholder="Search name, phone, order ID or email">
-<select id="statusFilter"><option value="">All statuses</option><option>Order placed</option><option>Advance paid - balance due</option><option>Pending</option><option>Confirmed</option><option>Shipped</option><option>Out for Delivery</option><option>Delivered</option><option>Cancelled</option></select>
-</div>
-<div id="loadMsg" class="message hidden"></div>
-<div class="tablewrap"><table><thead><tr><th>Order / Date</th><th>Customer</th><th>Product</th><th>Amount</th><th>Payment</th><th>Order status</th><th>Update</th></tr></thead><tbody id="ordersBody"><tr><td colspan="7" class="muted">Loading orders…</td></tr></tbody></table></div>
-</div>
-<div class="card">
-  <h2>Delivery Settings</h2>
-  <p class="hint">This delivery estimate is displayed on the customer website. Default: 5–7 days.</p>
-  <div class="row">
-    <div><label for="deliveryDays">Expected delivery text</label><input id="deliveryDays" value="5–7 days" maxlength="40" placeholder="5–7 days"></div>
-    <div style="flex:0 0 150px;align-self:end"><button id="saveDelivery" class="primary" type="button">Save delivery days</button></div>
+  <div class="stats">
+    <div class="stat"><span>Total orders</span><b id="totalOrders">0</b></div>
+    <div class="stat"><span>Advance paid</span><b id="advanceOrders">0</b></div>
+    <div class="stat"><span>Full payment</span><b id="fullOrders">0</b></div>
+    <div class="stat"><span>Visible paid amount</span><b id="paidTotal">₹0</b></div>
   </div>
-  <div id="deliveryMsg" class="message hidden"></div>
-</div>
+
+  <div class="card">
+    <h2>Product Management</h2>
+    <p class="hint">Add or edit products. Images should be uploaded to your GitHub repository or use full image URLs.</p>
+    <form id="productForm">
+      <input id="productId" type="hidden">
+      <div class="row">
+        <div><label for="pName">Product name</label><input id="pName" required maxlength="100"></div>
+        <div><label for="pPrice">Price (₹)</label><input id="pPrice" required type="number" min="1"></div>
+        <div><label for="pAdvance">Advance per item (₹)</label><input id="pAdvance" required type="number" min="0"></div>
+      </div>
+      <label for="pDescription">Description</label>
+      <textarea id="pDescription" rows="2"></textarea>
+      <label for="pImages">Image file names / URLs (comma-separated)</label>
+      <input id="pImages" style="width:100%" placeholder="photo1.jpg, photo2.jpg">
+      <label for="pActive">Visibility</label>
+      <select id="pActive">
+        <option value="true">Visible in store</option>
+        <option value="false">Hidden from store</option>
+      </select>
+      <div class="row" style="margin-top:12px">
+        <button class="primary" type="submit">Save product</button>
+        <button class="light" type="button" id="cancelProductEdit">Cancel edit</button>
+      </div>
+    </form>
+    <div id="productMsg" class="message hidden"></div>
+    <div id="productAdminList" class="tablewrap"></div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <h2 style="flex:2">All customer orders</h2>
+      <button id="refreshBtn" class="light">Refresh</button>
+      <button id="csvBtn" class="light">Export CSV</button>
+    </div>
+    <p class="hint">Orders are loaded from Firebase Realtime Database under /orders. Verify payment status before treating an order as paid.</p>
+    <div class="toolbar">
+      <input id="search" placeholder="Search name, phone, order ID or email">
+      <select id="statusFilter">
+        <option value="">All statuses</option>
+        <option>Order placed</option>
+        <option>Advance paid - balance due</option>
+        <option>Pending</option>
+        <option>Confirmed</option>
+        <option>Shipped</option>
+        <option>Out for Delivery</option>
+        <option>Delivered</option>
+        <option>Cancelled</option>
+      </select>
+    </div>
+    <div id="loadMsg" class="message hidden"></div>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Order / Date</th><th>Customer</th><th>Product</th><th>Amount</th><th>Payment</th><th>Order status</th><th>Update</th></tr>
+        </thead>
+        <tbody id="ordersBody"><tr><td colspan="7">Sign in to load orders.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Delivery Settings</h2>
+    <p class="hint">This estimate can be displayed on your customer website.</p>
+    <div class="row">
+      <div><label for="deliveryDays">Expected delivery text</label><input id="deliveryDays" value="5–7 days" maxlength="40"></div>
+      <div style="flex:0 0 180px;align-self:end"><button id="saveDelivery" class="primary" type="button">Save delivery days</button></div>
+    </div>
+    <div id="deliveryMsg" class="message hidden"></div>
+  </div>
 </section>
 </main>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
 <script>
+"use strict";
+
+/* IMPORTANT: Define $ before any code uses it. */
+const $ = id => document.getElementById(id);
+
 const ADMIN_EMAIL = "nikhil69z5s@gmail.com".toLowerCase();
+
 const firebaseConfig = {
   apiKey: "AIzaSyCgGbHnsCa8JAtdjyGgFWq4SF13aiLkLEk",
   authDomain: "premium-phone-store.firebaseapp.com",
@@ -64,115 +173,413 @@ const firebaseConfig = {
   appId: "1:878510750230:web:3835bf984c280b2a1bd337",
   measurementId: "G-L617C9N2MB"
 };
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth(), db = firebase.database();
-let allOrders = [];
-let managedProducts={};
-function productMessage(t,err=false){const e=$("productMsg");e.textContent=t;e.className="message "+(err?"error":"success");e.classList.remove("hidden")}
-function renderManagedProducts(){const el=$("productAdminList");const rows=Object.entries(managedProducts);if(!rows.length){el.innerHTML='<p class="muted">No saved products yet. The existing default listing remains available.</p>';return}el.innerHTML='<table><thead><tr><th>Product</th><th>Price</th><th>Advance</th><th>Visibility</th><th>Actions</th></tr></thead><tbody>'+rows.map(([id,p])=>'<tr><td>'+safe(p.name||'Product')+'</td><td>'+rupees(p.price)+'</td><td>'+rupees(p.advance)+'</td><td>'+(p.active===false?'Hidden':'Visible')+'</td><td><button class="primary editProduct" data-id="'+safe(id)+'">Edit</button> <button class="light deleteProduct" data-id="'+safe(id)+'">Delete</button></td></tr>').join('')+'</tbody></table>';el.querySelectorAll('.editProduct').forEach(b=>b.onclick=()=>{const p=managedProducts[b.dataset.id];$('productId').value=b.dataset.id;$('pName').value=p.name||'';$('pPrice').value=p.price||'';$('pAdvance').value=p.advance||0;$('pDescription').value=p.description||'';$('pImages').value=(p.images||[]).join(', ');$('pActive').value=String(p.active!==false);$('productForm').scrollIntoView({behavior:'smooth'})});el.querySelectorAll('.deleteProduct').forEach(b=>b.onclick=async()=>{if(!confirm('Delete this product?'))return;try{await db.ref('products/'+b.dataset.id).remove();productMessage('Product deleted.')}catch(e){productMessage('Delete failed: '+e.message,true)}})}
-db.ref('products').on('value',s=>{managedProducts=s.val()||{};renderManagedProducts()});
-$('productForm')?.addEventListener('submit',async e=>{e.preventDefault();const name=$('pName').value.trim(),price=Number($('pPrice').value),advance=Number($('pAdvance').value);if(!name||price<=0||advance<0||advance>price){productMessage('Enter a valid name, price and advance not greater than price.',true);return}const rec={name,price,advance,description:$('pDescription').value.trim(),images:$('pImages').value.split(',').map(x=>x.trim()).filter(Boolean),active:$('pActive').value==='true',updatedAt:new Date().toISOString()};try{const id=$('productId').value;if(id)await db.ref('products/'+id).update(rec);else{rec.createdAt=new Date().toISOString();await db.ref('products').push(rec)}$('productForm').reset();$('productId').value='';productMessage('Product saved. Firebase updated.')}catch(err){productMessage('Could not save product: '+err.message+'. Check Firebase Database Rules.',true)}});
-$('cancelProductEdit')?.addEventListener('click',()=>{$('productForm').reset();$('productId').value=''});
 
-db.ref("settings/deliveryDays").on("value", snap => {
-  const input = document.getElementById("deliveryDays");
-  if (input && !input.matches(":focus")) input.value = snap.val() || "5–7 days";
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.database();
+
+let allOrders = [];
+let managedProducts = {};
+
+function showMsg(id, msg, type = "") {
+  const el = $(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.className = "message" + (type ? " " + type : "");
+  el.classList.remove("hidden");
+}
+
+function hideMsg(id) {
+  const el = $(id);
+  if (el) el.classList.add("hidden");
+}
+
+function productMessage(msg, err = false) {
+  showMsg("productMsg", msg, err ? "error" : "success");
+}
+
+function rupees(value) {
+  return "₹" + Number(value || 0).toLocaleString("en-IN", {
+    maximumFractionDigits: 2
+  });
+}
+
+function safe(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[c]));
+}
+
+/* Authentication */
+$("loginForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  hideMsg("loginMsg");
+
+  const email = $("email").value.trim();
+  const password = $("password").value;
+
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+  } catch (error) {
+    showMsg("loginMsg", error.message || "Login failed.", "error");
+  }
 });
-document.getElementById("saveDelivery").addEventListener("click", async () => {
-  const value = document.getElementById("deliveryDays").value.trim();
-  if (!value || value.length > 40) { showMsg("deliveryMsg", "Enter delivery estimate (up to 40 characters).", "error"); return; }
+
+$("logoutBtn").addEventListener("click", () => auth.signOut());
+
+auth.onAuthStateChanged(async user => {
+  if (!user) {
+    $("loginCard").classList.remove("hidden");
+    $("dashboard").classList.add("hidden");
+    $("logoutBtn").classList.add("hidden");
+    return;
+  }
+
+  if ((user.email || "").toLowerCase() !== ADMIN_EMAIL) {
+    await auth.signOut();
+    showMsg("loginMsg", "This account is not approved for admin access.", "error");
+    return;
+  }
+
+  $("loginCard").classList.add("hidden");
+  $("dashboard").classList.remove("hidden");
+  $("logoutBtn").classList.remove("hidden");
+
+  loadOrders();
+  loadProducts();
+  loadDeliverySettings();
+});
+
+/* Products */
+function loadProducts() {
+  db.ref("products").off("value");
+  db.ref("products").on("value", snapshot => {
+    managedProducts = snapshot.val() || {};
+    renderManagedProducts();
+  }, error => {
+    productMessage("Could not load products: " + error.message, true);
+  });
+}
+
+function renderManagedProducts() {
+  const el = $("productAdminList");
+  const rows = Object.entries(managedProducts);
+
+  if (!rows.length) {
+    el.innerHTML = '<p class="muted">No saved products yet.</p>';
+    return;
+  }
+
+  el.innerHTML =
+    '<table><thead><tr><th>Product</th><th>Price</th><th>Advance</th><th>Visibility</th><th>Actions</th></tr></thead><tbody>' +
+    rows.map(([id, product]) =>
+      '<tr><td>' + safe(product.name || "Product") +
+      '</td><td>' + rupees(product.price) +
+      '</td><td>' + rupees(product.advance) +
+      '</td><td>' + (product.active === false ? "Hidden" : "Visible") +
+      '</td><td><button class="primary editProduct" data-id="' + safe(id) +
+      '">Edit</button> <button class="light deleteProduct" data-id="' +
+      safe(id) + '">Delete</button></td></tr>'
+    ).join("") + "</tbody></table>";
+
+  el.querySelectorAll(".editProduct").forEach(button => {
+    button.addEventListener("click", () => {
+      const p = managedProducts[button.dataset.id];
+      if (!p) return;
+
+      $("productId").value = button.dataset.id;
+      $("pName").value = p.name || "";
+      $("pPrice").value = p.price || "";
+      $("pAdvance").value = p.advance || 0;
+      $("pDescription").value = p.description || "";
+      $("pImages").value = (p.images || []).join(", ");
+      $("pActive").value = String(p.active !== false);
+      $("productForm").scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  el.querySelectorAll(".deleteProduct").forEach(button => {
+    button.addEventListener("click", async () => {
+      if (!confirm("Delete this product?")) return;
+
+      try {
+        await db.ref("products/" + button.dataset.id).remove();
+        productMessage("Product deleted.");
+      } catch (error) {
+        productMessage("Delete failed: " + error.message, true);
+      }
+    });
+  });
+}
+
+$("productForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const name = $("pName").value.trim();
+  const price = Number($("pPrice").value);
+  const advance = Number($("pAdvance").value);
+
+  if (!name || price <= 0 || advance < 0 || advance > price) {
+    productMessage("Enter a valid name, price and advance not greater than price.", true);
+    return;
+  }
+
+  const record = {
+    name,
+    price,
+    advance,
+    description: $("pDescription").value.trim(),
+    images: $("pImages").value.split(",").map(x => x.trim()).filter(Boolean),
+    active: $("pActive").value === "true",
+    updatedAt: new Date().toISOString()
+  };
+
+  try {
+    const id = $("productId").value;
+
+    if (id) {
+      await db.ref("products/" + id).update(record);
+    } else {
+      record.createdAt = new Date().toISOString();
+      await db.ref("products").push(record);
+    }
+
+    $("productForm").reset();
+    $("productId").value = "";
+    productMessage("Product saved successfully.");
+  } catch (error) {
+    productMessage("Could not save product: " + error.message, true);
+  }
+});
+
+$("cancelProductEdit").addEventListener("click", () => {
+  $("productForm").reset();
+  $("productId").value = "";
+});
+
+/* Delivery settings */
+function loadDeliverySettings() {
+  db.ref("settings/deliveryDays").off("value");
+  db.ref("settings/deliveryDays").on("value", snapshot => {
+    const input = $("deliveryDays");
+    if (input && document.activeElement !== input) {
+      input.value = snapshot.val() || "5–7 days";
+    }
+  });
+}
+
+$("saveDelivery").addEventListener("click", async () => {
+  const value = $("deliveryDays").value.trim();
+
+  if (!value || value.length > 40) {
+    showMsg("deliveryMsg", "Enter an estimate up to 40 characters.", "error");
+    return;
+  }
+
   try {
     await db.ref("settings/deliveryDays").set(value);
     showMsg("deliveryMsg", "Delivery estimate saved.", "success");
-  } catch (err) {
-    showMsg("deliveryMsg", "Could not save. Check Firebase Database Rules: " + (err.message || err), "error");
+  } catch (error) {
+    showMsg("deliveryMsg", "Could not save: " + error.message, "error");
   }
 });
-const $ = id => document.getElementById(id);
-function rupees(v){const n=Number(v||0);return "₹"+n.toLocaleString("en-IN",{maximumFractionDigits:2});}
-function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-function showMsg(id,msg,type=""){const el=$(id);el.textContent=msg;el.className="message"+(type?" "+type:"");el.classList.remove("hidden");}
-function hideMsg(id){$(id).classList.add("hidden");}
-$("loginForm").addEventListener("submit",async e=>{
- e.preventDefault();hideMsg("loginMsg");
- try{await auth.signInWithEmailAndPassword($("email").value.trim(),$("password").value);}
- catch(err){showMsg("loginMsg",err.message||"Login failed.","error");}
-});
-$("logoutBtn").onclick=()=>auth.signOut();
-auth.onAuthStateChanged(async user=>{
- if(!user){$("loginCard").classList.remove("hidden");$("dashboard").classList.add("hidden");$("logoutBtn").classList.add("hidden");return;}
- if((user.email||"").toLowerCase()!==ADMIN_EMAIL){
-   await auth.signOut();showMsg("loginMsg","This account is not approved for admin access.","error");return;
- }
- $("loginCard").classList.add("hidden");$("dashboard").classList.remove("hidden");$("logoutBtn").classList.remove("hidden");await loadOrders();
-});
-async function loadOrders(){
- $("ordersBody").innerHTML='<tr><td colspan="7" class="muted">Loading orders…</td></tr>';hideMsg("loadMsg");
- try{
-  const snap=await db.ref("orders").once("value"), root=snap.val()||{};allOrders=[];
-  Object.entries(root).forEach(([key,value])=>{
-    if(!value||typeof value!=="object")return;
-    // Current schema: /orders/{uid}/{pushId}; legacy schema: /orders/{pushId}
-    const nested=Object.values(value).some(v=>v&&typeof v==="object"&&("orderNumber" in v||"customerName" in v||"product" in v||"status" in v));
-    if(nested){
-      Object.entries(value).forEach(([id,record])=>{if(record&&typeof record==="object")allOrders.push({...record,_key:id,_owner:key,_legacy:false});});
-    } else if("orderNumber" in value||"customerName" in value||"product" in value||"status" in value||"customerPhone" in value){
-      allOrders.push({...value,_key:key,_owner:"",_legacy:true});
-    }
+
+/* Orders */
+async function loadOrders() {
+  $("ordersBody").innerHTML =
+    '<tr><td colspan="7">Loading orders…</td></tr>';
+  hideMsg("loadMsg");
+
+  try {
+    const snapshot = await db.ref("orders").once("value");
+    const root = snapshot.val() || {};
+    allOrders = [];
+
+    Object.entries(root).forEach(([key, value]) => {
+      if (!value || typeof value !== "object") return;
+
+      const nested = Object.values(value).some(v =>
+        v && typeof v === "object" &&
+        ("orderNumber" in v || "customerName" in v || "product" in v || "status" in v)
+      );
+
+      if (nested) {
+        Object.entries(value).forEach(([id, record]) => {
+          if (record && typeof record === "object") {
+            allOrders.push({
+              ...record, _key: id, _owner: key, _legacy: false
+            });
+          }
+        });
+      } else if (
+        "orderNumber" in value || "customerName" in value ||
+        "product" in value || "status" in value || "customerPhone" in value
+      ) {
+        allOrders.push({
+          ...value, _key: key, _owner: "", _legacy: true
+        });
+      }
+    });
+
+    allOrders.sort((a, b) =>
+      String(b.createdAt || "").localeCompare(String(a.createdAt || ""))
+    );
+
+    renderOrders();
+  } catch (error) {
+    $("ordersBody").innerHTML =
+      '<tr><td colspan="7">Could not load orders.</td></tr>';
+    showMsg("loadMsg", "Firebase read failed: " + error.message, "error");
+  }
+}
+
+function renderOrders() {
+  const query = $("search").value.trim().toLowerCase();
+  const statusFilter = $("statusFilter").value;
+
+  const list = allOrders.filter(order => {
+    const text = [
+      order.orderNumber, order.customerName, order.customerPhone,
+      order.customerEmail, order.product, order.paymentId,
+      order.status, order.paymentStatus
+    ].join(" ").toLowerCase();
+
+    return (!query || text.includes(query)) &&
+      (!statusFilter || String(order.status || "Pending") === statusFilter);
   });
-  allOrders.sort((a,b)=>String(b.createdAt||"").localeCompare(String(a.createdAt||"")));
-  renderOrders();
- }catch(err){
-  $("ordersBody").innerHTML='<tr><td colspan="7">Could not load orders.</td></tr>';
-  showMsg("loadMsg","Firebase read failed: "+(err.message||err)+". Check Realtime Database Rules: admin email must be allowed to read /orders.","error");
- }
+
+  $("totalOrders").textContent = allOrders.length;
+
+  $("advanceOrders").textContent = allOrders.filter(o =>
+    String(o.paymentType || "").toLowerCase() === "advance" ||
+    String(o.status || "").toLowerCase().includes("advance")
+  ).length;
+
+  $("fullOrders").textContent = allOrders.filter(o =>
+    String(o.paymentType || "").toLowerCase() === "full"
+  ).length;
+
+  $("paidTotal").textContent = rupees(allOrders.reduce(
+    (sum, order) => sum + Number(order.paidNow ?? order.amountPaid ?? 0), 0
+  ));
+
+  if (!list.length) {
+    $("ordersBody").innerHTML =
+      '<tr><td colspan="7">No matching orders found.</td></tr>';
+    return;
+  }
+
+  const options = [
+    "Pending", "Order placed", "Advance paid - balance due",
+    "Confirmed", "Shipped", "Out for Delivery", "Delivered", "Cancelled"
+  ];
+
+  $("ordersBody").innerHTML = list.map(order => {
+    const date = order.createdAt
+      ? new Date(order.createdAt).toLocaleString("en-IN") : "—";
+    const status = String(order.status || "Pending");
+    const amount = Number(order.paidNow ?? order.amountPaid ?? 0);
+    const due = Number(order.remainingDue ?? 0);
+
+    return `<tr>
+      <td><strong>${safe(order.orderNumber || order._key)}</strong><br><span class="muted">${safe(date)}</span></td>
+      <td><strong>${safe(order.customerName || "—")}</strong><br>${safe(order.customerPhone || "")}<br><span class="muted">${safe(order.customerEmail || "")}<br>${safe(order.address || "")}</span></td>
+      <td>${safe(order.product || "iPhone 17 Pro Max Dummy Model")}<br>Qty: ${safe(order.quantity || 1)}</td>
+      <td><strong>${rupees(order.totalPrice ?? (amount + due))}</strong><br>Paid: ${rupees(amount)}<br>Due: ${rupees(due)}</td>
+      <td>${safe(order.paymentStatus || "Not verified")}<br>${safe(order.paymentType || "")}<br>${safe(order.paymentId || "")}</td>
+      <td><span class="pill">${safe(status)}</span></td>
+      <td>
+        <select class="status" data-key="${safe(order._key)}" data-owner="${safe(order._owner)}">
+          ${options.map(option =>
+            `<option ${option === status ? "selected" : ""}>${safe(option)}</option>`
+          ).join("")}
+        </select>
+        <input class="deliveryEstimate" data-key="${safe(order._key)}" data-owner="${safe(order._owner)}" maxlength="40" value="${safe(order.deliveryDays || "5–7 days")}" placeholder="Delivery estimate" style="margin-top:6px;width:100%">
+        <button class="primary saveStatus" data-key="${safe(order._key)}" data-owner="${safe(order._owner)}" data-legacy="${order._legacy ? "1" : "0"}" style="margin-top:6px">Save order</button>
+      </td>
+    </tr>`;
+  }).join("");
+
+  document.querySelectorAll(".saveStatus").forEach(button => {
+    button.addEventListener("click", async () => {
+      const key = button.dataset.key;
+      const owner = button.dataset.owner;
+      const legacy = button.dataset.legacy === "1";
+
+      const row = button.closest("tr");
+      const select = row.querySelector(".status");
+      const delivery = row.querySelector(".deliveryEstimate");
+      const days = delivery.value.trim();
+
+      if (!days || days.length > 40) {
+        showMsg("loadMsg", "Enter a valid delivery estimate.", "error");
+        return;
+      }
+
+      button.disabled = true;
+
+      try {
+        const path = legacy
+          ? "orders/" + key
+          : "orders/" + owner + "/" + key;
+
+        await db.ref(path).update({
+          status: select.value,
+          deliveryDays: days,
+          updatedAt: new Date().toISOString()
+        });
+
+        showMsg("loadMsg", "Order updated successfully.", "success");
+        await loadOrders();
+      } catch (error) {
+        showMsg("loadMsg", "Could not update order: " + error.message, "error");
+      } finally {
+        button.disabled = false;
+      }
+    });
+  });
 }
-function renderOrders(){
- const q=$("search").value.trim().toLowerCase(), st=$("statusFilter").value;
- const list=allOrders.filter(o=>{
-  const hay=[o.orderNumber,o.customerName,o.customerPhone,o.customerEmail,o.product,o.paymentId,o.status,o.paymentStatus].join(" ").toLowerCase();
-  return (!q||hay.includes(q))&&(!st||String(o.status||"Pending")===st);
- });
- $("totalOrders").textContent=allOrders.length;
- $("advanceOrders").textContent=allOrders.filter(o=>String(o.paymentType||"").toLowerCase()==="advance"||String(o.status||"").toLowerCase().includes("advance")).length;
- $("fullOrders").textContent=allOrders.filter(o=>String(o.paymentType||"").toLowerCase()==="full").length;
- $("paidTotal").textContent=rupees(allOrders.reduce((s,o)=>s+Number(o.paidNow??o.amountPaid??0),0));
- if(!list.length){$("ordersBody").innerHTML='<tr><td colspan="7" class="muted">No matching orders found.</td></tr>';return;}
- $("ordersBody").innerHTML=list.map((o,i)=>{
-  const date=o.createdAt?new Date(o.createdAt).toLocaleString("en-IN"):"—";
-  const status=String(o.status||"Pending");
-  const amount=Number(o.paidNow??o.amountPaid??0), due=Number(o.remainingDue??0);
-  const options=["Pending","Order placed","Advance paid - balance due","Confirmed","Shipped","Out for Delivery","Delivered","Cancelled"];
-  return `<tr>
-   <td><strong>${safe(o.orderNumber||o._key)}</strong><span class="muted">${safe(date)}</span></td>
-   <td><strong>${safe(o.customerName||"—")}</strong>${safe(o.customerPhone||"")}<br><span class="muted">${safe(o.customerEmail||"")}</span><br><span class="muted">${safe(o.address||"")}</span></td>
-   <td>${safe(o.product||"iPhone 17 Pro Max Dummy Model")}<br><span class="muted">Qty: ${safe(o.quantity||1)}</span></td>
-   <td><strong>${rupees(o.totalPrice??(amount+due))}</strong><span class="muted">Paid: ${rupees(amount)}<br>Due: ${rupees(due)}</span></td>
-   <td>${safe(o.paymentStatus||"Not verified")}<br><span class="muted">${safe(o.paymentType||"")}</span><br><span class="muted">${safe(o.paymentId||"")}</span></td>
-   <td><span class="pill">${safe(status)}</span></td>
-   <td><select class="status" data-key="${safe(o._key)}" data-owner="${safe(o._owner)}" data-legacy="${o._legacy?"1":"0"}">${options.map(x=>`<option ${x===status?"selected":""}>${safe(x)}</option>`).join("")}</select><input class="deliveryEstimate" data-key="${safe(o._key)}" data-owner="${safe(o._owner)}" data-legacy="${o._legacy?"1":"0"}" maxlength="40" value="${safe(o.deliveryDays||"5–7 days")}" placeholder="Delivery e.g. 3–5 days" style="margin-top:6px;width:100%"><button class="primary saveStatus" data-key="${safe(o._key)}" data-owner="${safe(o._owner)}" data-legacy="${o._legacy?"1":"0"}" style="margin-top:6px">Save order</button></td>
-  </tr>`;
- }).join("");
- document.querySelectorAll(".saveStatus").forEach(btn=>btn.onclick=async()=>{
-   const sel=document.querySelector(`select.status[data-key="${CSS.escape(btn.dataset.key)}"][data-owner="${CSS.escape(btn.dataset.owner)}"]`);
-   if(!sel)return;btn.disabled=true;
-   try{
-     const path=btn.dataset.legacy==="1"?"orders/"+btn.dataset.key:"orders/"+btn.dataset.owner+"/"+btn.dataset.key;
-     const de=document.querySelector(`input.deliveryEstimate[data-key="${CSS.escape(btn.dataset.key)}"][data-owner="${CSS.escape(btn.dataset.owner)}"]`);
-     const days=de?de.value.trim():"5–7 days"; if(!days||days.length>40)throw new Error("Enter a valid delivery estimate.");
-     await db.ref(path).update({status:sel.value,deliveryDays:days,updatedAt:new Date().toISOString()});
-     showMsg("loadMsg","Order status and delivery estimate updated.","success");await loadOrders();
-   }catch(err){showMsg("loadMsg","Could not update status: "+err.message+". Check admin write permission in Rules.","error");}
-   finally{btn.disabled=false;}
- });
-}
-$("refreshBtn").onclick=loadOrders;$("search").oninput=renderOrders;$("statusFilter").onchange=renderOrders;
-$("csvBtn").onclick=()=>{
- const headers=["Order ID","Date","Customer","Phone","Email","Address","Product","Quantity","Total Price","Paid Now","Remaining Due","Payment Status","Payment Type","Order Status","Payment ID"];
- const rows=allOrders.map(o=>[o.orderNumber||o._key,o.createdAt||"",o.customerName||"",o.customerPhone||"",o.customerEmail||"",o.address||"",o.product||"",o.quantity||1,o.totalPrice??"",o.paidNow??o.amountPaid??"",o.remainingDue??"",o.paymentStatus||"",o.paymentType||"",o.status||"",o.paymentId||""]);
- const csv=[headers,...rows].map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");
- const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="unique-gadget-store-orders.csv";a.click();URL.revokeObjectURL(url);
-};
+
+$("refreshBtn").addEventListener("click", loadOrders);
+$("search").addEventListener("input", renderOrders);
+$("statusFilter").addEventListener("change", renderOrders);
+
+/* CSV export */
+$("csvBtn").addEventListener("click", () => {
+  const headers = [
+    "Order ID", "Date", "Customer", "Phone", "Email", "Address",
+    "Product", "Quantity", "Total Price", "Paid Now", "Remaining Due",
+    "Payment Status", "Payment Type", "Order Status", "Payment ID"
+  ];
+
+  const rows = allOrders.map(o => [
+    o.orderNumber || o._key, o.createdAt || "", o.customerName || "",
+    o.customerPhone || "", o.customerEmail || "", o.address || "",
+    o.product || "", o.quantity || 1, o.totalPrice ?? "",
+    o.paidNow ?? o.amountPaid ?? "", o.remainingDue ?? "",
+    o.paymentStatus || "", o.paymentType || "", o.status || "",
+    o.paymentId || ""
+  ]);
+
+  const csv = [headers, ...rows].map(row =>
+    row.map(value => '"' + String(value ?? "").replace(/"/g, '""') + '"').join(",")
+  ).join("\r\n");
+
+  const blob = new Blob(["\ufeff" + csv], {
+    type: "text/csv;charset=utf-8;"
+  });
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "ns-gadgets-orders.csv";
+  link.click();
+  URL.revokeObjectURL(url);
+});
 </script>
 </body>
 </html>
