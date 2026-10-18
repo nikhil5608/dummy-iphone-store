@@ -27,26 +27,32 @@ input,select,textarea{width:100%;padding:12px;border:1px solid #d5dce8;border-ra
 .status{display:none;padding:12px;margin-top:12px;border-radius:9px;font-size:13px;overflow-wrap:anywhere}
 .status.ok{display:block;background:#e5f8ed;color:#166534}
 .status.err{display:block;background:#ffeded;color:#a11}
+
 .product-gallery{margin:15px 0}
 .gallery-main{position:relative;display:flex;align-items:center;justify-content:center;min-height:260px;border-radius:14px;background:#f5f7fb;border:1px solid #e1e6ef;overflow:hidden;touch-action:pan-y}
-#mainProductImage{width:100%;height:300px;object-fit:contain;padding:14px;user-select:none}
+#mainProductImage,#mainProductVideo{width:100%;height:300px;object-fit:contain;padding:14px;user-select:none}
+#mainProductVideo{background:#111;padding:0}
 .gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:42px;height:48px;padding:0;background:#1265d8;color:white;font-size:30px}
-.gallery-prev{left:8px}.gallery-next{right:8px}
+.gallery-prev{left:8px}
+.gallery-next{right:8px}
 .gallery-count{text-align:center;font-size:13px;font-weight:800;color:#526078;margin-top:8px}
 .gallery-thumbnails{display:flex;gap:8px;overflow-x:auto;padding:10px 2px}
 .gallery-thumb{flex:0 0 64px;height:64px;padding:3px;background:white;border:2px solid #dbe2ec;border-radius:9px}
 .gallery-thumb.active{border-color:#1265d8}
 .gallery-thumb img{width:100%;height:100%;object-fit:contain}
+.gallery-video-thumb{display:flex;align-items:center;justify-content:center;background:#17243a;color:white;font-size:22px}
+
 .products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .product{display:flex;flex-direction:column;gap:8px;padding:10px;border:1px solid #e4e9f2;border-radius:12px;min-width:0}
 .product img{width:100%;height:130px;object-fit:contain;background:#f7f9fc;border-radius:8px}
 .product button{background:#ffdf36;margin-top:auto}
 .order{border:1px solid #e4e9f2;padding:14px;border-radius:10px;margin:10px 0;overflow-wrap:anywhere}
 footer{background:#1059b9;color:white;text-align:center;padding:24px;margin-top:30px}
+
 @media(max-width:700px){
  .layout{grid-template-columns:1fr}
  .products{grid-template-columns:repeat(2,minmax(0,1fr))}
- #mainProductImage{height:240px}
+ #mainProductImage,#mainProductVideo{height:240px}
  .gallery-main{min-height:220px}
  header{padding:14px}
  .card{padding:15px}
@@ -82,14 +88,23 @@ footer{background:#1059b9;color:white;text-align:center;padding:24px;margin-top:
       <div class="product-gallery">
         <div class="gallery-main">
           <button type="button" class="gallery-arrow gallery-prev"
-            id="previousPhoto" aria-label="Previous photo">&#8249;</button>
+            id="previousPhoto" aria-label="Previous item">&#8249;</button>
+
           <img id="mainProductImage"
             src="./IMG-20261014-WA0003.jpg"
             alt="Product photo" draggable="false">
+
+          <video id="mainProductVideo"
+            class="hidden" controls playsinline preload="metadata">
+            <source src="./VID-20261014-WA0010.mp4" type="video/mp4">
+            Your browser does not support video playback.
+          </video>
+
           <button type="button" class="gallery-arrow gallery-next"
-            id="nextPhoto" aria-label="Next photo">&#8250;</button>
+            id="nextPhoto" aria-label="Next item">&#8250;</button>
         </div>
-        <div id="galleryCount" class="gallery-count">1 / 5</div>
+
+        <div id="galleryCount" class="gallery-count">1 / 6</div>
         <div id="galleryThumbnails" class="gallery-thumbnails"></div>
       </div>
 
@@ -170,7 +185,6 @@ footer{background:#1059b9;color:white;text-align:center;padding:24px;margin-top:
 
 const $ = id => document.getElementById(id);
 
-/* Firebase configuration */
 const firebaseConfig = {
   apiKey: "AIzaSyCgGbHnsCa8JAtdjyGgFWq4SF13aiLkLEk",
   authDomain: "premium-phone-store.firebaseapp.com",
@@ -182,9 +196,10 @@ const firebaseConfig = {
   measurementId: "G-L617C9N2MB"
 };
 
-/* Your existing payment Worker */
 const WORKER_URL =
   "https://divine-paper-5c52.nikhil69z5s.workers.dev";
+
+const VIDEO_FILE = "VID-20261014-WA0010.mp4";
 
 const DEFAULT_IMAGES = [
   "IMG-20261014-WA0003.jpg",
@@ -209,8 +224,8 @@ let currentUser = null;
 let ordersRef = null;
 let ordersCallback = null;
 
-let FULL_PRICE = 1800000;     // ₹18,000 in paise
-let ADVANCE_PRICE = 200000;  // ₹2,000 in paise
+let FULL_PRICE = 1800000;
+let ADVANCE_PRICE = 200000;
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
@@ -228,80 +243,163 @@ function clearStatus(id) {
   $(id).className = "status";
 }
 
-/* Product slideshow */
-function getProductImages() {
+/* Gallery: five photos followed by the video as item 6 */
+function getGalleryItems() {
   const images = Array.isArray(activeProduct.images)
-    ? activeProduct.images.filter(x => typeof x === "string" && x.trim())
+    ? activeProduct.images.filter(
+        x => typeof x === "string" && x.trim()
+      )
     : [];
-  return images.length ? images : DEFAULT_IMAGES;
+
+  const validImages = images.length ? images : DEFAULT_IMAGES;
+
+  return [
+    ...validImages.map(src => ({type:"image", src})),
+    {type:"video", src:VIDEO_FILE}
+  ];
 }
 
 function showPhoto(index) {
-  const main = $("mainProductImage");
+  const mainImage = $("mainProductImage");
+  const mainVideo = $("mainProductVideo");
   const count = $("galleryCount");
   const thumbs = $("galleryThumbnails");
-  if (!main || !count || !thumbs) return;
 
-  const images = getProductImages();
-  currentPhotoIndex = ((index % images.length) + images.length) % images.length;
+  if (!mainImage || !mainVideo || !count || !thumbs) return;
 
-  main.onerror = () => {
-    main.alt = "Photo could not load: " + images[currentPhotoIndex];
-  };
-  main.src = "./" + images[currentPhotoIndex];
-  main.alt = (activeProduct.name || "Product") + " photo " + (currentPhotoIndex + 1);
-  count.textContent = (currentPhotoIndex + 1) + " / " + images.length;
+  const items = getGalleryItems();
+
+  currentPhotoIndex =
+    ((index % items.length) + items.length) % items.length;
+
+  const selected = items[currentPhotoIndex];
+
+  if (selected.type === "video") {
+    mainImage.classList.add("hidden");
+    mainVideo.classList.remove("hidden");
+
+    mainVideo.pause();
+    mainVideo.src = "./" + selected.src;
+    mainVideo.load();
+    mainVideo.setAttribute("aria-label", "Product video");
+  } else {
+    mainVideo.pause();
+    mainVideo.classList.add("hidden");
+    mainImage.classList.remove("hidden");
+
+    mainImage.onerror = () => {
+      mainImage.alt = "Photo could not load: " + selected.src;
+    };
+
+    mainImage.src = "./" + selected.src;
+    mainImage.alt =
+      (activeProduct.name || "Product") +
+      " photo " + (currentPhotoIndex + 1);
+  }
+
+  count.textContent =
+    (currentPhotoIndex + 1) + " / " + items.length;
+
   thumbs.replaceChildren();
 
-  images.forEach((image, i) => {
+  items.forEach((item, i) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "gallery-thumb" + (i === currentPhotoIndex ? " active" : "");
-    button.setAttribute("aria-label", "Show photo " + (i + 1));
-    button.setAttribute("aria-pressed", String(i === currentPhotoIndex));
+    button.className =
+      "gallery-thumb" +
+      (i === currentPhotoIndex ? " active" : "");
 
-    const img = document.createElement("img");
-    img.src = "./" + image;
-    img.alt = "Photo " + (i + 1);
-    img.loading = "lazy";
+    button.setAttribute(
+      "aria-label",
+      item.type === "video"
+        ? "Play product video"
+        : "Show photo " + (i + 1)
+    );
 
-    button.appendChild(img);
+    button.setAttribute(
+      "aria-pressed",
+      String(i === currentPhotoIndex)
+    );
+
+    if (item.type === "video") {
+      const videoIcon = document.createElement("span");
+      videoIcon.className = "gallery-video-thumb";
+      videoIcon.textContent = "▶";
+      videoIcon.style.width = "100%";
+      videoIcon.style.height = "100%";
+      videoIcon.title = "Product video";
+      button.appendChild(videoIcon);
+    } else {
+      const img = document.createElement("img");
+      img.src = "./" + item.src;
+      img.alt = "Photo " + (i + 1);
+      img.loading = "lazy";
+      button.appendChild(img);
+    }
+
     button.addEventListener("click", () => showPhoto(i));
     thumbs.appendChild(button);
   });
 }
 
-$("previousPhoto").addEventListener("click", () => showPhoto(currentPhotoIndex - 1));
-$("nextPhoto").addEventListener("click", () => showPhoto(currentPhotoIndex + 1));
+$("previousPhoto").addEventListener("click", () => {
+  showPhoto(currentPhotoIndex - 1);
+});
 
+$("nextPhoto").addEventListener("click", () => {
+  showPhoto(currentPhotoIndex + 1);
+});
+
+/* Swipe through the gallery on mobile */
 let touchStartX = 0;
+
 $("mainProductImage").addEventListener("touchstart", event => {
   touchStartX = event.changedTouches[0].clientX;
 }, {passive:true});
 
 $("mainProductImage").addEventListener("touchend", event => {
-  const difference = event.changedTouches[0].clientX - touchStartX;
+  const difference =
+    event.changedTouches[0].clientX - touchStartX;
+
   if (Math.abs(difference) > 45) {
     showPhoto(currentPhotoIndex + (difference < 0 ? 1 : -1));
   }
 }, {passive:true});
 
-/* Render the selected product */
+$("mainProductVideo").addEventListener("touchstart", event => {
+  touchStartX = event.changedTouches[0].clientX;
+}, {passive:true});
+
+$("mainProductVideo").addEventListener("touchend", event => {
+  const difference =
+    event.changedTouches[0].clientX - touchStartX;
+
+  if (Math.abs(difference) > 70) {
+    showPhoto(currentPhotoIndex + (difference < 0 ? 1 : -1));
+  }
+}, {passive:true});
+
+/* Render selected product */
 function renderSelectedProduct(product) {
   activeProduct = {
     ...DEFAULT_PRODUCT,
     ...product,
-    images: Array.isArray(product.images) && product.images.length
-      ? product.images
-      : DEFAULT_IMAGES
+    images:
+      Array.isArray(product.images) && product.images.length
+        ? product.images
+        : DEFAULT_IMAGES
   };
 
   $("selectedProductName").textContent = activeProduct.name;
+
   $("selectedProductPrice").textContent =
     "₹" + Number(activeProduct.price || 0).toLocaleString("en-IN");
 
-  FULL_PRICE = Math.round(Number(activeProduct.price || 18000) * 100);
-  ADVANCE_PRICE = Math.round(Number(activeProduct.advance ?? 2000) * 100);
+  FULL_PRICE =
+    Math.round(Number(activeProduct.price || 18000) * 100);
+
+  ADVANCE_PRICE =
+    Math.round(Number(activeProduct.advance ?? 2000) * 100);
 
   showPhoto(0);
   updatePrice();
@@ -311,6 +409,7 @@ function renderSelectedProduct(product) {
 function renderPopularProducts(products) {
   const grid = $("popularProducts");
   const query = $("marketSearch").value.trim().toLowerCase();
+
   grid.replaceChildren();
 
   const filtered = products.filter(p =>
@@ -327,12 +426,15 @@ function renderPopularProducts(products) {
     card.className = "product";
 
     const image = document.createElement("img");
-    const images = Array.isArray(product.images) && product.images.length
-      ? product.images
-      : DEFAULT_IMAGES;
+    const images =
+      Array.isArray(product.images) && product.images.length
+        ? product.images
+        : DEFAULT_IMAGES;
+
     image.src = "./" + images[0];
     image.alt = product.name || "Gadget";
     image.loading = "lazy";
+
     image.onerror = () => {
       image.alt = "Product image not found";
     };
@@ -343,12 +445,14 @@ function renderPopularProducts(products) {
     const price = document.createElement("div");
     price.className = "price";
     price.style.fontSize = "18px";
+
     price.textContent =
       "₹" + Number(product.price || 0).toLocaleString("en-IN");
 
     const button = document.createElement("button");
     button.type = "button";
     button.textContent = "View / Buy";
+
     button.addEventListener("click", () => {
       $("productSelect").value = product.id;
       renderSelectedProduct(product);
@@ -367,15 +471,20 @@ $("marketSearch").addEventListener("input", () => {
 /* Load products from Firebase */
 db.ref("products").on("value", snapshot => {
   const raw = snapshot.val() || {};
+
   const products = Object.entries(raw)
     .filter(([, p]) => p && p.active !== false)
     .map(([id, p]) => ({...p, id}));
 
-  if (!products.length) products.push({...DEFAULT_PRODUCT});
+  if (!products.length) {
+    products.push({...DEFAULT_PRODUCT});
+  }
 
   cachedProducts = products;
+
   const select = $("productSelect");
   const previousId = select.value;
+
   select.replaceChildren();
 
   products.forEach(product => {
@@ -385,27 +494,41 @@ db.ref("products").on("value", snapshot => {
     select.appendChild(option);
   });
 
-  const selected = products.find(p => p.id === previousId) || products[0];
+  const selected =
+    products.find(p => p.id === previousId) || products[0];
+
   select.value = selected.id;
+
   renderSelectedProduct(selected);
   renderPopularProducts(products);
 }, error => {
   cachedProducts = [{...DEFAULT_PRODUCT}];
+  renderSelectedProduct(DEFAULT_PRODUCT);
   renderPopularProducts(cachedProducts);
+
   status("authStatus", "Could not load products: " + error.message);
 });
 
 $("productSelect").addEventListener("change", async () => {
-  const selected = cachedProducts.find(p => p.id === $("productSelect").value);
+  const selected = cachedProducts.find(
+    p => p.id === $("productSelect").value
+  );
+
   if (selected) {
     renderSelectedProduct(selected);
     return;
   }
 
   try {
-    const snapshot = await db.ref("products/" + $("productSelect").value).once("value");
+    const snapshot = await db
+      .ref("products/" + $("productSelect").value)
+      .once("value");
+
     if (snapshot.exists()) {
-      renderSelectedProduct({...snapshot.val(), id:$("productSelect").value});
+      renderSelectedProduct({
+        ...snapshot.val(),
+        id:$("productSelect").value
+      });
     }
   } catch (error) {
     status("paymentStatus", "Could not load product details.");
@@ -416,8 +539,12 @@ $("productSelect").addEventListener("change", async () => {
 function updatePrice() {
   const quantity = Number($("quantity").value);
   const isCOD = $("paymentType").value === "cod";
-  const payNow = (isCOD ? ADVANCE_PRICE : FULL_PRICE) * quantity / 100;
-  const remaining = (FULL_PRICE - (isCOD ? ADVANCE_PRICE : FULL_PRICE))
+
+  const payNow =
+    (isCOD ? ADVANCE_PRICE : FULL_PRICE) * quantity / 100;
+
+  const remaining =
+    (FULL_PRICE - (isCOD ? ADVANCE_PRICE : FULL_PRICE))
     * quantity / 100;
 
   $("priceSummary").textContent = isCOD
@@ -430,7 +557,7 @@ $("quantity").addEventListener("change", updatePrice);
 $("paymentType").addEventListener("change", updatePrice);
 updatePrice();
 
-/* Navigation buttons */
+/* Navigation */
 $("accountButton").addEventListener("click", () => {
   $("accountCard").scrollIntoView({behavior:"smooth"});
 });
@@ -443,22 +570,36 @@ $("ordersButton").addEventListener("click", () => {
 /* Authentication */
 function friendlyError(error) {
   const messages = {
-    "auth/email-already-in-use": "This email is already registered. Please log in.",
-    "auth/invalid-email": "Enter a valid email address.",
-    "auth/weak-password": "Password must contain at least 6 characters.",
-    "auth/invalid-credential": "Email or password is incorrect.",
-    "auth/operation-not-allowed": "Enable Email/Password sign-in in Firebase.",
-    "auth/network-request-failed": "Network error. Check your internet."
+    "auth/email-already-in-use":
+      "This email is already registered. Please log in.",
+    "auth/invalid-email":
+      "Enter a valid email address.",
+    "auth/weak-password":
+      "Password must contain at least 6 characters.",
+    "auth/invalid-credential":
+      "Email or password is incorrect.",
+    "auth/operation-not-allowed":
+      "Enable Email/Password sign-in in Firebase.",
+    "auth/network-request-failed":
+      "Network error. Check your internet."
   };
-  return messages[error.code] || error.message || "Something went wrong.";
+
+  return messages[error.code] ||
+    error.message ||
+    "Something went wrong.";
 }
 
 $("loginButton").addEventListener("click", async () => {
   clearStatus("authStatus");
+
   try {
     const email = $("email").value.trim();
     const password = $("password").value;
-    if (!email || !password) throw new Error("Enter email and password.");
+
+    if (!email || !password) {
+      throw new Error("Enter email and password.");
+    }
+
     await auth.signInWithEmailAndPassword(email, password);
     status("authStatus", "Login successful.", true);
   } catch (error) {
@@ -468,11 +609,19 @@ $("loginButton").addEventListener("click", async () => {
 
 $("registerButton").addEventListener("click", async () => {
   clearStatus("authStatus");
+
   try {
     const email = $("email").value.trim();
     const password = $("password").value;
-    if (!email || !password) throw new Error("Enter email and password.");
-    if (password.length < 6) throw new Error("Password must be at least 6 characters.");
+
+    if (!email || !password) {
+      throw new Error("Enter email and password.");
+    }
+
+    if (password.length < 6) {
+      throw new Error("Password must be at least 6 characters.");
+    }
+
     await auth.createUserWithEmailAndPassword(email, password);
     status("authStatus", "Account created successfully.", true);
   } catch (error) {
@@ -500,7 +649,10 @@ auth.onAuthStateChanged(user => {
   $("registerButton").classList.toggle("hidden", !!user);
   $("logoutButton").classList.toggle("hidden", !user);
 
-  if (ordersRef && ordersCallback) ordersRef.off("value", ordersCallback);
+  if (ordersRef && ordersCallback) {
+    ordersRef.off("value", ordersCallback);
+  }
+
   ordersRef = null;
   ordersCallback = null;
 
@@ -526,28 +678,35 @@ function loadOrders(user) {
     }
 
     const orders = [];
-    snapshot.forEach(child => orders.push({id:child.key, ...child.val()}));
+
+    snapshot.forEach(child => {
+      orders.push({id:child.key, ...child.val()});
+    });
 
     orders.reverse().forEach(order => {
       const box = document.createElement("div");
       box.className = "order";
 
       const title = document.createElement("strong");
-      title.textContent = "Order: " + (order.orderNumber || order.id);
+      title.textContent =
+        "Order: " + (order.orderNumber || order.id);
 
       const product = document.createElement("p");
-      product.textContent = "Product: " + (order.product || "Gadget");
+      product.textContent =
+        "Product: " + (order.product || "Gadget");
 
       const paid = document.createElement("p");
       paid.textContent =
         "Paid: ₹" + Number(order.paidNow || 0).toLocaleString("en-IN");
 
       const state = document.createElement("p");
-      state.textContent = "Status: " + (order.status || "Order placed");
+      state.textContent =
+        "Status: " + (order.status || "Order placed");
 
       const due = document.createElement("p");
       due.textContent =
-        "Remaining: ₹" + Number(order.remainingDue || 0).toLocaleString("en-IN");
+        "Remaining: ₹" +
+        Number(order.remainingDue || 0).toLocaleString("en-IN");
 
       const date = document.createElement("p");
       date.className = "muted";
@@ -575,9 +734,13 @@ async function workerRequest(path, payload) {
   });
 
   const data = await response.json().catch(() => ({}));
+
   if (!response.ok) {
-    throw new Error(data.error || "Payment server error: " + response.status);
+    throw new Error(
+      data.error || "Payment server error: " + response.status
+    );
   }
+
   return data;
 }
 
@@ -600,19 +763,25 @@ $("payButton").addEventListener("click", async () => {
   const phone = $("customerPhone").value.trim();
   const address = $("customerAddress").value.trim();
 
-  if (!name) return status("paymentStatus", "Enter your full name.");
+  if (!name) {
+    return status("paymentStatus", "Enter your full name.");
+  }
+
   if (!/^[6-9][0-9]{9}$/.test(phone)) {
     return status("paymentStatus", "Enter a valid 10-digit mobile number.");
   }
+
   if (address.length < 10) {
     return status("paymentStatus", "Enter your complete delivery address.");
   }
 
   const quantity = Number($("quantity").value);
   const paymentType = $("paymentType").value;
-  const amount = (paymentType === "full" ? FULL_PRICE : ADVANCE_PRICE) * quantity;
-  const button = $("payButton");
 
+  const amount =
+    (paymentType === "full" ? FULL_PRICE : ADVANCE_PRICE) * quantity;
+
+  const button = $("payButton");
   button.disabled = true;
   button.textContent = "Starting payment...";
 
@@ -634,8 +803,15 @@ $("payButton").addEventListener("click", async () => {
       name: "NS Gadgets",
       description: activeProduct.name || "Gadget order",
       order_id: order.order_id,
-      prefill: {name, email:currentUser.email, contact:phone},
-      notes: {quantity:String(quantity), paymentType},
+      prefill: {
+        name,
+        email:currentUser.email,
+        contact:phone
+      },
+      notes: {
+        quantity:String(quantity),
+        paymentType
+      },
       theme: {color:"#1265d8"},
 
       handler: async function(response) {
@@ -661,7 +837,8 @@ $("payButton").addEventListener("click", async () => {
             paidNow: amount / 100,
             totalPrice: FULL_PRICE * quantity / 100,
             remainingDue:
-              (FULL_PRICE - (paymentType === "full" ? FULL_PRICE : ADVANCE_PRICE))
+              (FULL_PRICE -
+                (paymentType === "full" ? FULL_PRICE : ADVANCE_PRICE))
               * quantity / 100,
             customerName: name,
             customerPhone: phone,
@@ -676,15 +853,22 @@ $("payButton").addEventListener("click", async () => {
 
           await db.ref("orders/" + currentUser.uid).push(record);
 
-          status("paymentStatus",
-            "Payment verified. Your order has been saved under My Orders.", true);
+          status(
+            "paymentStatus",
+            "Payment verified. Your order has been saved under My Orders.",
+            true
+          );
 
           $("ordersPanel").classList.remove("hidden");
           $("ordersPanel").scrollIntoView({behavior:"smooth"});
         } catch (error) {
-          status("paymentStatus",
-            "Payment may have succeeded but saving the order failed. Do not pay again yet. Payment ID: " +
-            (response.razorpay_payment_id || "unavailable") + ". " + error.message);
+          status(
+            "paymentStatus",
+            "Payment may have succeeded but saving the order failed. " +
+            "Do not pay again yet. Payment ID: " +
+            (response.razorpay_payment_id || "unavailable") +
+            ". " + error.message
+          );
         } finally {
           button.disabled = false;
           button.textContent = "Buy Now";
@@ -700,22 +884,29 @@ $("payButton").addEventListener("click", async () => {
     });
 
     checkout.on("payment.failed", response => {
-      status("paymentStatus",
+      status(
+        "paymentStatus",
         "Payment failed: " +
-        (response.error?.description || "Please try again."));
+        (response.error?.description || "Please try again.")
+      );
+
       button.disabled = false;
       button.textContent = "Buy Now";
     });
 
     checkout.open();
   } catch (error) {
-    status("paymentStatus", error.message || "Could not start checkout.");
+    status(
+      "paymentStatus",
+      error.message || "Could not start checkout."
+    );
+
     button.disabled = false;
     button.textContent = "Buy Now";
   }
 });
 
-/* Initial slideshow */
+/* Initial gallery */
 showPhoto(0);
 </script>
 </body>
