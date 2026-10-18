@@ -7,152 +7,95 @@
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:#f7f8fc;color:#17243a}
-header{background:#1265d8;color:white;padding:12px max(16px,calc((100% - 1240px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;box-shadow:0 4px 16px #0d4da51c}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:white}
-.brand-mark{width:48px;height:48px;background:#ffdf36;border-radius:14px}
-.logo{font-size:24px;font-weight:900}
-.logo span{color:#ffdf36}
+body{margin:0;font-family:Arial,system-ui,sans-serif;background:#f7f8fc;color:#17243a}
+header{background:#1265d8;color:white;padding:14px max(16px,calc((100% - 1200px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-size:23px;font-weight:900;color:white;text-decoration:none}
+.brand span{color:#ffdf36}
 button{cursor:pointer;border:0;border-radius:9px;padding:11px 15px;font-weight:800}
-.topbtn{background:#fff;color:#1357b1}
-main{max-width:1240px;margin:20px auto;padding:0 16px}
-.market-home{margin-bottom:22px}
-.market-shortcuts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
-.shortcut{display:flex;align-items:center;justify-content:center;gap:7px;background:white;border:1px solid #e7ebf3;border-radius:12px;padding:12px 5px;font-size:13px}
-.shortcut span{font-size:20px}
-.shortcut.active{background:#ffeb77;border-color:#ffdf36}
-.market-location{display:flex;align-items:center;gap:8px;margin:10px 0;font-size:14px}
-.delivery-pill{margin-left:auto;background:#fff4c6;color:#725500;padding:7px 10px;border-radius:20px;font-size:12px;font-weight:800}
-.market-search{display:flex;align-items:center;gap:10px;background:white;border:1px solid #b9c5d8;border-radius:13px;padding:0 14px;height:52px;margin-bottom:18px}
-.market-search input{border:0!important;box-shadow:none!important}
-input,select,textarea{width:100%;padding:12px 13px;border:1px solid #d5dce8;border-radius:9px;background:white;color:#172033;outline:0}
-input:focus,select:focus,textarea:focus{border-color:#6286e8;box-shadow:0 0 0 3px #2457d615}
-.section-heading{font-size:20px;margin:18px 0 12px}
-.popular-products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
-.popular-product{min-width:0;background:white;border:1px solid #e4e9f2;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px}
-.popular-product img{width:100%;height:145px;object-fit:contain;border-radius:10px;background:#f7f9fc}
-.popular-product h3{font-size:14px;margin:3px 0}
-.product-card-price{font-weight:900;color:#125fc9;font-size:18px}
-.mini-advance{font-size:11px;color:#667085}
-.popular-product button{background:#ffdf36;color:#17243a;margin-top:auto}
-.product-empty{background:white;border:1px dashed #cbd5e1;border-radius:12px;padding:18px;color:#667085;grid-column:1/-1}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
-.card{background:white;padding:22px;border-radius:16px;border:1px solid #e3e8f0;box-shadow:0 4px 16px #10284a0a;margin-bottom:16px;min-width:0}
-.card h2{margin-top:0}
-.price{font-size:30px;color:#125fc9;font-weight:900}
+.topbtn{background:white;color:#1357b1}
+main{max-width:1200px;margin:20px auto;padding:0 16px}
+.card{background:white;border:1px solid #e4e9f2;border-radius:15px;padding:20px;margin-bottom:18px;box-shadow:0 4px 16px #10284a0a}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+h1,h2,h3{line-height:1.3}
 label{display:block;font-weight:800;font-size:13px;margin:13px 0 6px}
-.primary{width:100%;background:linear-gradient(100deg,#f8ce6c,#f2b23c);color:#172033;margin-top:12px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #d5dce8;border-radius:9px;font:inherit;background:white}
+.primary{width:100%;background:#ffdf36;color:#17243a;margin-top:12px}
 .secondary{background:#edf1f8;color:#26364d;margin:5px 3px 5px 0}
-.status{padding:11px 13px;margin-top:10px;border-radius:9px;display:none;overflow-wrap:anywhere;font-size:13px;line-height:1.5}
-.ok{display:block;background:#e5f8ed;color:#166534}
-.err{display:block;background:#ffeded;color:#a11}
+.price{font-size:28px;color:#125fc9;font-weight:900;margin:10px 0}
 .muted{color:#667085;font-size:13px;line-height:1.6}
-.delivery-note{margin:12px 0;padding:13px;border:1px solid #bce8cc;border-radius:10px;background:#effaf3;color:#12643c;font-weight:800;font-size:14px}
-.order{padding:17px;border:1px solid #e3e8f0;border-radius:13px;margin:12px 0;background:white}
-.timeline{display:flex;gap:0;margin:16px 0 12px;padding:12px 4px 4px;overflow-x:auto;border-radius:10px;background:#f7f9fc}
-.timeline-step{position:relative;flex:1;min-width:90px;text-align:center;padding:30px 7px 7px;font-size:11px;color:#667085;font-weight:800}
-.timeline-step:before{content:"";position:absolute;top:7px;left:calc(50% - 10px);width:20px;height:20px;border-radius:50%;background:#e2e8f0;border:2px solid #cbd5e1;z-index:2}
-.timeline-step:after{content:"";position:absolute;top:16px;left:0;width:100%;height:3px;background:#d7dee8;z-index:1}
-.timeline-step:first-child:after{left:50%;width:50%}
-.timeline-step:last-child:after{width:50%}
-.timeline-step.done,.timeline-step.current{color:#075fc9}
-.timeline-step.done:before{background:#13b76b;border-color:#13b76b}
-.timeline-step.current:before{background:#0866e8;border-color:#0866e8;box-shadow:0 0 0 4px #dbeafe}
-.timeline-step.done:after{background:#13b76b}
 .hidden{display:none!important}
-footer{background:#1059b9;color:#d5ddeb;padding:25px;text-align:center;margin-top:30px}
-
-/* Single-product slideshow */
-.product-gallery{position:relative;margin:16px 0 10px}
-.gallery-frame{position:relative;background:linear-gradient(145deg,#f8f9fc,#e9edf5);border:1px solid #e1e6ef;border-radius:14px;overflow:hidden}
-.gallery-frame img{display:block;width:100%;height:320px;object-fit:contain;padding:14px}
-.gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;padding:0;background:#1265d8;color:white;font-size:27px;box-shadow:0 3px 10px #0002;z-index:2}
-.gallery-arrow:hover{background:#084da8}
-.gallery-prev{left:10px}
-.gallery-next{right:10px}
-.gallery-count{text-align:center;font-size:12px;color:#667085;margin-top:9px;font-weight:800}
-.gallery-thumbnails{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
-.gallery-thumbnails button{padding:3px;background:white;border:2px solid #dce3ed;border-radius:9px;width:58px;height:58px;overflow:hidden}
-.gallery-thumbnails button.active{border:3px solid #1265d8}
-.gallery-thumbnails img{width:100%;height:100%;object-fit:contain}
-.gallery-thumbnails button:focus-visible,.gallery-arrow:focus-visible{outline:3px solid #ffdf36;outline-offset:2px}
-@media(max-width:720px){
- main{margin:14px auto;padding:0 12px}
+.status{display:none;padding:12px;margin-top:12px;border-radius:9px;font-size:13px;overflow-wrap:anywhere}
+.status.ok{display:block;background:#e5f8ed;color:#166534}
+.status.err{display:block;background:#ffeded;color:#a11}
+.product-gallery{margin:15px 0}
+.gallery-main{position:relative;display:flex;align-items:center;justify-content:center;min-height:260px;border-radius:14px;background:#f5f7fb;border:1px solid #e1e6ef;overflow:hidden;touch-action:pan-y}
+#mainProductImage{width:100%;height:300px;object-fit:contain;padding:14px;user-select:none}
+.gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:42px;height:48px;padding:0;background:#1265d8;color:white;font-size:30px}
+.gallery-prev{left:8px}.gallery-next{right:8px}
+.gallery-count{text-align:center;font-size:13px;font-weight:800;color:#526078;margin-top:8px}
+.gallery-thumbnails{display:flex;gap:8px;overflow-x:auto;padding:10px 2px}
+.gallery-thumb{flex:0 0 64px;height:64px;padding:3px;background:white;border:2px solid #dbe2ec;border-radius:9px}
+.gallery-thumb.active{border-color:#1265d8}
+.gallery-thumb img{width:100%;height:100%;object-fit:contain}
+.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.product{display:flex;flex-direction:column;gap:8px;padding:10px;border:1px solid #e4e9f2;border-radius:12px;min-width:0}
+.product img{width:100%;height:130px;object-fit:contain;background:#f7f9fc;border-radius:8px}
+.product button{background:#ffdf36;margin-top:auto}
+.order{border:1px solid #e4e9f2;padding:14px;border-radius:10px;margin:10px 0;overflow-wrap:anywhere}
+footer{background:#1059b9;color:white;text-align:center;padding:24px;margin-top:30px}
+@media(max-width:700px){
  .layout{grid-template-columns:1fr}
- .card{padding:17px}
- .popular-products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
- .popular-product{padding:9px}
- .popular-product img{height:125px}
- .market-shortcuts{gap:6px}
- .shortcut{flex-direction:column;gap:3px;font-size:11px;padding:9px 3px}
- .gallery-frame img{height:260px}
- .gallery-thumbnails button{width:51px;height:51px}
- header{padding:12px}
- .logo{font-size:19px}
- .brand-mark{width:40px;height:40px}
- .topbtn{padding:9px;font-size:12px}
+ .products{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #mainProductImage{height:240px}
+ .gallery-main{min-height:220px}
+ header{padding:14px}
+ .card{padding:15px}
 }
 </style>
 </head>
 
 <body>
 <header>
-  <a class="brand" href="index.html" aria-label="NS Gadgets home">
-    <svg class="brand-mark" viewBox="0 0 64 64" role="img" aria-label="NS Gadgets logo">
-      <rect x="2" y="2" width="60" height="60" rx="15" fill="#ffd329"/>
-      <path d="M12 43V20h8l13 15V20h8v24h-8L20 29v14z" fill="#075fe4"/>
-      <path d="M48 21c-3-3-7-4-11-2l-2 6c3-2 6-2 9-1 2 1 2 3-1 4l-5 2c-5 2-6 7-3 11 3 4 10 4 16 0l-3-6c-3 2-6 3-8 1-1-1 0-2 2-3l5-2c6-3 6-7 1-10z" fill="#075fe4"/>
-    </svg>
-    <div class="logo">NS <span>GADGETS</span></div>
-  </a>
+  <a class="brand" href="./">NS <span>GADGETS</span></a>
   <button class="topbtn" id="accountButton">👤 Login / Account</button>
   <button class="topbtn" id="ordersButton">📦 My Orders</button>
 </header>
 
 <main>
-  <section class="market-home">
-    <div class="market-shortcuts">
-      <div class="shortcut active"><span>🛍️</span><b>NS Store</b></div>
-      <div class="shortcut"><span>💳</span><b>Easy Pay</b></div>
-      <div class="shortcut"><span>🚚</span><b>Delivery</b></div>
-      <div class="shortcut"><span>🎧</span><b>Gadgets</b></div>
-    </div>
-
-    <div class="market-location">⌂ <span>Shop smart with NS Gadgets</span><span class="delivery-pill">🚚 Fast Delivery</span></div>
-
-    <div class="market-search">
-      <span>⌕</span>
-      <input id="marketSearch" type="search" placeholder="Search mobiles and gadgets" aria-label="Search products">
-    </div>
-
-    <h2 class="section-heading">Popular at NS Gadgets</h2>
-    <p class="muted">Choose a product to view its photos and details.</p>
-    <div id="popularProducts" class="popular-products" aria-live="polite">
-      <p class="muted">Loading products...</p>
-    </div>
+  <section class="card">
+    <h1>Welcome to NS Gadgets</h1>
+    <p class="muted">Explore products and choose the gadget you want.</p>
+    <input id="marketSearch" type="search" placeholder="Search products...">
+    <h2>Popular Products</h2>
+    <div id="popularProducts" class="products">Loading products...</div>
   </section>
 
   <div class="layout">
     <section class="card" id="productCard">
-      <label for="productSelect">Choose a product</label>
+      <h2>Product Details</h2>
+
+      <label for="productSelect">Choose Product</label>
       <select id="productSelect">
         <option value="default-iphone">iPhone 17 Pro Max — Dummy Model</option>
       </select>
 
-      <h2 id="selectedProductName">iPhone 17 Pro Max — Dummy Model</h2>
-      <div class="price" id="selectedProductPrice">₹18,000</div>
-      <p class="muted">Price per phone.</p>
-
-      <!-- One photo at a time. No Buy Now button on the photos. -->
-      <div class="product-gallery" aria-label="Product photo slideshow">
-        <div class="gallery-frame">
-          <img id="mainProductImage" src="./IMG-20261014-WA0003.jpg" alt="Product photo">
-          <button type="button" class="gallery-arrow gallery-prev" id="previousPhoto" aria-label="Previous photo">‹</button>
-          <button type="button" class="gallery-arrow gallery-next" id="nextPhoto" aria-label="Next photo">›</button>
+      <div class="product-gallery">
+        <div class="gallery-main">
+          <button type="button" class="gallery-arrow gallery-prev"
+            id="previousPhoto" aria-label="Previous photo">&#8249;</button>
+          <img id="mainProductImage"
+            src="./IMG-20261014-WA0003.jpg"
+            alt="Product photo" draggable="false">
+          <button type="button" class="gallery-arrow gallery-next"
+            id="nextPhoto" aria-label="Next photo">&#8250;</button>
         </div>
-        <div class="gallery-count" id="galleryCount">1 / 5</div>
-        <div class="gallery-thumbnails" id="galleryThumbnails"></div>
+        <div id="galleryCount" class="gallery-count">1 / 5</div>
+        <div id="galleryThumbnails" class="gallery-thumbnails"></div>
       </div>
+
+      <h2 id="selectedProductName">iPhone 17 Pro Max — Dummy Model</h2>
+      <div id="selectedProductPrice" class="price">₹18,000</div>
+      <p class="muted">Product price shown in Indian Rupees.</p>
 
       <label for="quantity">Quantity</label>
       <select id="quantity">
@@ -166,36 +109,36 @@ footer{background:#1059b9;color:#d5ddeb;padding:25px;text-align:center;margin-to
       <label for="paymentType">Payment Option</label>
       <select id="paymentType">
         <option value="full">Pay Full Amount Online</option>
-        <option value="cod">Cash on Delivery (Pay ₹2,000 Advance Online)</option>
+        <option value="cod">COD — Pay ₹2,000 Advance Online</option>
       </select>
-      <p class="muted">COD orders require ₹2,000 advance payment per phone to confirm the order. The remaining amount is payable on delivery.</p>
 
-      <div id="deliveryNote" class="delivery-note">🚚 Deliver in 5–7 days</div>
+      <p class="muted">COD requires the advance payment shown below. The balance is payable on delivery.</p>
       <p id="priceSummary"></p>
 
       <label for="customerName">Full Name</label>
       <input id="customerName" autocomplete="name" placeholder="Your full name">
 
       <label for="customerPhone">Mobile Number</label>
-      <input id="customerPhone" type="tel" maxlength="10" autocomplete="tel" placeholder="10-digit mobile number">
+      <input id="customerPhone" type="tel" maxlength="10"
+        autocomplete="tel" placeholder="10-digit mobile number">
 
       <label for="customerAddress">Delivery Address</label>
-      <textarea id="customerAddress" rows="3" autocomplete="street-address" placeholder="Full delivery address"></textarea>
+      <textarea id="customerAddress" rows="3"
+        autocomplete="street-address" placeholder="Complete delivery address"></textarea>
 
       <button class="primary" id="payButton">Buy Now</button>
       <div id="paymentStatus" class="status"></div>
-
-      <p class="muted">Online payment is processed through Razorpay. Never share your UPI PIN or OTP with the seller.</p>
+      <p class="muted">Never share your UPI PIN or OTP with anyone.</p>
     </section>
 
     <section class="card" id="accountCard">
       <h2>Customer Account</h2>
-
       <label for="email">Email Address</label>
       <input id="email" type="email" autocomplete="email" placeholder="Enter email">
 
       <label for="password">Password</label>
-      <input id="password" type="password" autocomplete="current-password" placeholder="Minimum 6 characters">
+      <input id="password" type="password" autocomplete="current-password"
+        placeholder="Minimum 6 characters">
 
       <button class="secondary" id="loginButton">Login</button>
       <button class="secondary" id="registerButton">Create Account</button>
@@ -205,14 +148,17 @@ footer{background:#1059b9;color:#d5ddeb;padding:25px;text-align:center;margin-to
       <div id="authStatus" class="status"></div>
 
       <div id="ordersPanel" class="hidden">
-        <h3>My Orders</h3>
+        <h2>My Orders</h2>
         <div id="ordersList">Login to see your orders.</div>
       </div>
     </section>
   </div>
 </main>
 
-<footer><strong>NS GADGETS</strong><p>Smart Gadgets • Better Life • Fast Delivery</p></footer>
+<footer>
+  <strong>NS GADGETS</strong>
+  <p>Smart Gadgets • Better Life • Fast Delivery</p>
+</footer>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -224,6 +170,7 @@ footer{background:#1059b9;color:#d5ddeb;padding:25px;text-align:center;margin-to
 
 const $ = id => document.getElementById(id);
 
+/* Firebase configuration */
 const firebaseConfig = {
   apiKey: "AIzaSyCgGbHnsCa8JAtdjyGgFWq4SF13aiLkLEk",
   authDomain: "premium-phone-store.firebaseapp.com",
@@ -235,7 +182,9 @@ const firebaseConfig = {
   measurementId: "G-L617C9N2MB"
 };
 
-const WORKER_URL = "https://divine-paper-5c52.nikhil69z5s.workers.dev";
+/* Your existing payment Worker */
+const WORKER_URL =
+  "https://divine-paper-5c52.nikhil69z5s.workers.dev";
 
 const DEFAULT_IMAGES = [
   "IMG-20261014-WA0003.jpg",
@@ -245,10 +194,7 @@ const DEFAULT_IMAGES = [
   "IMG-20261014-WA0009.jpg"
 ];
 
-let FULL_PRICE = 1800000;
-let ADVANCE_PRICE = 200000;
-
-let activeProduct = {
+const DEFAULT_PRODUCT = {
   id: "default-iphone",
   name: "iPhone 17 Pro Max — Dummy Model",
   price: 18000,
@@ -256,16 +202,21 @@ let activeProduct = {
   images: DEFAULT_IMAGES
 };
 
+let activeProduct = {...DEFAULT_PRODUCT};
 let currentPhotoIndex = 0;
 let cachedProducts = [];
 let currentUser = null;
 let ordersRef = null;
 let ordersCallback = null;
 
+let FULL_PRICE = 1800000;     // ₹18,000 in paise
+let ADVANCE_PRICE = 200000;  // ₹2,000 in paise
+
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.database();
 
+/* Status messages */
 function status(id, message, success = false) {
   const el = $(id);
   el.textContent = message;
@@ -277,72 +228,45 @@ function clearStatus(id) {
   $(id).className = "status";
 }
 
-function friendlyError(err) {
-  const messages = {
-    "auth/email-already-in-use": "This email is already registered. Please log in.",
-    "auth/invalid-email": "Enter a valid email address.",
-    "auth/weak-password": "Password must contain at least 6 characters.",
-    "auth/invalid-credential": "Email or password is incorrect.",
-    "auth/operation-not-allowed": "Enable Email/Password sign-in in Firebase.",
-    "auth/network-request-failed": "Network error. Check your internet."
-  };
-  return messages[err.code] || err.message || "Something went wrong.";
+/* Product slideshow */
+function getProductImages() {
+  const images = Array.isArray(activeProduct.images)
+    ? activeProduct.images.filter(x => typeof x === "string" && x.trim())
+    : [];
+  return images.length ? images : DEFAULT_IMAGES;
 }
 
-function imageUrl(src) {
-  const value = String(src || "").trim();
-  if (/^(https?:|data:|blob:|\/)/i.test(value)) return value;
-  return "./" + value.replace(/^\.\//, "");
-}
-
-/* Product photo slideshow */
 function showPhoto(index) {
-document.getElementById("prevPhoto").onclick = function () {
-    if (!activeProduct || !activeProduct.images?.length) return;
-
-    const total = activeProduct.images.length;
-    currentPhotoIndex = (currentPhotoIndex - 1 + total) % total;
-    showPhoto(currentPhotoIndex);
-};
-
-document.getElementById("nextPhoto").onclick = function () {
-    if (!activeProduct || !activeProduct.images?.length) return;
-
-    const total = activeProduct.images.length;
-    currentPhotoIndex = (currentPhotoIndex + 1) % total;
-    showPhoto(currentPhotoIndex);
-};  const images = activeProduct.images?.length ? activeProduct.images : DEFAULT_IMAGES;
-  currentPhotoIndex = (index + images.length) % images.length;
-
   const main = $("mainProductImage");
-  main.onerror = () => {
-    main.onerror = null;
-    main.alt = "Photo not found. Check the image filename in GitHub.";
-  };
-  main.src = imageUrl(images[currentPhotoIndex]);
-  main.alt = (activeProduct.name || "Product") + " photo " + (currentPhotoIndex + 1);
-
-  $("galleryCount").textContent = (currentPhotoIndex + 1) + " / " + images.length;
-
+  const count = $("galleryCount");
   const thumbs = $("galleryThumbnails");
+  if (!main || !count || !thumbs) return;
+
+  const images = getProductImages();
+  currentPhotoIndex = ((index % images.length) + images.length) % images.length;
+
+  main.onerror = () => {
+    main.alt = "Photo could not load: " + images[currentPhotoIndex];
+  };
+  main.src = "./" + images[currentPhotoIndex];
+  main.alt = (activeProduct.name || "Product") + " photo " + (currentPhotoIndex + 1);
+  count.textContent = (currentPhotoIndex + 1) + " / " + images.length;
   thumbs.replaceChildren();
 
-  images.forEach((src, i) => {
+  images.forEach((image, i) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = i === currentPhotoIndex ? "active" : "";
+    button.className = "gallery-thumb" + (i === currentPhotoIndex ? " active" : "");
     button.setAttribute("aria-label", "Show photo " + (i + 1));
-    button.addEventListener("click", () => showPhoto(i));
+    button.setAttribute("aria-pressed", String(i === currentPhotoIndex));
 
     const img = document.createElement("img");
-    img.src = imageUrl(src);
-    img.alt = "Thumbnail " + (i + 1);
-    img.onerror = () => {
-      img.style.visibility = "hidden";
-      button.title = "Image unavailable: " + src;
-    };
+    img.src = "./" + image;
+    img.alt = "Photo " + (i + 1);
+    img.loading = "lazy";
 
     button.appendChild(img);
+    button.addEventListener("click", () => showPhoto(i));
     thumbs.appendChild(button);
   });
 }
@@ -350,168 +274,163 @@ document.getElementById("nextPhoto").onclick = function () {
 $("previousPhoto").addEventListener("click", () => showPhoto(currentPhotoIndex - 1));
 $("nextPhoto").addEventListener("click", () => showPhoto(currentPhotoIndex + 1));
 
-/* Optional keyboard controls while the product gallery is focused */
-document.querySelector(".product-gallery").addEventListener("keydown", e => {
-  if (e.key === "ArrowLeft") showPhoto(currentPhotoIndex - 1);
-  if (e.key === "ArrowRight") showPhoto(currentPhotoIndex + 1);
-});
+let touchStartX = 0;
+$("mainProductImage").addEventListener("touchstart", event => {
+  touchStartX = event.changedTouches[0].clientX;
+}, {passive:true});
 
-function renderSelectedProduct(p) {
+$("mainProductImage").addEventListener("touchend", event => {
+  const difference = event.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(difference) > 45) {
+    showPhoto(currentPhotoIndex + (difference < 0 ? 1 : -1));
+  }
+}, {passive:true});
+
+/* Render the selected product */
+function renderSelectedProduct(product) {
   activeProduct = {
-    ...p,
-    images: (Array.isArray(p.images) && p.images.length)
-      ? p.images.filter(Boolean)
-      : (p.image ? [p.image] : DEFAULT_IMAGES)
+    ...DEFAULT_PRODUCT,
+    ...product,
+    images: Array.isArray(product.images) && product.images.length
+      ? product.images
+      : DEFAULT_IMAGES
   };
 
-  FULL_PRICE = Math.round(Number(p.price || 18000) * 100);
-  ADVANCE_PRICE = Math.round(Number(p.advance ?? 2000) * 100);
-
-  $("selectedProductName").textContent = p.name || "Gadget";
+  $("selectedProductName").textContent = activeProduct.name;
   $("selectedProductPrice").textContent =
-    "₹" + Number(p.price || 0).toLocaleString("en-IN");
+    "₹" + Number(activeProduct.price || 0).toLocaleString("en-IN");
+
+  FULL_PRICE = Math.round(Number(activeProduct.price || 18000) * 100);
+  ADVANCE_PRICE = Math.round(Number(activeProduct.advance ?? 2000) * 100);
 
   showPhoto(0);
   updatePrice();
 }
 
+/* Product cards */
 function renderPopularProducts(products) {
   const grid = $("popularProducts");
-  if (!grid) return;
+  const query = $("marketSearch").value.trim().toLowerCase();
+  grid.replaceChildren();
 
-  const q = ($("marketSearch").value || "").trim().toLowerCase();
-
-  const list = products.filter(p =>
-    !q ||
-    String(p.name || "").toLowerCase().includes(q) ||
-    String(p.description || "").toLowerCase().includes(q)
+  const filtered = products.filter(p =>
+    String(p.name || "").toLowerCase().includes(query)
   );
 
-  if (!list.length) {
-    grid.innerHTML = '<div class="product-empty">No matching products found.</div>';
+  if (!filtered.length) {
+    grid.textContent = "No matching products found.";
     return;
   }
 
-  grid.replaceChildren();
-
-  list.forEach(p => {
+  filtered.forEach(product => {
     const card = document.createElement("article");
-    card.className = "popular-product";
+    card.className = "product";
 
-    const img = document.createElement("img");
-    const rawImage = (Array.isArray(p.images) && p.images[0]) || p.image || DEFAULT_IMAGES[0];
-    img.src = imageUrl(rawImage);
-    img.alt = p.name || "Gadget";
-    img.onerror = () => {
-      img.onerror = null;
-      img.src = imageUrl(DEFAULT_IMAGES[0]);
+    const image = document.createElement("img");
+    const images = Array.isArray(product.images) && product.images.length
+      ? product.images
+      : DEFAULT_IMAGES;
+    image.src = "./" + images[0];
+    image.alt = product.name || "Gadget";
+    image.loading = "lazy";
+    image.onerror = () => {
+      image.alt = "Product image not found";
     };
 
-    const name = document.createElement("h3");
-    name.textContent = p.name || "Gadget";
+    const name = document.createElement("strong");
+    name.textContent = product.name || "Gadget";
 
     const price = document.createElement("div");
-    price.className = "product-card-price";
-    price.textContent = "₹" + Number(p.price || 0).toLocaleString("en-IN");
+    price.className = "price";
+    price.style.fontSize = "18px";
+    price.textContent =
+      "₹" + Number(product.price || 0).toLocaleString("en-IN");
 
-    const advance = document.createElement("div");
-    advance.className = "mini-advance";
-    advance.textContent = "Advance: ₹" + Number(p.advance ?? 2000).toLocaleString("en-IN");
-
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.textContent = "View Product";
-    btn.addEventListener("click", () => {
-      const select = $("productSelect");
-      select.value = p.id;
-      select.dispatchEvent(new Event("change", {bubbles:true}));
-      $("productCard").scrollIntoView({behavior:"smooth", block:"start"});
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = "View / Buy";
+    button.addEventListener("click", () => {
+      $("productSelect").value = product.id;
+      renderSelectedProduct(product);
+      $("productCard").scrollIntoView({behavior:"smooth"});
     });
 
-    card.append(img, name, price, advance, btn);
+    card.append(image, name, price, button);
     grid.appendChild(card);
   });
 }
 
-$("marketSearch").addEventListener("input", () => renderPopularProducts(cachedProducts));
-
-db.ref("settings/deliveryDays").on("value", snapshot => {
-  const days = snapshot.val() || "5–7 days";
-  $("deliveryNote").textContent = "🚚 Deliver in " + days;
+$("marketSearch").addEventListener("input", () => {
+  renderPopularProducts(cachedProducts);
 });
 
+/* Load products from Firebase */
 db.ref("products").on("value", snapshot => {
   const raw = snapshot.val() || {};
-
-  const available = Object.entries(raw)
+  const products = Object.entries(raw)
     .filter(([, p]) => p && p.active !== false)
     .map(([id, p]) => ({...p, id}));
 
+  if (!products.length) products.push({...DEFAULT_PRODUCT});
+
+  cachedProducts = products;
   const select = $("productSelect");
-  const previous = select.value;
+  const previousId = select.value;
   select.replaceChildren();
 
-  if (!available.length) {
-    available.push({
-      id: "default-iphone",
-      name: "iPhone 17 Pro Max — Dummy Model",
-      price: 18000,
-      advance: 2000,
-      images: DEFAULT_IMAGES
-    });
-  }
-
-  available.forEach(p => {
-    const opt = document.createElement("option");
-    opt.value = p.id;
-    opt.textContent = p.name || "Gadget";
-    select.appendChild(opt);
+  products.forEach(product => {
+    const option = document.createElement("option");
+    option.value = product.id;
+    option.textContent = product.name || "Gadget";
+    select.appendChild(option);
   });
 
-  cachedProducts = available;
-  renderPopularProducts(available);
-
-  const chosen = available.find(p => p.id === previous) || available[0];
-  select.value = chosen.id;
-  renderSelectedProduct(chosen);
-}, err => {
-  $("popularProducts").innerHTML =
-    '<div class="product-empty">Products could not load. Check your internet and Firebase Database Rules.</div>';
-  status("authStatus", "Firebase database error: " + (err.message || err));
+  const selected = products.find(p => p.id === previousId) || products[0];
+  select.value = selected.id;
+  renderSelectedProduct(selected);
+  renderPopularProducts(products);
+}, error => {
+  cachedProducts = [{...DEFAULT_PRODUCT}];
+  renderPopularProducts(cachedProducts);
+  status("authStatus", "Could not load products: " + error.message);
 });
 
 $("productSelect").addEventListener("change", async () => {
-  const id = $("productSelect").value;
-  const cached = cachedProducts.find(p => p.id === id);
-
-  if (cached) {
-    renderSelectedProduct(cached);
+  const selected = cachedProducts.find(p => p.id === $("productSelect").value);
+  if (selected) {
+    renderSelectedProduct(selected);
     return;
   }
 
   try {
-    const snap = await db.ref("products/" + id).once("value");
-    const p = snap.val();
-    if (p) renderSelectedProduct({...p, id});
-  } catch (err) {
-    status("paymentStatus", "Could not load this product: " + err.message);
+    const snapshot = await db.ref("products/" + $("productSelect").value).once("value");
+    if (snapshot.exists()) {
+      renderSelectedProduct({...snapshot.val(), id:$("productSelect").value});
+    }
+  } catch (error) {
+    status("paymentStatus", "Could not load product details.");
   }
 });
 
+/* Price summary */
 function updatePrice() {
-  const qty = Number($("quantity").value);
-  const isCod = $("paymentType").value === "cod";
-  const payNow = (isCod ? ADVANCE_PRICE : FULL_PRICE) * qty / 100;
-  const remaining = (FULL_PRICE - (isCod ? ADVANCE_PRICE : FULL_PRICE)) * qty / 100;
+  const quantity = Number($("quantity").value);
+  const isCOD = $("paymentType").value === "cod";
+  const payNow = (isCOD ? ADVANCE_PRICE : FULL_PRICE) * quantity / 100;
+  const remaining = (FULL_PRICE - (isCOD ? ADVANCE_PRICE : FULL_PRICE))
+    * quantity / 100;
 
-  $("priceSummary").textContent = isCod
-    ? `COD order: ₹${payNow.toLocaleString("en-IN")} advance payable online now. Remaining ₹${remaining.toLocaleString("en-IN")} payable on delivery.`
-    : `Total payable online now: ₹${payNow.toLocaleString("en-IN")}.`;
+  $("priceSummary").textContent = isCOD
+    ? "Advance payable now: ₹" + payNow.toLocaleString("en-IN") +
+      ". Balance on delivery: ₹" + remaining.toLocaleString("en-IN") + "."
+    : "Total payable online: ₹" + payNow.toLocaleString("en-IN") + ".";
 }
 
 $("quantity").addEventListener("change", updatePrice);
 $("paymentType").addEventListener("change", updatePrice);
+updatePrice();
 
+/* Navigation buttons */
 $("accountButton").addEventListener("click", () => {
   $("accountCard").scrollIntoView({behavior:"smooth"});
 });
@@ -521,9 +440,283 @@ $("ordersButton").addEventListener("click", () => {
   $("ordersPanel").scrollIntoView({behavior:"smooth"});
 });
 
+/* Authentication */
+function friendlyError(error) {
+  const messages = {
+    "auth/email-already-in-use": "This email is already registered. Please log in.",
+    "auth/invalid-email": "Enter a valid email address.",
+    "auth/weak-password": "Password must contain at least 6 characters.",
+    "auth/invalid-credential": "Email or password is incorrect.",
+    "auth/operation-not-allowed": "Enable Email/Password sign-in in Firebase.",
+    "auth/network-request-failed": "Network error. Check your internet."
+  };
+  return messages[error.code] || error.message || "Something went wrong.";
+}
+
 $("loginButton").addEventListener("click", async () => {
   clearStatus("authStatus");
   try {
     const email = $("email").value.trim();
     const password = $("password").value;
-    if (!email
+    if (!email || !password) throw new Error("Enter email and password.");
+    await auth.signInWithEmailAndPassword(email, password);
+    status("authStatus", "Login successful.", true);
+  } catch (error) {
+    status("authStatus", friendlyError(error));
+  }
+});
+
+$("registerButton").addEventListener("click", async () => {
+  clearStatus("authStatus");
+  try {
+    const email = $("email").value.trim();
+    const password = $("password").value;
+    if (!email || !password) throw new Error("Enter email and password.");
+    if (password.length < 6) throw new Error("Password must be at least 6 characters.");
+    await auth.createUserWithEmailAndPassword(email, password);
+    status("authStatus", "Account created successfully.", true);
+  } catch (error) {
+    status("authStatus", friendlyError(error));
+  }
+});
+
+$("logoutButton").addEventListener("click", async () => {
+  try {
+    await auth.signOut();
+    status("authStatus", "Logged out successfully.", true);
+  } catch (error) {
+    status("authStatus", friendlyError(error));
+  }
+});
+
+auth.onAuthStateChanged(user => {
+  currentUser = user;
+
+  $("userStatus").textContent = user
+    ? "Logged in: " + user.email
+    : "Not logged in.";
+
+  $("loginButton").classList.toggle("hidden", !!user);
+  $("registerButton").classList.toggle("hidden", !!user);
+  $("logoutButton").classList.toggle("hidden", !user);
+
+  if (ordersRef && ordersCallback) ordersRef.off("value", ordersCallback);
+  ordersRef = null;
+  ordersCallback = null;
+
+  if (user) {
+    $("ordersPanel").classList.remove("hidden");
+    loadOrders(user);
+  } else {
+    $("ordersList").textContent = "Login to see your orders.";
+  }
+});
+
+/* Customer orders */
+function loadOrders(user) {
+  ordersRef = db.ref("orders/" + user.uid);
+
+  ordersCallback = snapshot => {
+    const list = $("ordersList");
+    list.replaceChildren();
+
+    if (!snapshot.exists()) {
+      list.textContent = "No orders yet.";
+      return;
+    }
+
+    const orders = [];
+    snapshot.forEach(child => orders.push({id:child.key, ...child.val()}));
+
+    orders.reverse().forEach(order => {
+      const box = document.createElement("div");
+      box.className = "order";
+
+      const title = document.createElement("strong");
+      title.textContent = "Order: " + (order.orderNumber || order.id);
+
+      const product = document.createElement("p");
+      product.textContent = "Product: " + (order.product || "Gadget");
+
+      const paid = document.createElement("p");
+      paid.textContent =
+        "Paid: ₹" + Number(order.paidNow || 0).toLocaleString("en-IN");
+
+      const state = document.createElement("p");
+      state.textContent = "Status: " + (order.status || "Order placed");
+
+      const due = document.createElement("p");
+      due.textContent =
+        "Remaining: ₹" + Number(order.remainingDue || 0).toLocaleString("en-IN");
+
+      const date = document.createElement("p");
+      date.className = "muted";
+      date.textContent = order.createdAt
+        ? new Date(order.createdAt).toLocaleString()
+        : "";
+
+      box.append(title, product, paid, state, due, date);
+      list.appendChild(box);
+    });
+  };
+
+  ordersRef.on("value", ordersCallback, () => {
+    $("ordersList").textContent =
+      "Could not load orders. Check Firebase Database rules.";
+  });
+}
+
+/* Payment Worker requests */
+async function workerRequest(path, payload) {
+  const response = await fetch(WORKER_URL + path, {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify(payload)
+  });
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data.error || "Payment server error: " + response.status);
+  }
+  return data;
+}
+
+/* Checkout */
+$("payButton").addEventListener("click", async () => {
+  clearStatus("paymentStatus");
+
+  if (!currentUser) {
+    status("paymentStatus", "Please login or create an account first.");
+    $("accountCard").scrollIntoView({behavior:"smooth"});
+    return;
+  }
+
+  if (!window.Razorpay) {
+    status("paymentStatus", "Razorpay failed to load. Refresh and try again.");
+    return;
+  }
+
+  const name = $("customerName").value.trim();
+  const phone = $("customerPhone").value.trim();
+  const address = $("customerAddress").value.trim();
+
+  if (!name) return status("paymentStatus", "Enter your full name.");
+  if (!/^[6-9][0-9]{9}$/.test(phone)) {
+    return status("paymentStatus", "Enter a valid 10-digit mobile number.");
+  }
+  if (address.length < 10) {
+    return status("paymentStatus", "Enter your complete delivery address.");
+  }
+
+  const quantity = Number($("quantity").value);
+  const paymentType = $("paymentType").value;
+  const amount = (paymentType === "full" ? FULL_PRICE : ADVANCE_PRICE) * quantity;
+  const button = $("payButton");
+
+  button.disabled = true;
+  button.textContent = "Starting payment...";
+
+  try {
+    const order = await workerRequest("/create-order", {
+      amount,
+      quantity,
+      paymentType: paymentType === "cod" ? "advance" : paymentType
+    });
+
+    if (!order.order_id || !order.key_id || order.amount !== amount) {
+      throw new Error("Invalid order response from payment server.");
+    }
+
+    const checkout = new Razorpay({
+      key: order.key_id,
+      amount: order.amount,
+      currency: order.currency || "INR",
+      name: "NS Gadgets",
+      description: activeProduct.name || "Gadget order",
+      order_id: order.order_id,
+      prefill: {name, email:currentUser.email, contact:phone},
+      notes: {quantity:String(quantity), paymentType},
+      theme: {color:"#1265d8"},
+
+      handler: async function(response) {
+        try {
+          status("paymentStatus", "Verifying payment...", true);
+
+          const result = await workerRequest("/verify-payment", {
+            order_id: response.razorpay_order_id,
+            payment_id: response.razorpay_payment_id,
+            signature: response.razorpay_signature
+          });
+
+          if (result.verified !== true) {
+            throw new Error("Payment verification failed.");
+          }
+
+          const record = {
+            orderNumber: response.razorpay_order_id,
+            product: activeProduct.name || "Gadget",
+            productId: activeProduct.id,
+            quantity,
+            paymentType,
+            paidNow: amount / 100,
+            totalPrice: FULL_PRICE * quantity / 100,
+            remainingDue:
+              (FULL_PRICE - (paymentType === "full" ? FULL_PRICE : ADVANCE_PRICE))
+              * quantity / 100,
+            customerName: name,
+            customerPhone: phone,
+            address,
+            paymentStatus: "Verified",
+            status: paymentType === "full"
+              ? "Order placed"
+              : "COD order confirmed - advance paid; balance due on delivery",
+            paymentId: response.razorpay_payment_id,
+            createdAt: new Date().toISOString()
+          };
+
+          await db.ref("orders/" + currentUser.uid).push(record);
+
+          status("paymentStatus",
+            "Payment verified. Your order has been saved under My Orders.", true);
+
+          $("ordersPanel").classList.remove("hidden");
+          $("ordersPanel").scrollIntoView({behavior:"smooth"});
+        } catch (error) {
+          status("paymentStatus",
+            "Payment may have succeeded but saving the order failed. Do not pay again yet. Payment ID: " +
+            (response.razorpay_payment_id || "unavailable") + ". " + error.message);
+        } finally {
+          button.disabled = false;
+          button.textContent = "Buy Now";
+        }
+      },
+
+      modal: {
+        ondismiss: function() {
+          button.disabled = false;
+          button.textContent = "Buy Now";
+        }
+      }
+    });
+
+    checkout.on("payment.failed", response => {
+      status("paymentStatus",
+        "Payment failed: " +
+        (response.error?.description || "Please try again."));
+      button.disabled = false;
+      button.textContent = "Buy Now";
+    });
+
+    checkout.open();
+  } catch (error) {
+    status("paymentStatus", error.message || "Could not start checkout.");
+    button.disabled = false;
+    button.textContent = "Buy Now";
+  }
+});
+
+/* Initial slideshow */
+showPhoto(0);
+</script>
+</body>
+</html>
