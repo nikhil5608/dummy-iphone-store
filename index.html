@@ -297,7 +297,21 @@ function imageUrl(src) {
 
 /* Product photo slideshow */
 function showPhoto(index) {
-  const images = activeProduct.images?.length ? activeProduct.images : DEFAULT_IMAGES;
+document.getElementById("prevPhoto").onclick = function () {
+    if (!activeProduct || !activeProduct.images?.length) return;
+
+    const total = activeProduct.images.length;
+    currentPhotoIndex = (currentPhotoIndex - 1 + total) % total;
+    showPhoto(currentPhotoIndex);
+};
+
+document.getElementById("nextPhoto").onclick = function () {
+    if (!activeProduct || !activeProduct.images?.length) return;
+
+    const total = activeProduct.images.length;
+    currentPhotoIndex = (currentPhotoIndex + 1) % total;
+    showPhoto(currentPhotoIndex);
+};  const images = activeProduct.images?.length ? activeProduct.images : DEFAULT_IMAGES;
   currentPhotoIndex = (index + images.length) % images.length;
 
   const main = $("mainProductImage");
