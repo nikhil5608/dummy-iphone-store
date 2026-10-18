@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NS Gadgets | Smart Gadgets, Better Life</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,system-ui,sans-serif;background:#f4f6fa;color:#172033}
+header{background:#1265d8;color:#fff;padding:14px max(18px,calc((100% - 1240px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-size:23px;font-weight:900}.brand span{color:#ffdf36}
+button{cursor:pointer;border:0;border-radius:9px;padding:11px 15px;font-weight:800}.topbtn{background:#fff;color:#1357b1}
+main{max-width:1240px;margin:20px auto;padding:0 18px}.intro{background:linear-gradient(115deg,#1354b7,#1769d6 58%,#ffdf24 58%);color:#fff;border-radius:17px;padding:26px;margin-bottom:20px}
+.intro h1{margin:0 0 8px;font-size:clamp(25px,4vw,38px)}.intro p{margin:0;color:#eef5ff}
+.search{width:100%;padding:14px;border:1px solid #cbd5e1;border-radius:12px;font-size:16px;margin:0 0 20px;background:white}
+h2{font-size:22px;margin:16px 0}.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.product{min-width:0;background:#fff;border:1px solid #e4e9f2;border-radius:14px;padding:12px;box-shadow:0 4px 14px #10284a0a;display:flex;flex-direction:column;gap:9px}
+.product img{width:100%;height:190px;object-fit:contain;border-radius:10px;background:#f7f9fc}.product h3{font-size:14px;line-height:1.4;margin:0}.price{font-size:19px;font-weight:900;color:#125fc9}
+.buy{background:#ffdf36;color:#17243a;width:100%;margin-top:auto}.notice{background:#fff8e8;border:1px solid #f0dca9;color:#775319;padding:13px;border-radius:10px;margin:16px 0;line-height:1.5}
+footer{background:#1059b9;color:#fff;text-align:center;padding:25px;margin-top:35px}
+@media(max-width:800px){.products{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:560px){main{padding:0 12px}.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.product{padding:8px}.product img{height:135px}.brand{font-size:19px}.intro{padding:20px}}
+</style>
+</head>
+<body>
+<header>
+<a class="brand" href="./" aria-label="NS Gadgets home">🟨 NS <span>GADGETS</span></a>
+<button class="topbtn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">🛍️ Shop Products</button>
+</header>
+<main>
+<section class="intro"><h1>Discover Gadgets at NS Gadgets</h1><p>Browse our featured products. Tap Buy Now to select a product.</p></section>
+<input id="search" class="search" type="search" placeholder="Search products..." aria-label="Search products">
+<h2>Popular at NS Gadgets</h2>
+<section id="products" class="products" aria-live="polite"></section>
+<div class="notice">📷 If a photo does not load, check that the JPG filename in this HTML exactly matches the filename in your GitHub repository, including uppercase/lowercase letters.</div>
+</main>
+<footer><strong>NS GADGETS</strong><p>Smart Gadgets • Better Life • Fast Delivery</p></footer>
+<script>
+"use strict";
+const productList = [
+ {id:"photo-1",name:"NS Gadget Product 1",image:"IMG-20261014-WA0003.jpg"},
+ {id:"photo-2",name:"NS Gadget Product 2",image:"IMG-20261014-WA0006.jpg"},
+ {id:"photo-3",name:"NS Gadget Product 3",image:"IMG-20261014-WA0007.jpg"},
+ {id:"photo-4",name:"NS Gadget Product 4",image:"IMG-20261014-WA0008.jpg"},
+ {id:"photo-5",name:"NS Gadget Product 5",image:"IMG-20261014-WA0009.jpg"}
+];
+const productsEl=document.getElementById("products"),searchEl=document.getElementById("search");
+function renderProducts(query=""){
+ productsEl.replaceChildren();
+ const filtered=productList.filter(p=>p.name.toLowerCase().includes(query.toLowerCase()));
+ if(!filtered.length){productsEl.textContent="No products match your search.";return;}
+ filtered.forEach(p=>{
+  const card=document.createElement("article");card.className="product";
+  const img=document.createElement("img");img.src="./"+p.image;img.alt=p.name;img.loading="lazy";
+  img.onerror=()=>{img.style.display="none";const warning=document.createElement("p");warning.textContent="Photo not found: "+p.image;warning.style.color="#a11";warning.style.fontSize="12px";card.insertBefore(warning,card.firstChild);};
+  const name=document.createElement("h3");name.textContent=p.name;
+  const price=document.createElement("div");price.className="price";price.textContent="Price: contact us";
+  const buy=document.createElement("button");buy.className="buy";buy.textContent="Buy Now";
+  buy.addEventListener("click",()=>alert("Selected: "+p.name+". Connect your verified checkout before accepting real payments."));
+  card.append(img,name,price,buy);productsEl.appendChild(card);
+ });
+}
+searchEl.addEventListener("input",()=>renderProducts(searchEl.value.trim()));renderProducts();
+</script>
+</body>
+</html>
